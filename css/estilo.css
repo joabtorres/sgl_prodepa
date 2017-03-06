@@ -3,20 +3,28 @@
     font-family: "ubuntu-regular";
     src: url(../fonts/ubuntu-regular.ttf);
 }
+
+
 /* TAGS NATIVAS */
+
 .h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6, p, a, form, label, input[type='text'], input[type='email'], input[type='number'], textarea, body {
     font-family: "ubuntu-regular";
 }
 
-body{
 
-}
 /* CLASSES GLOBAIS*/
-.img-center{
+
+.img-center {
     display: block;
     margin: auto;
 }
-.bg-success{background-color: rgb(50, 179, 51); color: white;}
+.oculta{display: none};
+.bg-success {
+    background-color: rgb(50, 179, 51);
+    color: white;
+}
+
+
 /*TELA LOGIN*/
 
 #tela_login {
@@ -41,11 +49,12 @@ body{
     padding-right: 30px
 }
 
-#tela_login p.bg-danger{
+#tela_login p.bg-danger {
     background-color: rgb(240, 95, 76);
     color: white;
     padding: 10px;
 }
+
 #tela_login a {
     color: rgb(199, 199, 199);
     float: right;
@@ -57,18 +66,168 @@ body{
     color: white;
     display: inline-block;
 }
-#tela_recupera_senha{
+
+#tela_recupera_senha {
     background-color: #F5F5F5;
     border: 1px solid rgb(199, 195, 200);
     border-radius: 5px;
     padding: 20px;
 }
-@media (min-width: 990px){
+
+@media (min-width: 990px) {
     /*TELA LOGIN*/
-    #tela_login img{margin-top:20px}
+    #tela_login img {
+        margin-top: 20px
+    }
 }
-@media (max-width: 990px){
+
+@media (max-width: 990px) {
     /*TELA LOGIN*/
-    #tela_login{margin-top: 10px; margin-bottom: 10px;}
-    #tela_login img{max-width: 400px}
+    #tela_login {
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+    #tela_login img {
+        max-width: 400px
+    }
+}
+
+/*CONTAINER DO SISTEMA*/
+#tela_sistema {
+    padding-left: 0;
+}
+
+#conteudo_sistema {
+    width: 100%;
+    padding: 0;
+    background-color: #fff;
+    margin-top: 100px;
+}
+
+@media(min-width:768px) {
+    #tela_sistema {
+        padding-left: 225px;
+    }
+    #conteudo_sistema {
+        padding: 10px;
+        margin-top: 64px;
+    }
+}
+
+/*MENU PRINCIPAL - NAV*/
+.navbar-inverse{
+    background-color: #2D37A3;
+    border-color: #002593;
+    color: white;
+}
+.navbar-inverse>.navbar-header>.navbar-brand{padding: 10px 15px;}
+.navbar-inverse .navbar-nav > li > a{color: white}
+/* Top Navigation */
+
+.top-nav {
+    padding: 0 15px;
+}
+
+
+.top-nav>li {
+    display: inline-block;
+    float: left;
+}
+.top-nav>li>form>div>label{margin-right: 5px;}
+.top-nav>li>form>.input-group>.form-control{border-color: #111111;}
+.top-nav>li>form>.input-group>.input-group-addon{background: #222222;border-color: #111111; color: white; cursor: pointer;}
+.top-nav>li>a{
+    padding-top: 15px;
+    padding-bottom: 15px;
+    line-height: 20px;
+    color: rgb(255, 255, 255);
+}
+
+.top-nav>li>a:hover, .top-nav>li>a:focus, .top-nav>.open>a, .top-nav>.open>a:hover, .top-nav>.open>a:focus {
+    color: #fff;
+    background-color: #000;
+}
+
+.top-nav>.open>.dropdown-menu {
+    float: left;
+    position: absolute;
+    margin-top: 0;
+    border: 1px solid rgba(0, 0, 0, .15);
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    background-color: #fff;
+    -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+}
+
+.top-nav>.open>.dropdown-menu>li>a {
+    white-space: normal;
+}
+@media (max-width: 768px){
+    .top-nav>li {
+        display: block;
+        float: none;
+    }
+}
+
+/* Side Navigation */
+
+@media(min-width:768px) {
+    .side-nav {
+        position: fixed;
+        top: 51px;
+        left: 225px;
+        width: 225px;
+        margin-left: -225px;
+        border: none;
+        border-radius: 0;
+        overflow-y: auto;
+        background-color: #2D37A3;
+        border-color: #002593;
+        bottom: 0;
+        overflow-x: hidden;
+        padding-bottom: 40px;
+    }
+    .side-nav>ul>li>a {
+        width: 225px;
+    }
+    .side-nav li a:hover, .side-nav li a:focus {
+        outline: none;
+        background-color: #FFFFFF !important;
+        color: #002593 !important;
+    }
+}
+@media (max-width: 768px){
+    .side-nav>figure{
+        display: none;
+    }
+}
+.side-nav>figure{
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.side-nav>figure>img{
+    border: 8px solid #fff;
+}
+.side-nav>figure>figcaption{padding-top:10px;}
+.side-nav>figure>figcaption>p{line-height: 10px;}
+
+.navbar-inverse .navbar-nav > .active > a, .navbar-inverse .navbar-nav > .active > a:focus, .navbar-inverse .navbar-nav > .active > a:hover{
+    outline: none;
+    background-color: #FFFFFF !important;
+    color: #002593 !important;
+}
+.side-nav>ul>li>ul {
+    padding: 0;
+}
+
+.side-nav>ul>li>ul>li>a {
+    display: block;
+    padding: 10px 15px 10px 38px;
+    text-decoration: none;
+    color: #ffffff;
+}
+
+.side-nav>ul>li>ul>li>a:hover {
+    color: #fff;
 }
