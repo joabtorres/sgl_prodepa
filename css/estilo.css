@@ -13,17 +13,22 @@
 
 
 /* CLASSES GLOBAIS*/
-
+.font-bold{font-weight: bold;}
 .img-center {
     display: block;
     margin: auto;
+}
+.img-right{
+    display: block;
+    float: right;
 }
 .oculta{display: none};
 .bg-success {
     background-color: rgb(50, 179, 51);
     color: white;
 }
-
+.jumbotron{background-color: #337AB7; color: white; padding-top:10px; padding-bottom: 10px;}
+.jumbotron>ul>li{font-size: 17px;}
 
 /*TELA LOGIN*/
 
@@ -231,3 +236,19 @@
 .side-nav>ul>li>ul>li>a:hover {
     color: #fff;
 }
+/*Breadcrumbs */
+#pagina-header>h2{
+    border-bottom: 1px solid #cecece;
+}
+/* panel*/
+.panel>.panel-body>a{display: block;}
+.panel>.panel-body>a:focus,.panel>.panel-body>a:hover{text-decoration: none;}
+.panel>.panel-body>a>span{float: right; background-color: #337AB7; color: white; padding: 3px 10px; border-radius: 50%}
+/*RODAPE*/
+#rodape{
+    clear: both;
+    margin-top: 10px;
+    padding-top: 5px;
+    border-top: 1px solid #cecece;
+}
+#rodape>p{margin-bottom: 0;}
