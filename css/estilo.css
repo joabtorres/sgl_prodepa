@@ -13,6 +13,9 @@
 
 
 /* CLASSES GLOBAIS*/
+.clear{
+    clear: both;
+}
 .font-bold{font-weight: bold;}
 .img-center {
     display: block;
@@ -215,7 +218,7 @@
     border: 8px solid #fff;
 }
 .side-nav>figure>figcaption{padding-top:10px;}
-.side-nav>figure>figcaption>p{line-height: 10px;}
+.side-nav>figure>figcaption>p{line-height: 10px;text-transform: uppercase;}
 
 .navbar-inverse .navbar-nav > .active > a, .navbar-inverse .navbar-nav > .active > a:focus, .navbar-inverse .navbar-nav > .active > a:hover{
     outline: none;
@@ -249,6 +252,30 @@
 #viewMapa{
     width: 100%;
     height: 280px;
+}
+/*CONTAINER-USUARIO*/
+#container-usuario input[type='file'] {
+    display: none;
+}
+#container-usuario form img {
+    width: 150px;
+    height: 150px;
+    border: 5px solid #337ab7;
+    border-radius: 50%;
+    margin-bottom: 5px;
+}
+.thumbnail {
+    background-color: #337ab7;
+    padding: 0px;
+    padding-top: 10px;
+}
+.thumbnail>p{
+    margin: 5px;
+    color: white;
+}
+.thumbnail>.caption{
+    background-color: white;
+    border-top: 10px solid #2D37A3;
 }
 /*RODAPE*/
 #rodape{

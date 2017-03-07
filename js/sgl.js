@@ -1,21 +1,21 @@
 /* fundo_tela_login - Moda background da tag body se existi container tela_login*/
 function fundo_tela_login() {
-    if(document.getElementById('tela_login')){
+    if (document.getElementById('tela_login')) {
         $('body').css('background-color', '#EBEFF2');
     }
 }
 /*
-* @author Joab Torres Alencar
-* @description Está função submite o forumlário de buscar rápida que está no menu principal
-* Menu principal 
-*/
-function submit_form_navbar(){
-    if(document.nSearchSGL){
+ * @author Joab Torres Alencar
+ * @description Está função submite o forumlário de buscar rápida que está no menu principal
+ * Menu principal 
+ */
+function submit_form_navbar() {
+    if (document.nSearchSGL) {
         document.nSearchSGL.submit();
     }
 }
 
-$(document).ready(function(){
+$(document).ready(function () {
     fundo_tela_login();
 });
 
@@ -36,16 +36,16 @@ if (document.getElementById("view-mapa-unidade")) {
         map = new google.maps.Map(document.getElementById("view-mapa-unidade"), options);
     }
     initialize();
-    
+
     function carregaPonto(latitude, longitude) {
         var marker = new google.maps.Marker({
             position: new google.maps.LatLng(latitude, longitude),
             title: "Cliente!",
-            zoom:16,
+            zoom: 16,
             map: map
         });
     }
-    carregaPonto(latitude,longitude);
+    carregaPonto(latitude, longitude);
 }
 
 //Google Map
@@ -118,3 +118,30 @@ $(document).ready(function () {
     }
 
 });
+
+
+/**
+ * Carregar imagem
+ */
+if (document.getElementById("container-usuario")) {
+
+    readURL = function (input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            var num = input.name.replace("tImagem-", "");
+            reader.onload = function (e) {
+                $("#viewImagem-" + num).attr('src', e.target.result);
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    };
+    readDefaultURL = function () {
+        var valor = $('input[name=nSexo]:checked').val();
+        if (valor === "Masculino") {
+            $("#viewImagem-1").attr('src', '/imagens/user_masculino.png');
+        } else {
+            $("#viewImagem-1").attr('src', '/imagens/user_feminino.png');
+
+        }
+    };
+}
