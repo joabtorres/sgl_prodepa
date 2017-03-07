@@ -244,6 +244,12 @@
 .panel>.panel-body>a{display: block;}
 .panel>.panel-body>a:focus,.panel>.panel-body>a:hover{text-decoration: none;}
 .panel>.panel-body>a>span{float: right; background-color: #337AB7; color: white; padding: 3px 10px; border-radius: 50%}
+
+/* CADASTRAR */
+#viewMapa{
+    width: 100%;
+    height: 280px;
+}
 /*RODAPE*/
 #rodape{
     clear: both;
