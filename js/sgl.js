@@ -123,7 +123,7 @@ $(document).ready(function () {
 /**
  * Carregar imagem
  */
-if (document.getElementById("container-usuario")) {
+if (document.getElementById("container-usuario-form")) {
 
     readURL = function (input) {
         if (input.files && input.files[0]) {

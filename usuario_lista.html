@@ -106,10 +106,10 @@
                                         <a href="relatorios_ap.html"><i class="glyphicon glyphicon-th-list"></i> AP's</a>
                                     </li>
                                     <li>
-                                        <a href="relatorios_unidade.html"><i class="glyphicon glyphicon-th-list"></i> Unidade</a>
+                                        <a href="relatorios_unidade.html"><i class="glyphicon glyphicon-th-list"></i> Unidades</a>
                                     </li>
                                     <li>
-                                        <a href="relatorios_filtro.html"><i class="glyphicon glyphicon-th-list"></i> Filtro</a>
+                                        <a href="relatorios_consulta.html"><i class="glyphicon glyphicon-th-list"></i> Consultas</a>
                                     </li>
                                 </ul>
                             </li>
@@ -149,7 +149,7 @@
                         </div>
                     </div>
                     <!--FIM pagina-header-->
-                    <div class="row" >
+                    <div class="row" id="container-usuario">
                         <div class="col-md-12">
                             <div class="panel panel-primary">
                                 <div class="panel-heading"><p class="panel-title">Buscar</p></div>
@@ -181,51 +181,15 @@
                                 <p class="text-center text-uppercase">JOAB TORRES ALENCAR - COD 1</p>
                                 <p class="text-center text-uppercase">estagiário</p>
                                 <div class="caption">
-                                    <a  class="btn btn-block btn-success">Recupera Senha</a>
-                                    <a  class="btn btn-block btn-primary">Editar</a>
-                                    <a  class="btn btn-block btn-danger">Excluir</a>
-                                </div>
-                            </div>
-                        </div>
-                         <div class="col-sm-6 col-md-4 col-lg-4">                            
-                            <div class=" thumbnail">
-                                <img src="imagens/user_masculino.png" alt="SGL - Usuáio" class="img-responsive"/>
-                                <p class="text-center text-uppercase">JOAB TORRES ALENCAR - COD 1</p>
-                                <p class="text-center text-uppercase">estagiário</p>
-                                <div class="caption">
-                                    <a  class="btn btn-block btn-success">Recupera Senha</a>
-                                    <a  class="btn btn-block btn-primary">Editar</a>
-                                    <a  class="btn btn-block btn-danger">Excluir</a>
-                                </div>
-                            </div>
-                        </div>
-                         <div class="col-sm-6 col-md-4 col-lg-4">                            
-                            <div class=" thumbnail">
-                                <img src="imagens/user_masculino.png" alt="SGL - Usuáio" class="img-responsive"/>
-                                <p class="text-center text-uppercase">JOAB TORRES ALENCAR - COD 1</p>
-                                <p class="text-center text-uppercase">estagiário</p>
-                                <div class="caption">
-                                    <a  class="btn btn-block btn-success">Recupera Senha</a>
-                                    <a  class="btn btn-block btn-primary">Editar</a>
-                                    <a  class="btn btn-block btn-danger">Excluir</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-6 col-md-4 col-lg-4">                            
-                            <div class=" thumbnail">
-                                <img src="imagens/user_masculino.png" alt="SGL - Usuáio" class="img-responsive"/>
-                                <p class="text-center text-uppercase">JOAB TORRES ALENCAR - COD 1</p>
-                                <p class="text-center text-uppercase">estagiário</p>
-                                <div class="caption">
-                                    <a  class="btn btn-block btn-success">Recupera Senha</a>
-                                    <a  class="btn btn-block btn-primary">Editar</a>
-                                    <a  class="btn btn-block btn-danger">Excluir</a>
+                                    <button type="button" class="btn btn-block btn-success" data-toggle="modal" data-target="#modal_recupera">Recupera Senha</button>
+                                    <button type="button" class="btn btn-block btn-primary" data-toggle="modal" data-target="#modal_recupera">Editar</button>
+                                    <button type="button"  class="btn btn-block btn-danger" data-toggle="modal" data-target="#modal_recupera">Excluir</button>
                                 </div>
                             </div>
                         </div>
                         <!--thumbnal usuario-->
                         <!--paginação-->
-                        <div class="clear col-xs-12">
+                        <section class="clear col-xs-12">
                             <nav aria-label="Page navigation">
                                 <ul class="pagination">
                                     <li>
@@ -245,7 +209,7 @@
                                     </li>
                                 </ul>
                             </nav>
-                        </div>
+                        </section>
                         <!--paginação-->
                     </div>
                     <!--FIM .ROW-->
@@ -266,6 +230,25 @@
         <!-- Inclui todos os plugins compilados (abaixo), ou inclua arquivos separadados se necessário -->
         <script src="js/bootstrap.min.js"></script>
         <script src="js/sgl.js"></script>
+        <!--MODAL - ESTRUTURA BÁSICA-->
+        <section class="modal fade" id="modal_recupera" tabindex="-1" role="dialog">
+            <article class="modal-dialog modal-md" role="document">
+                <section class="modal-content">
+                    <header class="modal-header bg-primary">
+                        <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <p class="panel-title">Mensagem</p>
+                    </header>
+                    <article class="modal-body">
+                        <p class="text-justify">Lorem Ipsum Dolor!</p>
+                    </article>
+                    <footer class="modal-footer">
+                        <button class="btn btn-default" type="button" data-dismiss="modal">Fechar</button>
+                    </footer>
+                </section>
+            </article>
+        </section>
+        <!--MODAL - ESTRUTURA BÁSICA-->
+
     </body>
 
 </html>
