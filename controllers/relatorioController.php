@@ -17,6 +17,7 @@ class relatorioController extends controller {
 	 * @author Joab Torres <joabtorres1508@gmail.com>
 	 */
 	public function index() {
+            echo "relatorioController <br/>";
 	}
 
 	/**

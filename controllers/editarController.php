@@ -18,6 +18,7 @@ class editarController extends controller {
 	 * @author Joab Torres <joabtorres1508@gmail.com>
 	 */
 	public function index($cod) {
+            echo "editarController <br/>";
 	}
 
 	/**

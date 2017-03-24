@@ -1,4 +1,5 @@
 <?php
+
 /**
  * A classe 'core' é responsável para fazer o controle da navegação via url, setando as classes controllers e suas respectivas actions e params 
  * 
@@ -10,36 +11,86 @@
  * @example classe core
  */
 class core {
-	/**
-	 * String $controller - referente a classe controller
-	 * @access private
-	 * @author Joab Torres <joabtorres1508@gmail.com>
-	 */
-	private $controller;
-	/**
-	 * String $action - referente a ação ou método presente na classe da variavel $controller
-	 * @access private
-	 * @author Joab Torres <joabtorres1508@gmail.com>
-	 */
-	private $action;
-	/**
-	 * Array $params - referente aos parametros que serão setados na action solicitada 
-	 * @access private
-	 * @author Joab Torres <joabtorres1508@gmail.com>
-	 */
-	private $params;
-	/**
-	 * String $url - referente aos caminhos acessados na url do navegador
-	 * @access private
-	 * @author Joab Torres <joabtorres1508@gmail.com>
-	 */
-	private $url;
 
-	/**
-	 * Está função tem como objetivo: captura um $_GET['url] e armazena na váriavel $url para que possa fazer o controle de requisção digitado na url, sendo acessa um controller, action e params.
-	 * @access public
-	 * @author Joab Torres <joabtorres1508@gmail.com>
-	 */
-	public function run() {
-	}
+    /**
+     * String $controller - referente a classe controller
+     * @access private
+     * @author Joab Torres <joabtorres1508@gmail.com>
+     */
+    private $controller;
+
+    /**
+     * String $action - referente a ação ou método presente na classe da variavel $controller
+     * @access private
+     * @author Joab Torres <joabtorres1508@gmail.com>
+     */
+    private $action;
+
+    /**
+     * Array $params - referente aos parametros que serão setados na action solicitada 
+     * @access private
+     * @author Joab Torres <joabtorres1508@gmail.com>
+     */
+    private $params;
+
+    /**
+     * String $url - referente aos caminhos acessados na url do navegador
+     * @access private
+     * @author Joab Torres <joabtorres1508@gmail.com>
+     */
+    private $url;
+
+    /**
+     * Está função tem como objetivo: captura um $_GET['url] e armazena na váriavel $this->url para que possa fazer o controle de requisção digitado na url, sendo acessa um controller, action e params.
+     * @access public
+     * @author Joab Torres <joabtorres1508@gmail.com>
+     */
+    public function run() {
+      
+        $this->url = (isset($_GET['url']) && !empty($_GET['url'])) ? $_GET['url'] : "";
+        $this->params = array();
+        if (!empty($this->url) && $this->url != '/') {
+            $this->url = explode('/', $this->url);
+
+            //Definindo o controller
+            if (isset($this->url[0]) && !empty($this->url[0])) {
+                $this->controller = $this->url[0] . 'Controller';
+                array_shift($this->url);
+            } else {
+                $this->controller = 'homeController';
+            }
+
+            //Definindo a Action
+            if (isset($this->url[0]) && !empty($this->url[0])) {
+                $this->action = $this->url[0];
+                array_shift($this->url);
+            } else {
+                $this->action = 'index';
+            }
+
+            // Depois de executar array_shift duas vezes na $url, só vai sobrar um array com os parâmetros para as Actions
+            if (count($this->url) > 0) {
+                $this->params = $this->url;
+            }
+        } else {
+            $this->controller = 'homeController';
+            $this->action = 'index';
+        }
+        //requisitando classe controller
+        require_once('core/controller.php');
+
+        $c = new $this->controller();
+        call_user_func_array(array($c, $this->action), $this->params);
+        
+        /*
+          if (class_exists($this->controller) && method_exists($this->controller, $this->action)) {
+          $c = new $this->controller();
+          call_user_func_array(array($c, $this->action), $this->params);
+          } else {
+          $co = new Controller();
+          $viewName = array('view' => '404.php');
+          $co->loadView($viewName);
+          } */
+    }
+
 }

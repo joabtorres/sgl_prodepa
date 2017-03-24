@@ -17,5 +17,9 @@ class homeController extends controller {
 	 * @author Joab Torres <joabtorres1508@gmail.com>
 	 */
 	public function index() {
+           echo "HomeController <br/>"; 
+           $view = "home";
+           $dados = array();
+           $this->loadTemplate($view, $dados);
 	}
 }
