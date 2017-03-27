@@ -52,17 +52,18 @@ class controller {
      * @author Joab Torres <joabtorres1508@gmail.com>
      */
     protected function loadTemplate($viewName, $viewData = array()) {
-        extract($viewData);
         include 'views/template.php';
     }
 
     /**
      * Está função é responsável para carrega uma view dinamica dentro de um template estático
      * @param String viewName - nome da view;
+     * @param array $viewData - Dados para serem carregados na view
      * @access protected
      * @author Joab Torres <joabtorres1508@gmail.com>
      */
-    protected function loadViewInTemplate($viewName) {
+    protected function loadViewInTemplate($viewName, $viewData = array()) {
+        extract($viewData);
         include 'views/' . $viewName . ".php";
     }
 

@@ -18,7 +18,6 @@ class excluirController extends controller {
 	 * @author Joab Torres <joabtorres1508@gmail.com>
 	 */
 	public function index($cod) {
-            echo "excluirController <br/>";
 	}
 
 	/**
@@ -55,5 +54,14 @@ class excluirController extends controller {
 	 * @author Joab Torres <joabtorres1508@gmail.com>
 	 */
 	public function unidade($cod_unidade) {
+	}
+
+	/**
+	 * Está função pertence a uma action do controle MVC, ela é responśavel para excluir um usuario específico.
+	 * @param int $cod_usuario - Código do usuario
+	 * @access public
+	 * @author Joab Torres <joabtorres1508@gmail.com>
+	 */
+	public function usuario($cod_usuario) {
 	}
 }

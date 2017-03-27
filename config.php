@@ -10,7 +10,7 @@ global $config;
 $config = array();
 if (ENVIRONMENT == 'development') {
     //Raiz
-    define("BASE_URL", "http://sgl.prodepa.pc/");
+    define("BASE_URL", "http://sgl.prodepa.pc");
     //Nome do banco
     $config['dbname'] = 'prodepa_sgl';
     //host
@@ -21,7 +21,7 @@ if (ENVIRONMENT == 'development') {
     $config['dbpass'] = 'root';
 } else {
 //Raiz
-    define("BASE_URL", "http://sgl.prodepa.pc/");
+    define("BASE_URL", "http://sgl.prodepa.pc");
     //Nome do banco
     $config['dbname'] = 'prodepa_sgl';
     //host

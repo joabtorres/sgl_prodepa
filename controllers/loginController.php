@@ -17,7 +17,9 @@ class loginController extends controller {
 	 * @author Joab Torres <joabtorres1508@gmail.com
 	 */
 	public function index() {
-            echo "LoginController <br/>";
+            $view = "login";
+            $dados = array();
+            $this->loadView($view, $dados);
 	}
 
 	/**

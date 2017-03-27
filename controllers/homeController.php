@@ -19,7 +19,7 @@ class homeController extends controller {
 	public function index() {
            echo "HomeController <br/>"; 
            $view = "home";
-           $dados = array();
+           $dados = array("nome"=>"Joab Torres Alencar");
            $this->loadTemplate($view, $dados);
 	}
 }
