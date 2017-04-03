@@ -78,4 +78,36 @@ class controller {
         
     }
 
+    /**
+     * Está função é responsável para formata datas padrão do Banco de Dados e retorna o formato Brasileiro para view
+     * @param String $date : Data no padrão ANO-MES-DIA (1999-02-20)
+     * @return String data formatada OR boollean False
+     * @access protected
+     * @author Joab Torres <joabtorres1508@gmail.com>
+     */
+    protected function formatDateView($date) {
+        $arrayDate = explode("-", $date);
+        if (count($arrayDate) == 3) {
+            return $arrayDate[2] . '/' . $arrayDate[1] . '/' . $arrayDate[0];
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Está função é responsável para formata datas padrão Brasil e retorna no padrão Banco de Dados
+     * @param String $date : Data no padrão DIA/MES/ANO (20/02/1999)
+     * @return String data formatada OR boollean False
+     * @access protected
+     * @author Joab Torres <joabtorres1508@gmail.com>
+     */
+    protected function formatDateBD($date) {
+        $arrayDate = explode("/", $date);
+        if (count($arrayDate) == 3) {
+            return $arrayDate[2] . '-' . $arrayDate[1] . '-' . $arrayDate[0];
+        } else {
+            return false;
+        }
+    }
+
 }

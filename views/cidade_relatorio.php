@@ -14,7 +14,7 @@
                         <div class="col-sm-12 col-md-12 col-lg-12">
                             <div class="panel panel-primary">
                                 <div class="panel-heading">
-                                    <p class="panel-title"><span class="font-bold">Cidade: </span> Itaituba</p>
+                                    <p class="panel-title"><span class="font-bold">Cidade: </span> Itaituba  <small class="pull-right"><a href="#">Editar</a> / <a href="#">Excluir</a></small> </p>
                                 </div>
                                 <table class="table table-striped table-bordered table-hover table-condensed">
                                     <tr>

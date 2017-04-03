@@ -1,9 +1,12 @@
+var BASE_URL = 'http://sgl.prodepa.pc';
+
 /* fundo_tela_login - Moda background da tag body se existi container tela_login*/
 function fundo_tela_login() {
     if (document.getElementById('tela_login')) {
         $('body').css('background-color', '#EBEFF2');
     }
 }
+
 /*
  * @author Joab Torres Alencar
  * @description Está função submite o forumlário de buscar rápida que está no menu principal
@@ -18,6 +21,20 @@ function submit_form_navbar() {
 $(document).ready(function () {
     fundo_tela_login();
 });
+/*
+ * @author Joab Torres Alencar
+ *  Alterando filtro no cadastro da cidade (núcleo ou área de atuação);
+ */
+if (document.getElementById("form-cidade")) {
+
+    function oculta_nucleo(element) {
+        if ($(element).val() === "Núcleo") {
+            $("#icadNucleo").attr("disabled", 'disable');
+        } else {
+            $("#icadNucleo").removeAttr("disabled");
+        }
+    }
+}
 
 /**
  * PÁGINA CADASTRAR UNIDADE - MAPA
@@ -48,15 +65,49 @@ if (document.getElementById("view-mapa-unidade")) {
     carregaPonto(latitude, longitude);
 }
 
-//Google Map
+/*
+ * @author Joab Torres <joabtorres1508@gmail.com>
+ * Está função executa quando é selecionado uma cidade via select e consulta o json 'ap.json' e carrega uns options no select do AP
+ * @public selectCidade()
+ */
+
+
+function selectCidade() {
+    var valor = $("#iCidade").val();
+    $.getJSON(BASE_URL + '/assets/json/ap.json', function (ap) {
+        var resultado = '';
+        for (var x  in ap[valor]) {
+            if (ap[valor][x]['cod'] == selectAp) {
+                resultado += '<option value="' + ap[valor][x]['cod'] + '" selected="true">' + ap[valor][x]['nome'] + '</option>';
+            } else {
+                resultado += '<option value="' + ap[valor][x]['cod'] + '">' + ap[valor][x]['nome'] + '</option>';
+            }
+        }
+        $("#iAP").html(resultado);
+    });
+}
+
 $(document).ready(function () {
+    //seleciona ap da cidade
+    selectCidade();
+    //oculta o arlert de mensagem
+    $("[data-hide]").on("click", function () {
+        $("#alert-msg").toggle().addClass('oculta');
+    });
+
+    //Mapa de marcação geografica
     if (document.getElementById("viewMapa")) {
         var map;
         var marker;
+
         function initialize() {
-            var latlng = new google.maps.LatLng(-4.2639141, -55.998396);
+            if (getLatitude != null && getLongitude != null) {
+                var latlng = new google.maps.LatLng(getLatitude, getLongitude);
+            } else {
+                var latlng = new google.maps.LatLng(-4.2639141, -55.998396);
+            }
             var options = {
-                zoom: 14,
+                zoom: 13,
                 center: latlng,
                 mapTypeId: google.maps.MapTypeId.ROADMAP
             };
@@ -80,35 +131,29 @@ $(document).ready(function () {
                     if (results[0]) {
                         var latitude = results[0].geometry.location.lat();
                         var longitude = results[0].geometry.location.lng();
-
-                        $('#iEndereco').val(results[0].formatted_address);
                         $('#iLatitude').val(latitude);
                         $('#iLongitude').val(longitude);
 
                         var location = new google.maps.LatLng(latitude, longitude);
                         marker.setPosition(location);
                         map.setCenter(location);
-                        map.setZoom(16);
+                        map.setZoom(13);
                     }
                 }
             });
         }
-
-        $("#btiEndereco").click(function () {
-            if ($(this).val() != "")
-                carregarNoMapa($("#iEndereco").val());
-        });
-
-        $("#iEndereco").blur(function () {
-            if ($(this).val() != "")
-                carregarNoMapa($(this).val());
+        if ($('#iLatitude').val() == "" && $('#iLongitude').val() == "") {
+            carregarNoMapa($("#iCidade option:selected").text());
+        }
+        //carrega a cidade selecionada
+        $('#iCidade').change(function () {
+            carregarNoMapa($("#iCidade option:selected").text());
         });
 
         google.maps.event.addListener(marker, 'drag', function () {
             geocoder.geocode({'latLng': marker.getPosition()}, function (results, status) {
                 if (status == google.maps.GeocoderStatus.OK) {
                     if (results[0]) {
-                        $('#iEndereco').val(results[0].formatted_address);
                         $('#iLatitude').val(marker.getPosition().lat());
                         $('#iLongitude').val(marker.getPosition().lng());
                     }
@@ -121,10 +166,15 @@ $(document).ready(function () {
 
 
 /**
- * Carregar imagem
+ * @author Joab Torres <joabtorres1508@gmail.com>
+ * @description Este codigo abaixo é responsável para fazer o carregamento da imagem setada pelo usuário ao muda a foto do perfil
  */
-if (document.getElementById("container-usuario-form")) {
 
+if (document.getElementById("container-usuario-form")) {
+    /**
+     * @author Joab Torres <joabtorres1508@gmail.com>
+     * @description Este codigo abaixo é responsável para fazer o carregamento da imagem setada pelo usuário ao muda a foto do perfil
+     */
     readURL = function (input) {
         if (input.files && input.files[0]) {
             var reader = new FileReader();
@@ -135,6 +185,10 @@ if (document.getElementById("container-usuario-form")) {
             reader.readAsDataURL(input.files[0]);
         }
     };
+    /**
+     * @author Joab Torres <joabtorres1508@gmail.com>
+     * @description Este codigo abaixo é responsável para fazer o carregamento da imagem setada pelo usuário ao muda a foto do perfil
+     */
     readDefaultURL = function () {
         var valor = $('input[name=nSexo]:checked').val();
         if (valor === "Masculino") {

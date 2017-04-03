@@ -4,13 +4,19 @@
             <div class="col-sm-12 col-md-12 col-lg-12" id="pagina-header">
                 <h2>Cadastrar AP</h2>
                 <ol class="breadcrumb">
-                    <li><a href="index.html"><i class="glyphicon glyphicon-dashboard"></i> Inicial</a></li>
+                    <li><a href="<?php BASE_URL ?>/home"><i class="glyphicon glyphicon-dashboard"></i> Inicial</a></li>
                     <li class="active"><i class="glyphicon glyphicon-plus-sign"></i> Cadastrar AP</li>
                 </ol>
             </div>
         </div>
         <!--FIM pagina-header-->
         <div class="row">
+            <div class="col-sm-12 col-md-12 col-lg-12">
+                <div class="alert <?php echo (isset($erro['class'])) ? $erro['class'] : 'alert-warning'; ?> " role="alert" id="alert-msg">
+                    <button class="close" data-hide="alert">&times;</button>
+                    <div id="resposta"><?php echo (isset($erro['msg'])) ? $erro['msg'] : 'Não é possível cadastrar um ap já cadastrado.'; ?></div>
+                </div>
+            </div>
             <div class="col-sm-12 col-md-12 col-lg-12">
                 <form method="POST" autocomplete="off">
                     <div class="panel panel-primary">
@@ -30,13 +36,11 @@
                                 <div class="form-group col-sm-6 col-md-4 col-lg-4">
                                     <label for="icadCidade">Cidade: </label>
                                     <select name="ncadCidade" id="icadCidade" class=" form-control">
-                                        <option value="ALTAMIRA" >ALTAMIRA</option>
-                                        <option value="ITAITUBA" >ITAITUBA</option>
-                                        <option value="SANTARÉM" >SANTARÉM</option>
-                                        <option value="MARABÁ" >MARABÁ</option>
-                                        <option value="PARAGOMINAS" >PARAGOMINAS</option>
-                                        <option value="PLACAS" >PLACAS</option>
-                                        <option value="RURÓPOLIS" >RURÓPOLIS</option>
+                                        <?php
+                                        foreach ($cidades as $cidade) {
+                                            echo '<option value="' . $cidade['cod_area_atuacao'] . '" >' . $cidade['cidade_area_atuacao'] . '</option>';
+                                        }
+                                        ?>
                                     </select>
                                 </div>
                             </div>
@@ -45,8 +49,8 @@
                     <!--fim .panel--> 
                     <div class="row">
                         <div class="form-group col-xs-12">
-                            <button type="submit" class="btn btn-success">Salvar</button>
-                            <a href="index.html" class="btn btn-danger">Cancelar</a>
+                            <button type="submit" class="btn btn-success" name="nSalvar" value="Salvar">Salvar</button>
+                            <a href="<?php echo BASE_URL ?>/home" class="btn btn-danger">Cancelar</a>
                         </div>
                     </div>
                 </form>
