@@ -31,6 +31,7 @@ class cadastrarController extends controller {
         $dados = array();
         $cidadeModel = new cidade();
         $dados['nucleos'] = $cidadeModel->read('SELECT * FROM sgl_cidade_nucleo', array());
+        echo $cidadeModel->getNumRows();
         if (isset($_POST['nSalvar']) && !empty($_POST['nSalvar'])) {
             //este array vai armazena os valores do formulário;
             $cidade = array();
@@ -157,7 +158,9 @@ class cadastrarController extends controller {
         if (isset($_POST['nSalvar']) && !empty($_POST['nSalvar'])) {
             //array que vai armazena os dados recebido do formulário
             $unidade = array();
+            //orgão
             $unidade['orgao'] = addslashes($_POST['nOrgao']);
+            //cidade
             $unidade['cidade'] = addslashes($_POST['nCidade']);
 
             if (!empty($_POST['nUnidade']) && isset($_POST['nUnidade'])) {
@@ -174,7 +177,20 @@ class cadastrarController extends controller {
                 $dados['unidade']['ip']['msg'] = 'Informe o ip';
                 $dados['unidade']['ip']['class'] = 'has-error';
             }
-            $unidade['ap'] = addslashes($_POST['nAP']);
+            if (!empty($_POST['nAP']) && isset($_POST['nAP'])) {
+                //ap
+                $unidade['ap'] = addslashes($_POST['nAP']);
+            } else {
+                $unidade['ap'] = null;
+            }
+            if (!empty($_POST['nIP']) && isset($_POST['nIP'])) {
+                //ip
+                $unidade['ip'] = addslashes($_POST['nIP']);
+            } else {
+                $dados['unidade']['ip']['msg'] = 'Informe o ip';
+                $dados['unidade']['ip']['class'] = 'has-error';
+            }
+
             if (!empty($_POST['nVLAN']) && isset($_POST['nVLAN'])) {
                 //vlan
                 $unidade['vlan'] = addslashes($_POST['nVLAN']);
@@ -186,9 +202,6 @@ class cadastrarController extends controller {
             if (!empty($_POST['nConexao']) && isset($_POST['nConexao'])) {
                 //conexao
                 $unidade['conexao'] = addslashes($_POST['nConexao']);
-            } else {
-                $dados['unidade']['conexao']['msg'] = 'Informe o tipo da conexão';
-                $dados['unidade']['conexao']['class'] = 'has-error';
             }
             if (!empty($_POST['nBanda']) && isset($_POST['nBanda'])) {
                 //banda
@@ -268,17 +281,22 @@ class cadastrarController extends controller {
                     /*
                      * Capturando contato da unidade
                      */
-                    $unidade['contato']['cod'] = $unidade['cod'];
-                    //gps/
-                    $unidade['contato']['nome'] = addslashes($_POST['nNome']);
-                    //email
-                    $unidade['contato']['email'] = addslashes($_POST['nEmail']);
-                    //telefone1
-                    $unidade['contato']['telefone1'] = addslashes($_POST['nTelefone1']);
-                    //telefone2
-                    $unidade['contato']['telefone2'] = addslashes($_POST['nTelefone2']);
-                    $unidadeModel->create("INSERT INTO sgl_unidade_contato (cod_unidade, nome_contato, email_contato, telefone1_contato, telefone2_contato) VALUES (:cod, :nome, :email, :telefone1, :telefone2)", $unidade['contato']);
 
+                    for ($qtd = 1; $qtd <= $_POST['nQtdContato']; $qtd++) {
+                        if (!empty($_POST['nNome' . $qtd] || !empty($_POST['nEmail' . $qtd]) || !empty($_POST['nTelefone1_' . $qtd]) || !empty($_POST['nTelefone2_' . $qtd]))) {
+
+                            $unidade['contato']['cod'] = $unidade['cod'];
+                            //gps/
+                            $unidade['contato']['nome'] = addslashes($_POST['nNome' . $qtd]);
+                            //email
+                            $unidade['contato']['email'] = addslashes($_POST['nEmail' . $qtd]);
+                            //telefone1
+                            $unidade['contato']['telefone1'] = addslashes($_POST['nTelefone1_' . $qtd]);
+                            //telefone2
+                            $unidade['contato']['telefone2'] = addslashes($_POST['nTelefone2_' . $qtd]);
+                            $unidadeModel->create("INSERT INTO sgl_unidade_contato (cod_unidade, nome_contato, email_contato, telefone1_contato, telefone2_contato) VALUES (:cod, :nome, :email, :telefone1, :telefone2)", $unidade['contato']);
+                        }
+                    }
                     $dados['erro']['msg'] = "Cadastro realizado com sucesso!";
                     $dados['erro']['class'] = 'alert-success';
                     $_POST = array();

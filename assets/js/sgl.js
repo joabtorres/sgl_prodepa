@@ -87,7 +87,40 @@ function selectCidade() {
     });
 }
 
+/*
+ * @author Joab Torres <joabtorres1508@gmail.com>
+ * Está função executa quando é selecionado uma cidade via select e consulta o json 'ap.json' e carrega uns options no select do AP
+ * @public selectCidade()
+ */
+function add_contato() {
+    var elemento = document.getElementById("iQtdContato");
+    var qtd = elemento.value;
+    elemento.value = parseInt(qtd) + 1;
+
+    var viewContato = document.getElementsByClassName("container_cad_contato");
+    if (viewContato.length) {
+        qtd = parseInt(qtd) + 1;
+        var containerContato = document.getElementById('iCadContato');
+        containerContato.innerHTML = containerContato.innerHTML + '<div class="row container_cad_contato" id="contato_' + qtd + '"><hr/><div class="col-md-6 form-group"> <label for="iNome' + qtd + '">Nome:</label> <input type="text" name="nNome' + qtd + '" id="iNome' + qtd + '" class="form-control" placeholder="Exemplo: Joab T. Alencar"> </div><div class="col-md-6 form-group"> <label for="iEmail' + qtd + '">E-mail:</label> <input type="email" name="nEmail' + qtd + '" id="iEmail' + qtd + '" class="form-control" placeholder="Exemplo: usuario@live.com" > </div><div class="col-md-6 form-group"> <label for="iTelefone1_' + qtd + '">Telefone 1:</label> <input type="text" name="nTelefone1_' + qtd + '" id="iTelefone1_' + qtd + '" class="form-control" placeholder="Exemplo: (93) 3518-0011"> </div><div class="col-md-6 form-group"> <label for="iTelefone2_' + qtd + '">Telefone 2:</label> <input type="text" name="nTelefone2_' + qtd + '" id="iTelefone2_' + qtd + '" class="form-control" placeholder="Exemplo: (093) 99222-3333" > </div></div>';
+    }
+}
+function remover_contato() {
+    var elemento = document.getElementById("iQtdContato");
+    var qtd = parseInt(elemento.value);
+    if (qtd > 1) {
+        $("#contato_" + qtd).remove();
+        elemento.value = qtd - 1;
+    }
+}
 $(document).ready(function () {
+
+    $("#iConexao").change(function () {
+        if ($("#iConexao").val() === "Fibra") {
+            $("#iAP").attr('disabled', 'true');
+        } else {
+            $("#iAP").removeAttr('disabled');
+        }
+    });
     //seleciona ap da cidade
     selectCidade();
     //oculta o arlert de mensagem
@@ -150,6 +183,7 @@ $(document).ready(function () {
             carregarNoMapa($("#iCidade option:selected").text());
         });
 
+
         google.maps.event.addListener(marker, 'drag', function () {
             geocoder.geocode({'latLng': marker.getPosition()}, function (results, status) {
                 if (status == google.maps.GeocoderStatus.OK) {
@@ -161,7 +195,6 @@ $(document).ready(function () {
             });
         });
     }
-
 });
 
 

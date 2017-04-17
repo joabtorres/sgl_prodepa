@@ -26,7 +26,7 @@ class unidade extends model {
      * @author Joab Torres <joabtorres1508@gmail.com>
      */
     public function getNumRows() {
-        return 0;
+        return $this->numRows;
     }
 
     /**
@@ -59,7 +59,7 @@ class unidade extends model {
      * @return array $sql->fetchAll() [caso encontre] | bollean FALSE [caso contrário] 
      * @author Joab Torres <joabtorres1508@gmail.com>
      */
-    public function read($sql_command, $data) {
+    public function read($sql_command, $data = array()) {
         if (!empty($data)) {
             $sql = $this->db->prepare($sql_command);
             foreach ($data as $indice => $valor) {

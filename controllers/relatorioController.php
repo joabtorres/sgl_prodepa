@@ -27,9 +27,20 @@ class relatorioController extends controller {
      * @access public
      * @author Joab Torres <joabtorres1508@gmail.com>
      */
-    public function cidade($page) {
+    public function cidade($page = array()) {
         $view = "cidade_relatorio";
         $dados = array();
+        $cidadeModel = new cidade();
+        $data = array("cod" => 6);
+        $limite = 6;
+        $indice = 0;
+        $pagina_atual = (isset($page) && !empty($page)) ? addslashes($page) : 1;
+        $indice = ($pagina_atual - 1) * $limite;
+
+        $dados['cidades'] = $cidadeModel->read("SELECT sgl_cidade_area_atuacao.* FROM sgl_cidade_area_atuacao, sgl_cidade_nucleo WHERE sgl_cidade_area_atuacao.cod_nucleo=sgl_cidade_nucleo.cod_nucleo AND sgl_cidade_nucleo.cod_nucleo=:cod ORDER BY sgl_cidade_area_atuacao.cidade_area_atuacao ASC LIMIT " . $indice . "," . $limite, $data);
+        $total_registro = $cidadeModel->getNumRows();
+        $dados['paginas'] = $total_registro / $limite;
+        $dados['pagina_atual'] = $pagina_atual;
         $this->loadTemplate($view, $dados);
     }
 

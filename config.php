@@ -18,7 +18,7 @@ if (ENVIRONMENT == 'development') {
     //usuario
     $config['dbuser'] = 'root';
     //senha
-    $config['dbpass'] = 'root';
+    $config['dbpass'] = '';
 } else {
 //Raiz
     define("BASE_URL", "http://sgl.prodepa.pc");
@@ -29,6 +29,6 @@ if (ENVIRONMENT == 'development') {
     //usuario
     $config['dbuser'] = 'root';
     //senha
-    $config['dbpass'] = 'root';
+    $config['dbpass'] = '';
 }
 ?>

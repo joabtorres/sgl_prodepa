@@ -36,7 +36,6 @@
                                         <option value="Estadual">Estadual</option>
                                         <option value="Federal">Federal</option>
                                         <option value="Privado">Privado</option>
-                                        <option value="Acordo de Cooperação Técnica">Acordo de Cooperação Técnica</option>
                                     </select>
                                 </div>
                             </div>

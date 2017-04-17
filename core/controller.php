@@ -75,7 +75,7 @@ class controller {
      * @author Joab Torres <joabtorres1508@gmail.com>
      */
     protected function pagination($pageAtual, $limit, $action) {
-        
+       
     }
 
     /**
