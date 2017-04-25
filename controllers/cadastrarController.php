@@ -31,7 +31,7 @@ class cadastrarController extends controller {
         $dados = array();
         $cidadeModel = new cidade();
         $dados['nucleos'] = $cidadeModel->read('SELECT * FROM sgl_cidade_nucleo', array());
-        echo $cidadeModel->getNumRows();
+        print_r( $dados['nucleos']);
         if (isset($_POST['nSalvar']) && !empty($_POST['nSalvar'])) {
             //este array vai armazena os valores do formulário;
             $cidade = array();
@@ -39,13 +39,13 @@ class cadastrarController extends controller {
                 //CAMPO cidade
                 $cidade['cidade'] = addslashes($_POST['ncadCidade']);
                 if ($_POST['ncadCategoria'] == 'Núcleo') {
-                    $resultado = $cidadeModel->read("SELECT * FROM sgl_cidade_nucleo WHERE nome_cidade_nucleo=:cidade", $cidade);
+                    $resultado = $cidadeModel->read("SELECT * FROM sgl_cidade_nucleo WHERE cidade_nucleo=:cidade", $cidade);
                     if ($cidadeModel->getNumRows()) {
                         $dados['erro']['msg'] = "Não é possível cadastrar um núcleo duas vezes!";
                         $dados['erro']['class'] = 'alert-danger';
                     }
                     //insert
-                    $sql_command = "INSERT INTO sgl_cidade_nucleo (nome_cidade_nucleo) VALUES (:cidade)";
+                    $sql_command = "INSERT INTO sgl_cidade_nucleo (cidade_nucleo) VALUES (:cidade)";
                 } else {
                     //campo codigo do  nucleo
                     $cidade['nucleo'] = addslashes($_POST['ncadNucleo']);
@@ -119,7 +119,7 @@ class cadastrarController extends controller {
         if (isset($_POST['nSalvar']) && !empty($_POST['nSalvar'])) {
             if (!empty($_POST['ncadNome']) || !empty($_POST['ncadIP'])) {
                 //array que armazena os dados do formulário
-                $ap = array("nome" => addslashes($_POST['ncadNome']), "ip" => addslashes($_POST['ncadIP']), "cidade" => addslashes($_POST['ncadCidade']));
+                $ap = array("nome" => addslashes(strtoupper($_POST['ncadNome'])), "ip" => addslashes($_POST['ncadIP']), "cidade" => addslashes($_POST['ncadCidade']));
                 //Verifica se já está cadastrado
                 $apModel = new ap();
                 $resultado = $apModel->read("SELECT * FROM sgl_ap WHERE nome_ap=:nome AND ip_ap=:ip AND cod_area_atuacao=:cidade", $ap);

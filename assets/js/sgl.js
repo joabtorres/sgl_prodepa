@@ -78,9 +78,9 @@ function selectCidade() {
         var resultado = '';
         for (var x  in ap[valor]) {
             if (ap[valor][x]['cod'] == selectAp) {
-                resultado += '<option value="' + ap[valor][x]['cod'] + '" selected="true">' + ap[valor][x]['nome'] + '</option>';
+                resultado += '<option value="' + ap[valor][x]['cod'] + '" selected="true" class="text-uppercase">' + ap[valor][x]['nome'] + '</option>';
             } else {
-                resultado += '<option value="' + ap[valor][x]['cod'] + '">' + ap[valor][x]['nome'] + '</option>';
+                resultado += '<option value="' + ap[valor][x]['cod'] + '" class="text-uppercase">' + ap[valor][x]['nome'] + '</option>';
             }
         }
         $("#iAP").html(resultado);

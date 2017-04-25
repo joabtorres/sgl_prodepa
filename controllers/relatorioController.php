@@ -31,7 +31,7 @@ class relatorioController extends controller {
         $view = "cidade_relatorio";
         $dados = array();
         $cidadeModel = new cidade();
-        $data = array("cod" => 6);
+        $data = array("cod" => 2);
         $limite = 6;
         $indice = 0;
         $pagina_atual = (isset($page) && !empty($page)) ? addslashes($page) : 1;
@@ -52,9 +52,68 @@ class relatorioController extends controller {
      * @access public
      * @author Joab Torres <joabtorres1508@gmail.com>
      */
-    public function orgao($page, $cod_cidade = array()) {
+    public function orgao($page = array(), $cod_cidade = array()) {
         $view = "orgao_relatorio";
         $dados = array();
+        //model Orgao
+        $orgaoModel = new orgao();
+        $unidadeModel = new unidade();
+        $cidadeModel = new cidade();
+
+        //array que vai ser utilizado na consulta com banco de dados
+        $data = array('cod_nucleo' => 2);
+
+        //paginação
+        $limite = 20;
+        $indice = 0;
+        $pagina_atual = (isset($page) && !empty($page)) ? addslashes($page) : 1;
+        $indice = ($pagina_atual - 1) * $limite;
+
+        if (empty($cod_cidade)) {
+            //lista todos os orgãos que tem unidade cadastrada de todas as cidades
+            $resultado_orgao = $orgaoModel->read("SELECT DISTINCT(sgl_orgao.nome_orgao), sgl_orgao.cod_orgao FROM sgl_orgao, sgl_unidade, sgl_cidade_area_atuacao, sgl_cidade_nucleo WHERE sgl_orgao.cod_orgao=sgl_unidade.cod_orgao AND sgl_unidade.cod_cidade=sgl_cidade_area_atuacao.cod_area_atuacao AND sgl_cidade_area_atuacao.cod_nucleo=sgl_cidade_nucleo.cod_nucleo AND sgl_cidade_nucleo.cod_nucleo=:cod_nucleo ORDER BY sgl_orgao.nome_orgao ASC", $data);
+            $resultado_unidade = $unidadeModel->read("SELECT sgl_orgao.nome_orgao,sgl_orgao.cod_orgao, sgl_cidade_area_atuacao.cidade_area_atuacao, sgl_unidade.cod_unidade, sgl_unidade.nome_unidade FROM sgl_orgao, sgl_unidade, sgl_cidade_area_atuacao, sgl_cidade_nucleo WHERE sgl_orgao.cod_orgao=sgl_unidade.cod_orgao AND sgl_unidade.cod_cidade=sgl_cidade_area_atuacao.cod_area_atuacao AND sgl_cidade_area_atuacao.cod_nucleo=sgl_cidade_nucleo.cod_nucleo AND sgl_cidade_nucleo.cod_nucleo=2 ORDER BY sgl_cidade_area_atuacao.cidade_area_atuacao ASC, sgl_orgao.nome_orgao ASC, sgl_unidade.nome_unidade ASC LIMIT " . $indice . "," . $limite, $data);
+            $resultado_cidade = $cidadeModel->read("SELECT DISTINCT(sgl_cidade_area_atuacao.cidade_area_atuacao) FROM sgl_orgao, sgl_unidade, sgl_cidade_area_atuacao, sgl_cidade_nucleo WHERE sgl_orgao.cod_orgao=sgl_unidade.cod_orgao AND sgl_unidade.cod_cidade=sgl_cidade_area_atuacao.cod_area_atuacao AND sgl_cidade_area_atuacao.cod_nucleo=sgl_cidade_nucleo.cod_nucleo AND sgl_cidade_nucleo.cod_nucleo=:cod_nucleo ORDER BY sgl_cidade_area_atuacao.cidade_area_atuacao ASC ", $data);
+        
+            //total de registros
+            $unidadeModel->read("SELECT sgl_orgao.nome_orgao,sgl_orgao.cod_orgao, sgl_cidade_area_atuacao.cidade_area_atuacao, sgl_unidade.cod_unidade, sgl_unidade.nome_unidade FROM sgl_orgao, sgl_unidade, sgl_cidade_area_atuacao, sgl_cidade_nucleo WHERE sgl_orgao.cod_orgao=sgl_unidade.cod_orgao AND sgl_unidade.cod_cidade=sgl_cidade_area_atuacao.cod_area_atuacao AND sgl_cidade_area_atuacao.cod_nucleo=sgl_cidade_nucleo.cod_nucleo AND sgl_cidade_nucleo.cod_nucleo=:cod_nucleo ORDER BY sgl_cidade_area_atuacao.cidade_area_atuacao ASC, sgl_orgao.nome_orgao ASC, sgl_unidade.nome_unidade ASC", $data);
+            $total_registro = $unidadeModel->getNumRows();
+        } else {
+            $data['cod_cidade'] = addslashes($cod_cidade);
+            $dados['cod_cidade'] = addslashes($cod_cidade);
+            $resultado_orgao = $orgaoModel->read("SELECT DISTINCT(sgl_orgao.nome_orgao), sgl_orgao.cod_orgao FROM sgl_orgao, sgl_unidade, sgl_cidade_area_atuacao, sgl_cidade_nucleo WHERE sgl_orgao.cod_orgao=sgl_unidade.cod_orgao AND sgl_unidade.cod_cidade=sgl_cidade_area_atuacao.cod_area_atuacao AND sgl_cidade_area_atuacao.cod_nucleo=sgl_cidade_nucleo.cod_nucleo AND sgl_cidade_nucleo.cod_nucleo=:cod_nucleo AND sgl_cidade_area_atuacao.cod_area_atuacao=:cod_cidade ORDER BY sgl_orgao.nome_orgao ASC", $data);
+            $resultado_unidade = $unidadeModel->read("SELECT sgl_orgao.nome_orgao,sgl_orgao.cod_orgao, sgl_cidade_area_atuacao.cidade_area_atuacao, sgl_unidade.cod_unidade, sgl_unidade.nome_unidade FROM sgl_orgao, sgl_unidade, sgl_cidade_area_atuacao, sgl_cidade_nucleo WHERE sgl_orgao.cod_orgao=sgl_unidade.cod_orgao AND sgl_unidade.cod_cidade=sgl_cidade_area_atuacao.cod_area_atuacao AND sgl_cidade_area_atuacao.cod_nucleo=sgl_cidade_nucleo.cod_nucleo AND sgl_cidade_nucleo.cod_nucleo=:cod_nucleo AND sgl_cidade_area_atuacao.cod_area_atuacao=:cod_cidade ORDER BY sgl_cidade_area_atuacao.cidade_area_atuacao ASC, sgl_orgao.nome_orgao ASC, sgl_unidade.nome_unidade ASC LIMIT " . $indice . "," . $limite, $data);
+            $resultado_cidade = $cidadeModel->read("SELECT DISTINCT(sgl_cidade_area_atuacao.cidade_area_atuacao) FROM sgl_orgao, sgl_unidade, sgl_cidade_area_atuacao, sgl_cidade_nucleo WHERE sgl_orgao.cod_orgao=sgl_unidade.cod_orgao AND sgl_unidade.cod_cidade=sgl_cidade_area_atuacao.cod_area_atuacao AND sgl_cidade_area_atuacao.cod_nucleo=sgl_cidade_nucleo.cod_nucleo AND sgl_cidade_nucleo.cod_nucleo=:cod_nucleo AND sgl_cidade_area_atuacao.cod_area_atuacao=:cod_cidade ORDER BY sgl_cidade_area_atuacao.cidade_area_atuacao ASC ", $data);
+        
+            //total de registros
+            $unidadeModel->read("SELECT sgl_orgao.nome_orgao,sgl_orgao.cod_orgao, sgl_cidade_area_atuacao.cidade_area_atuacao, sgl_unidade.cod_unidade, sgl_unidade.nome_unidade FROM sgl_orgao, sgl_unidade, sgl_cidade_area_atuacao, sgl_cidade_nucleo WHERE sgl_orgao.cod_orgao=sgl_unidade.cod_orgao AND sgl_unidade.cod_cidade=sgl_cidade_area_atuacao.cod_area_atuacao AND sgl_cidade_area_atuacao.cod_nucleo=sgl_cidade_nucleo.cod_nucleo AND sgl_cidade_nucleo.cod_nucleo=:cod_nucleo AND sgl_cidade_area_atuacao.cod_area_atuacao=:cod_cidade ORDER BY sgl_cidade_area_atuacao.cidade_area_atuacao ASC, sgl_orgao.nome_orgao ASC, sgl_unidade.nome_unidade ASC", $data);
+            $total_registro = $unidadeModel->getNumRows();
+        }
+
+        $resultado = array();
+        $qtdCidade = 0;
+        foreach ($resultado_cidade as $cidade) {
+            $qtdOrgao = 0;
+            $resultado[$qtdCidade] = array('cidade' => $cidade['cidade_area_atuacao'], 'orgaos' => array());
+            foreach ($resultado_orgao as $orgao) {
+                $qtdUnidade = 0;
+                $resultado[$qtdCidade]['orgaos'][$qtdOrgao] = array('nome_orgao' => $orgao['nome_orgao'], 'cod_orgao' => $orgao['cod_orgao'], 'unidades' => array());
+                foreach ($resultado_unidade as $unidade) {
+                    if ($cidade['cidade_area_atuacao'] == $unidade['cidade_area_atuacao'] && $orgao['nome_orgao'] == $unidade['nome_orgao']) {
+                        $resultado[$qtdCidade]['orgaos'][$qtdOrgao]['unidades'][$qtdUnidade] = array('nome_unidade' => $unidade['nome_unidade'], 'cod_unidade' => $unidade['cod_unidade']);
+                    }
+                    $qtdUnidade = $qtdUnidade + 1;
+                }
+                $qtdOrgao = $qtdOrgao + 1;
+            }
+            $qtdCidade = $qtdCidade + 1;
+        }
+        $dados['resultadoView'] = $resultado;
+        
+        //PAGINAÇÃO
+        $dados['paginas'] = $total_registro / $limite;
+        $dados['pagina_atual'] = $pagina_atual;
+        
         $this->loadTemplate($view, $dados);
     }
 
@@ -65,7 +124,7 @@ class relatorioController extends controller {
      * @access public
      * @author Joab Torres <joabtorres1508@gmail.com>
      */
-    public function ap($page, $cod_cidade = array()) {
+    public function ap($page = array(), $cod_cidade = array()) {
         $view = "ap_relatorio";
         $dados = array();
         $this->loadTemplate($view, $dados);
@@ -78,7 +137,7 @@ class relatorioController extends controller {
      * @access public
      * @author Joab Torres <joabtorres1508@gmail.com>
      */
-    public function unidade($page, $cod_cidade = array()) {
+    public function unidade($page = array(), $cod_cidade = array()) {
         $view = "unidade_relatorio";
         $dados = array();
         $this->loadTemplate($view, $dados);
@@ -90,7 +149,7 @@ class relatorioController extends controller {
      * @access public
      * @author Joab Torres <joabtorres1508@gmail.com>
      */
-    public function filtro($page) {
+    public function filtro($page = array()) {
         $view = "buscar_avancada_relatorio";
         $dados = array();
         $this->loadTemplate($view, $dados);

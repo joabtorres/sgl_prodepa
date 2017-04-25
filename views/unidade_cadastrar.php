@@ -43,11 +43,11 @@
                                     <label for="iCidade">Cidade: </label>
                                     <select name="nCidade" id="iCidade" class="form-control" onchange="selectCidade()">
                                         <?php
-                                        foreach ($cidades as $cidade) {
-                                            if (!empty($_POST['nCidade']) && $_POST['nCidade'] == $cidade['cod_area_atuacao']) {
-                                                echo '<option value="' . $cidade['cod_area_atuacao'] . '" selected="true">' . $cidade['cidade_area_atuacao'] . '</option>';
+                                        foreach ($cidades as $resultado) {
+                                            if (!empty($_POST['nCidade']) && $_POST['nCidade'] == $resultado['cod_area_atuacao']) {
+                                                echo '<option value="' . $resultado['cod_area_atuacao'] . '" selected="true">' . $resultado['cidade_area_atuacao'] . '</option>';
                                             } else {
-                                                echo '<option value="' . $cidade['cod_area_atuacao'] . '">' . $cidade['cidade_area_atuacao'] . '</option>';
+                                                echo '<option value="' . $resultado['cod_area_atuacao'] . '">' . $resultado['cidade_area_atuacao'] . '</option>';
                                             }
                                         }
                                         ?>

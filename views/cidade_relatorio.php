@@ -15,12 +15,12 @@
 
                 <?php
                 if (count($cidades) > 0):
-                    foreach ($cidades as $cidade) :
+                    foreach ($cidades as $resultado) :
                         ?>
 
                         <div class="panel panel-primary">
                             <div class="panel-heading">
-                                <p class="panel-title"><span class="font-bold">Cidade: </span> <?php echo $cidade['cidade_area_atuacao'] ?>  <small class="pull-right"><a href="#">Editar</a> / <a href="#">Excluir</a></small> </p>
+                                <p class="panel-title"><span class="font-bold">Cidade: </span> <?php echo $resultado['cidade_area_atuacao'] ?>  <small class="pull-right"><a href="#">Editar</a> / <a href="#">Excluir</a></small> </p>
                             </div>
                             <table class="table table-striped table-bordered table-hover table-condensed">
                                 <tr>
@@ -30,9 +30,9 @@
                                 </tr>
                                 <tbody>
                                     <tr>
-                                        <td><a href="<?php echo BASE_URL . '/relatorio/orgao/1/' . $cidade['cod_area_atuacao'] ?>">Consultar Orgãos</a></td>
-                                        <td><a href="<?php echo BASE_URL . '/relatorio/ap/1/' . $cidade['cod_area_atuacao'] ?>">Consultar Ap's</a></td>
-                                        <td><a href="<?php echo BASE_URL . '/relatorio/unidade/1/' . $cidade['cod_area_atuacao'] ?>">Consultar Unidades</a></td>
+                                        <td><a href="<?php echo BASE_URL . '/relatorio/orgao/1/' . $resultado['cod_area_atuacao'] ?>">Consultar Orgãos</a></td>
+                                        <td><a href="<?php echo BASE_URL . '/relatorio/ap/1/' . $resultado['cod_area_atuacao'] ?>">Consultar Ap's</a></td>
+                                        <td><a href="<?php echo BASE_URL . '/relatorio/unidade/1/' . $resultado['cod_area_atuacao'] ?>">Consultar Unidades</a></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -43,7 +43,7 @@
 
             </div>
             <!--paginação-->
-<?php if (count($cidades) > 0): ?>
+            <?php if (count($cidades) > 0): ?>
                 <section class="clear col-xs-12">
                     <nav aria-label="Page navigation">
                         <ul class="pagination">
@@ -70,7 +70,7 @@
                     </nav>
                 </section>
                 <!--paginação-->
-<?php endif; ?>
+            <?php endif; ?>
         </div>
         <!--fim row-->
 

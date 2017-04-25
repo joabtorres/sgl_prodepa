@@ -38,6 +38,12 @@
 .jumbotron{background-color: #337AB7; color: white; padding-top:10px; padding-bottom: 10px;}
 .jumbotron>ul>li{font-size: 17px;}
 
+.table-acao{
+    width: 120px
+}
+.table-qtd{
+    width: 30px;
+}
 /*TELA LOGIN*/
 
 #tela_login {

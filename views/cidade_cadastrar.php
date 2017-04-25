@@ -41,7 +41,7 @@
                                     <select name="ncadNucleo" id="icadNucleo" class=" form-control">
                                         <?php
                                         foreach ($nucleos as $nucleo) {
-                                            echo '<option value="' . $nucleo['cod_nucleo'] . '" >Núcleo ' . $nucleo['nome_cidade_nucleo'] . '</option>';
+                                            echo '<option value="' . $nucleo['cod_nucleo'] . '" >Núcleo ' . $nucleo['cidade_nucleo'] . '</option>';
                                         }
                                         ?>
                                     </select>

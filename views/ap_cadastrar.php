@@ -27,7 +27,7 @@
                             <div class="row">
                                 <div class="form-group col-sm-6 col-md-4 col-lg-4">
                                     <label for="icadNome">Nome: </label>
-                                    <input type="text" name="ncadNome" id="icadNome" class="text-uppercase form-control"/>
+                                    <input type="text" name="ncadNome" id="icadNome" class="text-uppercase form-control text-uppercase"/>
                                 </div>
                                 <div class="form-group col-sm-6 col-md-4 col-lg-4">
                                     <label for="icadIP">IP: </label>
@@ -37,8 +37,8 @@
                                     <label for="icadCidade">Cidade: </label>
                                     <select name="ncadCidade" id="icadCidade" class=" form-control">
                                         <?php
-                                        foreach ($cidades as $cidade) {
-                                            echo '<option value="' . $cidade['cod_area_atuacao'] . '" >' . $cidade['cidade_area_atuacao'] . '</option>';
+                                        foreach ($cidades as $resultado) {
+                                            echo '<option value="' . $resultado['cod_area_atuacao'] . '" >' . $resultado['cidade_area_atuacao'] . '</option>';
                                         }
                                         ?>
                                     </select>
