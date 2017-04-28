@@ -283,7 +283,7 @@ class cadastrarController extends controller {
                      */
 
                     for ($qtd = 1; $qtd <= $_POST['nQtdContato']; $qtd++) {
-                        if (!empty($_POST['nNome' . $qtd] || !empty($_POST['nEmail' . $qtd]) || !empty($_POST['nTelefone1_' . $qtd]) || !empty($_POST['nTelefone2_' . $qtd]))) {
+                        if (!empty($_POST['nNome' . $qtd]) || !empty($_POST['nEmail' . $qtd]) || !empty($_POST['nTelefone1_' . $qtd]) || !empty($_POST['nTelefone2_' . $qtd])) {
 
                             $unidade['contato']['cod'] = $unidade['cod'];
                             //gps/

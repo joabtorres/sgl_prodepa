@@ -5,14 +5,14 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="icon" type="image/gif" href="<?php echo BASE_URL?>/assets/imagens/icon-prodepa.gif" sizes="32x32" />
+        <link rel="icon" type="image/gif" href="<?php echo BASE_URL ?>/assets/imagens/icon-prodepa.gif" sizes="32x32" />
         <meta property="ogg:title" content="PRODEPA - SGL -Sistema de Gerênciamento de Link's ">
         <meta property="ogg:description" content="Sistema de Gerenciamento de Link's - PRODEPA !">
         <title> PRODEPA - SGL -Sistema de Gerenciamento de Link's </title>
         <!-- Bootstrap -->
-        <link href="<?php echo BASE_URL?>/assets/css/bootstrap.min.css" rel="stylesheet">
+        <link href="<?php echo BASE_URL ?>/assets/css/bootstrap.min.css" rel="stylesheet">
         <!-- SGL -->
-        <link rel="stylesheet" href="<?php echo BASE_URL?>/assets/css/estilo.css">
+        <link rel="stylesheet" href="<?php echo BASE_URL ?>/assets/css/estilo.css">
     </head>
 
     <body>
@@ -28,13 +28,13 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="<?php echo BASE_URL?>/"><img src="<?php echo BASE_URL?>/assets/imagens/logo_menu.png" alt=""></a>
+                    <a class="navbar-brand" href="<?php echo BASE_URL ?>/"><img src="<?php echo BASE_URL ?>/assets/imagens/logo_menu.png" alt=""></a>
                 </div>
                 <!-- Top Menu Items -->
 
                 <ul class="nav navbar-right top-nav">
                     <li>
-                        <form action="<?php echo BASE_URL?>/relatorio/buscarapida/1" class="navbar-form" method="POST" autocomplete="off" name="nSearchSGL">
+                        <form action="<?php echo BASE_URL ?>/relatorio/buscarapida/1" class="navbar-form" method="POST" autocomplete="off" name="nSearchSGL">
                             <div class="form-group">
                                 <label ><input type="radio" name="nSearchFinalidade" value="Unidade" checked> Unidade</label>
                                 <label ><input type="radio" name="nSearchFinalidade" value="Orgão"> Orgão</label>
@@ -49,11 +49,11 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-user"></i> Joab <b class="caret"></b></a>
                         <ul class="dropdown-menu">
                             <li>
-                                <a href="<?php echo BASE_URL?>/editar/usuario/1"><i class="glyphicon glyphicon-user"></i> Editar Perfil</a>
+                                <a href="<?php echo BASE_URL ?>/editar/usuario/1"><i class="glyphicon glyphicon-user"></i> Editar Perfil</a>
                             </li>
                             <li class="divider"></li>
                             <li>
-                                <a href="<?php echo BASE_URL?>/usuario/sair"><i class="glyphicon glyphicon-log-out"></i> Sair</a>
+                                <a href="<?php echo BASE_URL ?>/usuario/sair"><i class="glyphicon glyphicon-log-out"></i> Sair</a>
                             </li>
 
                         </ul>
@@ -64,7 +64,7 @@
                 <div class="collapse navbar-collapse navbar-ex1-collapse">
                     <nav class="side-nav">
                         <figure>
-                            <img src="<?php echo BASE_URL?>/assets/imagens/user_masculino.png" class="img-center img-responsive img-circle">
+                            <img src="<?php echo BASE_URL ?>/assets/imagens/user_masculino.png" class="img-center img-responsive img-circle">
                             <figcaption>
                                 <p class="text-center text-uppercase">Joab Torres Alencar</p>
                                 <p class="text-center">Estagiário</p>
@@ -74,22 +74,22 @@
                         <ul class="nav navbar-nav">
 
                             <li >
-                                <a href="<?php echo BASE_URL?>"><i class="glyphicon glyphicon-dashboard"></i> Inicial</a>
+                                <a href="<?php echo BASE_URL ?>"><i class="glyphicon glyphicon-dashboard"></i> Inicial</a>
                             </li>
                             <li>
                                 <a href="javascript:;" data-toggle="collapse" data-target="#menu_cadastro"><i class="glyphicon glyphicon-plus-sign"></i> Cadastrar <i class="fa fa-fw fa-caret-down"></i></a>
                                 <ul id="menu_cadastro" class="collapse">
                                     <li>
-                                        <a href="<?php echo BASE_URL?>/cadastrar/cidade"><i class="glyphicon glyphicon-plus-sign"></i> Cidade</a>
+                                        <a href="<?php echo BASE_URL ?>/cadastrar/cidade"><i class="glyphicon glyphicon-plus-sign"></i> Cidade</a>
                                     </li>
                                     <li>
-                                        <a href="<?php echo BASE_URL?>/cadastrar/orgao"><i class="glyphicon glyphicon-plus-sign"></i> Orgão</a>
+                                        <a href="<?php echo BASE_URL ?>/cadastrar/orgao"><i class="glyphicon glyphicon-plus-sign"></i> Orgão</a>
                                     </li>
                                     <li>
-                                        <a href="<?php echo BASE_URL?>/cadastrar/ap"><i class="glyphicon glyphicon-plus-sign"></i> AP</a>
+                                        <a href="<?php echo BASE_URL ?>/cadastrar/ap"><i class="glyphicon glyphicon-plus-sign"></i> AP</a>
                                     </li>
                                     <li>
-                                        <a href="<?php echo BASE_URL?>/cadastrar/unidade"><i class="glyphicon glyphicon-plus-sign"></i> Unidade</a>
+                                        <a href="<?php echo BASE_URL ?>/cadastrar/unidade"><i class="glyphicon glyphicon-plus-sign"></i> Unidade</a>
                                     </li>
                                 </ul>
                             </li>
@@ -97,19 +97,22 @@
                                 <a href="javascript:;" data-toggle="collapse" data-target="#menu_relatorio"><i class="glyphicon glyphicon-th-list"></i> Relatórios <i class="fa fa-fw fa-caret-down"></i></a>
                                 <ul id="menu_relatorio" class="collapse">
                                     <li>
-                                        <a href="<?php echo BASE_URL?>/relatorio/cidade"><i class="glyphicon glyphicon-th-list"></i> Cidades</a>
+                                        <a href="<?php echo BASE_URL ?>/relatorio/cidades"><i class="glyphicon glyphicon-th-list"></i> Cidades</a>
                                     </li>
                                     <li>
-                                        <a href="<?php echo BASE_URL?>/relatorio/orgao"><i class="glyphicon glyphicon-th-list"></i> Orgãos</a>
+                                        <a href="<?php echo BASE_URL ?>/relatorio/orgaos"><i class="glyphicon glyphicon-th-list"></i> Orgãos</a>
                                     </li>
                                     <li>
-                                        <a href="<?php echo BASE_URL?>/relatorio/ap"><i class="glyphicon glyphicon-th-list"></i> AP's</a>
+                                        <a href="<?php echo BASE_URL ?>/relatorio/aps"><i class="glyphicon glyphicon-th-list"></i> AP's</a>
+                                    </li>
+                                    <!--<li>
+                                        <a href="<?php echo BASE_URL ?>"><i class="glyphicon glyphicon-th-list"></i> Rede Metro</a>
+                                    </li>-->
+                                    <li>
+                                        <a href="<?php echo BASE_URL ?>/relatorio/unidades"><i class="glyphicon glyphicon-th-list"></i> Unidades</a>
                                     </li>
                                     <li>
-                                        <a href="<?php echo BASE_URL?>/relatorio/unidade"><i class="glyphicon glyphicon-th-list"></i> Unidades</a>
-                                    </li>
-                                    <li>
-                                        <a href="<?php echo BASE_URL?>/relatorio/filtro"><i class="glyphicon glyphicon-th-list"></i> Consultas</a>
+                                        <a href="<?php echo BASE_URL ?>/relatorio/filtro"><i class="glyphicon glyphicon-th-list"></i> Consultas</a>
                                     </li>
                                 </ul>
                             </li>
@@ -117,18 +120,18 @@
                                 <a href="javascript:;" data-toggle="collapse" data-target="#menu_usuario"><i class="glyphicon glyphicon-user"></i> Usuários <i class="fa fa-fw fa-caret-down"></i></a>
                                 <ul id="menu_usuario" class="collapse">
                                     <li>
-                                        <a href="<?php echo BASE_URL?>/cadastrar/usuario"><i class="glyphicon glyphicon-plus-sign"></i> Novo Usuário</a>
+                                        <a href="<?php echo BASE_URL ?>/cadastrar/usuario"><i class="glyphicon glyphicon-plus-sign"></i> Novo Usuário</a>
                                     </li>
                                     <li>
-                                        <a href="<?php echo BASE_URL?>/editar/usuario"><i class="glyphicon glyphicon-user"></i> Editar Perfil</a>
+                                        <a href="<?php echo BASE_URL ?>/editar/usuario"><i class="glyphicon glyphicon-user"></i> Editar Perfil</a>
                                     </li>
                                     <li>
-                                        <a href="<?php echo BASE_URL?>/usuario/index"><i class="glyphicon glyphicon-th-list"></i> Lista Usuário</a>
+                                        <a href="<?php echo BASE_URL ?>/usuario/index"><i class="glyphicon glyphicon-th-list"></i> Lista Usuário</a>
                                     </li>
                                 </ul>
                             </li>
                             <li>
-                                <a href="<?php echo BASE_URL?>/usuario/sair"><i class="glyphicon glyphicon-log-out"></i> Sair</a>
+                                <a href="<?php echo BASE_URL ?>/usuario/sair"><i class="glyphicon glyphicon-log-out"></i> Sair</a>
                             </li>
                         </ul>
                     </nav>
@@ -145,9 +148,9 @@
         <!-- jQuery (obrigatório para plugins JavaScript do Bootstrap) -->
         <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>;-->
         <!-- Inclui todos os plugins compilados (abaixo), ou inclua arquivos separadados se necessário -->
-        <script src="<?php echo BASE_URL?>/assets/js/jquery-3.1.1.min.js"></script>
-        <script src="<?php echo BASE_URL?>/assets/js/bootstrap.min.js"></script>
-        <script src="<?php echo BASE_URL?>/assets/js/sgl.js"></script>
+        <script src="<?php echo BASE_URL ?>/assets/js/jquery-3.1.1.min.js"></script>
+        <script src="<?php echo BASE_URL ?>/assets/js/bootstrap.min.js"></script>
+        <script src="<?php echo BASE_URL ?>/assets/js/sgl.js"></script>
 
         <!--MODAL - ESTRUTURA BÁSICA-->
         <section class="modal fade" id="modal_recupera" tabindex="-1" role="dialog">

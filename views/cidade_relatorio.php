@@ -2,10 +2,10 @@
     <div class="container-fluid">
         <div class="row" >
             <div class="col-sm-12 col-md-12 col-lg-12" id="pagina-header">
-                <h2>Cidades</h2>
+                <h2><?php echo (isset($cidade)) ? $cidade['nome'] : "Cidades" ?></h2>
                 <ol class="breadcrumb">
                     <li><a  href="<?php echo BASE_URL ?>/home"><i class="glyphicon glyphicon-dashboard"></i> Inicial</a></li>
-                    <li class="active"><i class="glyphicon glyphicon-th-list"></i> Cidades</li>
+                    <li class="active"><i class="glyphicon glyphicon-th-list"></i> <?php echo (isset($cidade)) ? $cidade['nome'] : "Cidades" ?></li>
                 </ol>
             </div>
         </div>
@@ -14,7 +14,7 @@
             <div class="col-sm-12 col-md-12 col-lg-12">
 
                 <?php
-                if (count($cidades) > 0):
+                if (isset($cidades)) {
                     foreach ($cidades as $resultado) :
                         ?>
 
@@ -30,39 +30,45 @@
                                 </tr>
                                 <tbody>
                                     <tr>
-                                        <td><a href="<?php echo BASE_URL . '/relatorio/orgao/1/' . $resultado['cod_area_atuacao'] ?>">Consultar Orgãos</a></td>
-                                        <td><a href="<?php echo BASE_URL . '/relatorio/ap/1/' . $resultado['cod_area_atuacao'] ?>">Consultar Ap's</a></td>
-                                        <td><a href="<?php echo BASE_URL . '/relatorio/unidade/1/' . $resultado['cod_area_atuacao'] ?>">Consultar Unidades</a></td>
+                                        <td><a href="<?php echo BASE_URL . '/relatorio/orgaos/1/' . $resultado['cod_area_atuacao'] ?>">Consultar Orgãos</a></td>
+                                        <td><a href="<?php echo BASE_URL . '/relatorio/aps/1/' . $resultado['cod_area_atuacao'] ?>">Consultar Ap's</a></td>
+                                        <td><a href="<?php echo BASE_URL . '/relatorio/unidades/1/' . $resultado['cod_area_atuacao'] ?>">Consultar Unidades</a></td>
                                     </tr>
                                 </tbody>
                             </table>
                         </div>
-                    <?php endforeach;
-                endif;
+                        <?php
+                    endforeach;
+                }else {
+                    echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    Desculpe, não foi possível localizar nenhum registro !
+                    </div>';
+                }
                 ?>
 
             </div>
             <!--paginação-->
-            <?php if (count($cidades) > 0): ?>
+            <?php if (ceil($paginas) > 1): ?>
                 <section class="clear col-xs-12">
                     <nav aria-label="Page navigation">
                         <ul class="pagination">
                             <li>
-                                <a href="<?php echo BASE_URL ?>/relatorio/cidade/1" aria-label="Previous">
+                                <a href="<?php echo BASE_URL ?>/relatorio/cidades/1" aria-label="Previous">
                                     <span aria-hidden="true">&laquo;</span>
                                 </a>
                             </li>
                             <?php
                             for ($p = 0; $p < ceil($paginas); $p++) {
                                 if ($pagina_atual == ($p + 1)) {
-                                    echo "<li class='active'><a href='" . BASE_URL . "/relatorio/cidade/" . ($p + 1) . "'>" . ($p + 1) . "</a></li>";
+                                    echo "<li class='active'><a href='" . BASE_URL . "/relatorio/cidades/" . ($p + 1) . "'>" . ($p + 1) . "</a></li>";
                                 } else {
-                                    echo "<li><a href='" . BASE_URL . "/relatorio/cidade/" . ($p + 1) . "'>" . ($p + 1) . "</a></li>";
+                                    echo "<li><a href='" . BASE_URL . "/relatorio/cidades/" . ($p + 1) . "'>" . ($p + 1) . "</a></li>";
                                 }
                             }
                             ?>
                             <li>
-                                <a href="<?php echo BASE_URL ?>/relatorio/cidade/<?php echo ceil($paginas) ?>" aria-label="Next">
+                                <a href="<?php echo BASE_URL ?>/relatorio/cidades/<?php echo ceil($paginas) ?>" aria-label="Next">
                                     <span aria-hidden="true">&raquo;</span>
                                 </a>
                             </li>

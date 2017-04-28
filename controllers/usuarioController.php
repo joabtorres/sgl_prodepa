@@ -21,7 +21,7 @@ class usuarioController extends controller {
      * @access public
      * @author Joab Torres <joabtorres1508@gmail.com>
      */
-    public function index($page) {
+    public function index($page = 1) {
         $view = "usuario_listar";
         $dados = array();
         $this->loadTemplate($view, $dados);

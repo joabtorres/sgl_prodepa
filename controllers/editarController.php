@@ -68,11 +68,10 @@ class editarController extends controller {
      * @access public
      * @author Joab Torres <joabtorres1508@gmail.com>
      */
-    public function usuario($cod_usuario) {
+    public function usuario($cod_usuario = array()) {
         $view = "usuario_editar";
         $dados = array();
         $this->loadTemplate($view, $dados);
-        echo $cod_usuario;
     }
 
 }

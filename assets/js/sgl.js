@@ -37,13 +37,18 @@ if (document.getElementById("form-cidade")) {
 }
 
 /**
- * PÁGINA CADASTRAR UNIDADE - MAPA
+ * PÁGINA UNIDADE DETALHADA- MAPA
  */
 
 if (document.getElementById("view-mapa-unidade")) {
     var map;
     function initialize() {
-        var latlng = new google.maps.LatLng(-4.2639141, -55.998396);
+        if (latitude != null && longitude != null) {
+            var latlng = new google.maps.LatLng(latitude, longitude);
+        } else {
+            var latlng = new google.maps.LatLng(-4.2639141, -55.998396);
+        }
+
 
         var options = {
             zoom: 12,
@@ -225,9 +230,9 @@ if (document.getElementById("container-usuario-form")) {
     readDefaultURL = function () {
         var valor = $('input[name=nSexo]:checked').val();
         if (valor === "Masculino") {
-            $("#viewImagem-1").attr('src', '/imagens/user_masculino.png');
+            $("#viewImagem-1").attr('src', '/assets/imagens/user_masculino.png');
         } else {
-            $("#viewImagem-1").attr('src', '/imagens/user_feminino.png');
+            $("#viewImagem-1").attr('src', '/assets/imagens/user_feminino.png');
 
         }
     };

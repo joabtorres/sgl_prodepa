@@ -24,7 +24,7 @@
                     <div class="row">
                         <div class="col-md-6"><img src="<?php echo BASE_URL; ?>/assets/imagens/logo_login.png" alt="Logotipo da PRODEPA" class="img-center img-responsive"></div>
                         <div class="col-md-6">
-                            <form method="POST">
+                            <form method="POST" action="<?php echo BASE_URL; ?>/home">
                                 <div class="form-group">
                                     <label for="iSerachEmail">E-mail:</label>
                                     <input type="email" id="iSerachEmail" name="nSerachEmail" class="form-control" autofocus>
@@ -61,7 +61,7 @@
                             </div>
                             <div class="col-md-7">
                                 <div id="tela_recupera_senha">
-                                    <form method="POST">
+                                    <form method="POST" >
                                         <div class="form-group"><label for="searchEmail">Endereço de email</label><input type="email" class="form-control" id="searchEmail"></div>
                                         <div class="form-group"><input type="submit" class="btn btn-success" value="Enviar email de verificação" name="nVerificar"></div>
                                     </form>
