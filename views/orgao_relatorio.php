@@ -125,7 +125,7 @@
                 <nav aria-label="Page navigation">
                     <ul class="pagination">
                         <li>
-                            <a href="<?php echo BASE_URL ?>/relatorio/orgaos/1<?php echo (isset($cod_cidade)) ? "/" . $cod_cidade : "" ?>" aria-label="Previous">
+                            <a href="<?php echo BASE_URL .'/relatorio/'.$action.'/1'?><?php echo (isset($cod_cidade)) ? "/" . $cod_cidade : "" ?>" aria-label="Previous">
                                 <span aria-hidden="true">&laquo;</span>
                             </a>
                         </li>
@@ -133,14 +133,14 @@
                         $cod_cidade = (isset($cod_cidade)) ? "/" . $cod_cidade : "";
                         for ($p = 0; $p < ceil($paginas); $p++) {
                             if ($pagina_atual == ($p + 1)) {
-                                echo "<li class='active'><a href='" . BASE_URL . "/relatorio/orgaos/" . ($p + 1) . $cod_cidade . "'>" . ($p + 1) . "</a></li>";
+                                echo "<li class='active'><a href='" . BASE_URL . "/relatorio/".$action."/" . ($p + 1) . $cod_cidade . "'>" . ($p + 1) . "</a></li>";
                             } else {
-                                echo "<li><a href='" . BASE_URL . "/relatorio/orgaos/" . ($p + 1) . $cod_cidade . "'>" . ($p + 1) . "</a></li>";
+                                echo "<li><a href='" . BASE_URL . "/relatorio/".$action."/" . ($p + 1) . $cod_cidade . "'>" . ($p + 1) . "</a></li>";
                             }
                         }
                         ?>
                         <li>
-                            <a href="<?php echo BASE_URL ?>/relatorio/orgaos/<?php echo ceil($paginas) . $cod_cidade ?>" aria-label="Next">
+                            <a href="<?php echo BASE_URL .'/relatorio/'.$action.'/'.ceil($paginas) . $cod_cidade ?>" aria-label="Next">
                                 <span aria-hidden="true">&raquo;</span>
                             </a>
                         </li>

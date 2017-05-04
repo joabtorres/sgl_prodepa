@@ -6,14 +6,14 @@
                 <ol class="breadcrumb">
                     <li><a  href="<?php echo BASE_URL ?>/home"><i class="glyphicon glyphicon-dashboard"></i> Inicial</a></li>
                     <li><a  href="<?php echo BASE_URL ?>/relatorio/cidades/1<?php echo isset($cidade) ? '/' . $cidade['cod'] : "" ?>"><i class="glyphicon glyphicon-th-list"></i>  <?php echo isset($cidade) ? $cidade['nome'] : "Cidades" ?></a></li>
-                    <?php
-                    if (isset($orgao)) {
-                        ?>
-                        <li><a  href="<?php echo BASE_URL ?>/relatorio/orgaos/1/<?php echo $cidade['cod'].'/'.$orgao['cod'] ?>"><i class="glyphicon glyphicon-th-list"></i>  <?php echo $orgao['nome'] ?></a></li>
+                    <?php if (isset($orgao)) { ?>
+                        <li><a  href="<?php echo BASE_URL ?>/relatorio/orgaos/1/<?php echo $cidade['cod'] . '/' . $orgao['cod'] ?>"><i class="glyphicon glyphicon-th-list"></i>  <?php echo $orgao['nome'] ?></a></li>
                     <?php } else if (isset($ap)) { ?>
-                        <li><a  href="<?php echo BASE_URL ?>/relatorio/aps/1/<?php echo $cidade['cod'].'/'.$ap['cod'] ?>"><i class="glyphicon glyphicon-th-list"></i>  <?php echo $ap['nome'] ?></a></li>
+                        <li><a  href="<?php echo BASE_URL ?>/relatorio/aps/1/<?php echo $cidade['cod'] . '/' . $ap['cod'] ?>"><i class="glyphicon glyphicon-th-list"></i>  <?php echo $ap['nome'] ?></a></li>
                     <?php } else if (isset($redemetro)) { ?>
-                        <li><a  href="<?php echo BASE_URL ?>/relatorio/orgaos/1/<?php echo $cidade['cod'] ?>"><i class="glyphicon glyphicon-th-list"></i> Rede Metro</a></li>
+                        <li><a  href="<?php echo BASE_URL ?>/relatorio/redemetro/1/<?php echo $redemetro['cod'] ?>"><i class="glyphicon glyphicon-th-list"></i> Rede Metro</a></li>
+                    <?php } else { ?>
+                        <li><a  href="<?php echo BASE_URL ?>/relatorio/unidades/1/<?php echo $cidade['cod'] ?>"><i class="glyphicon glyphicon-th-list"></i> Unidades</a></li>
                     <?php } ?>
                     <li class="active"><i class="glyphicon glyphicon-list-alt"></i>  <?php echo isset($unidade) ? $unidade['nome'] : ''; ?></li>
                 </ol>
@@ -96,7 +96,7 @@
                 <?php endif; ?>
                 <div class="col-md-12">
                     <p class="text-justify"><span class="title-destaque">Endereço:</span> 
-                        <?php echo $resultado_unidade['logradouro_endereco'] . ', ' . $resultado_unidade['numero_endereco'] . ', Bairro ' . $resultado_unidade['bairro_endereco'] . ', ' . $resultado_unidade['complemento_endereco'] . ' - ' . $resultado_unidade['cidade_area_atuacao'] ?>
+                        <?php echo $resultado_unidade['logradouro_endereco'] . ', ' . $resultado_unidade['numero_endereco'] . ', Bairro ' . $resultado_unidade['bairro_endereco'] . ', ' . $resultado_unidade['complemento_endereco'] . ' - ' . $resultado_unidade['cidade_area_atuacao'] . ' - PA' ?>
                     </p>
                 </div>
                 <div class="col-md-6">
@@ -123,16 +123,17 @@
                     </p>
                 </div>
                 <div class="col-md-6">
-                    <p class="text-justify"><span class="title-destaque">Localização no Google Maps:</span> </p>
-                    <div id="view-mapa-unidade"></div>
-                    <!-- CHAMANDO GOOGLE MAPS API -->
-                    <script src="http://maps.google.com/maps/api/js?key=AIzaSyCWbC3lfteLuL87PJLoU2yBKv4fyF_DGDQ&sensor=false"></script>
-                    <?php echo '
-                    <script type = "text/javascript">
-                    var latitude = '.$resultado_unidade["latitude_endereco"].';
-                    var longitude = '.$resultado_unidade["longitude_endereco"].';
-                    </script> '
+                    <?php if ($resultado_unidade["latitude_endereco"] != NULL && $resultado_unidade["longitude_endereco"] != NULL):?>
+                    
+                        <p class="text-justify"><span class="title-destaque">Localização no Google Maps:</span> </p>
+                        <div id="view-mapa-unidade"></div>
+                        <!-- CHAMANDO GOOGLE MAPS API -->
+                        <script src="http://maps.google.com/maps/api/js?key=AIzaSyCWbC3lfteLuL87PJLoU2yBKv4fyF_DGDQ&sensor=false"></script>
+                        <?php
+                        echo '<script type = "text/javascript">var latitude = ' . $resultado_unidade["latitude_endereco"] . '; var longitude = ' . $resultado_unidade["longitude_endereco"] . '; </script> ';
+                    endif;
                     ?>
+
                 </div>
                 <?php
             } else {

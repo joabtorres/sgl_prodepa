@@ -11,11 +11,18 @@
         <title> PRODEPA - SGL -Sistema de Gerenciamento de Link's </title>
         <!-- Bootstrap -->
         <link href="<?php echo BASE_URL ?>/assets/css/bootstrap.min.css" rel="stylesheet">
+        <!--Font-Awesome - icons personalizados-->
+        <link rel="stylesheet" href="<?php echo BASE_URL ?>/assets/css/font-awesome.min.css">
+        <!--Select2 - select personalizados;-->
+        <link rel="stylesheet" href="<?php echo BASE_URL ?>/assets/css/select2.min.css">
         <!-- SGL -->
         <link rel="stylesheet" href="<?php echo BASE_URL ?>/assets/css/estilo.css">
     </head>
 
-    <body>
+    <body onload="mostrarConteudo()">
+        <div id="tela_load">
+           
+        </div>
         <div id="tela_sistema">
 
             <!-- Navigation -->
@@ -41,19 +48,19 @@
                             </div>
                             <div class="input-group">
                                 <input type="text" name="nSerachCampo" class="form-control">
-                                <span class="input-group-addon" onclick="submit_form_navbar()"><span class="glyphicon glyphicon-search"></span></span>
+                                <span class="input-group-addon" onclick="submit_form_navbar()"><span class="fa fa-search"></span></span>
                             </div>
                         </form>
                     </li>
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-user"></i> Joab <b class="caret"></b></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> Joab <b class="caret"></b></a>
                         <ul class="dropdown-menu">
                             <li>
-                                <a href="<?php echo BASE_URL ?>/editar/usuario/1"><i class="glyphicon glyphicon-user"></i> Editar Perfil</a>
+                                <a href="<?php echo BASE_URL ?>/editar/usuario/1"><i class="fa fa-user"></i> Editar Perfil</a>
                             </li>
                             <li class="divider"></li>
                             <li>
-                                <a href="<?php echo BASE_URL ?>/usuario/sair"><i class="glyphicon glyphicon-log-out"></i> Sair</a>
+                                <a href="<?php echo BASE_URL ?>/usuario/sair"><i class="fa fa-sign-out"></i> Sair</a>
                             </li>
 
                         </ul>
@@ -74,64 +81,67 @@
                         <ul class="nav navbar-nav">
 
                             <li >
-                                <a href="<?php echo BASE_URL ?>"><i class="glyphicon glyphicon-dashboard"></i> Inicial</a>
+                                <a href="<?php echo BASE_URL ?>"><i class="fa fa-tachometer"></i> Inicial</a>
                             </li>
                             <li>
-                                <a href="javascript:;" data-toggle="collapse" data-target="#menu_cadastro"><i class="glyphicon glyphicon-plus-sign"></i> Cadastrar <i class="fa fa-fw fa-caret-down"></i></a>
+                                <a href="javascript:;" data-toggle="collapse" data-target="#menu_cadastro"><i class="glyphicon glyphicon-plus-sign"></i> Cadastrar <i class="fa fa-fw fa-caret-down pull-right"></i></a>
                                 <ul id="menu_cadastro" class="collapse">
                                     <li>
-                                        <a href="<?php echo BASE_URL ?>/cadastrar/cidade"><i class="glyphicon glyphicon-plus-sign"></i> Cidade</a>
+                                        <a href="<?php echo BASE_URL ?>/cadastrar/cidade"><i class="fa fa-plus-square"></i> Cidade</a>
                                     </li>
                                     <li>
-                                        <a href="<?php echo BASE_URL ?>/cadastrar/orgao"><i class="glyphicon glyphicon-plus-sign"></i> Orgão</a>
+                                        <a href="<?php echo BASE_URL ?>/cadastrar/ap"><i class="fa fa-plus-square"></i> AP</a>
                                     </li>
                                     <li>
-                                        <a href="<?php echo BASE_URL ?>/cadastrar/ap"><i class="glyphicon glyphicon-plus-sign"></i> AP</a>
+                                        <a href="<?php echo BASE_URL ?>/cadastrar/redemetro"><i class="fa fa-plus-square"></i> Rede Metro</a>
                                     </li>
                                     <li>
-                                        <a href="<?php echo BASE_URL ?>/cadastrar/unidade"><i class="glyphicon glyphicon-plus-sign"></i> Unidade</a>
+                                        <a href="<?php echo BASE_URL ?>/cadastrar/orgao"><i class="fa fa-plus-square"></i> Orgão</a>
+                                    </li>
+                                    <li>
+                                        <a href="<?php echo BASE_URL ?>/cadastrar/unidade"><i class="fa fa-plus-square"></i> Unidade</a>
                                     </li>
                                 </ul>
                             </li>
                             <li>
-                                <a href="javascript:;" data-toggle="collapse" data-target="#menu_relatorio"><i class="glyphicon glyphicon-th-list"></i> Relatórios <i class="fa fa-fw fa-caret-down"></i></a>
+                                <a href="javascript:;" data-toggle="collapse" data-target="#menu_relatorio"><i class="fa fa-share"></i> Relatórios <i class="fa fa-fw fa-caret-down pull-right"></i></a>
                                 <ul id="menu_relatorio" class="collapse">
                                     <li>
-                                        <a href="<?php echo BASE_URL ?>/relatorio/cidades"><i class="glyphicon glyphicon-th-list"></i> Cidades</a>
+                                        <a href="<?php echo BASE_URL ?>/relatorio/cidades"><i class="fa fa-th-list"></i> Cidades</a>
                                     </li>
                                     <li>
-                                        <a href="<?php echo BASE_URL ?>/relatorio/orgaos"><i class="glyphicon glyphicon-th-list"></i> Orgãos</a>
+                                        <a href="<?php echo BASE_URL ?>/relatorio/orgaos"><i class="fa fa-th-list"></i> Orgãos</a>
                                     </li>
                                     <li>
-                                        <a href="<?php echo BASE_URL ?>/relatorio/aps"><i class="glyphicon glyphicon-th-list"></i> AP's</a>
-                                    </li>
-                                    <!--<li>
-                                        <a href="<?php echo BASE_URL ?>"><i class="glyphicon glyphicon-th-list"></i> Rede Metro</a>
-                                    </li>-->
-                                    <li>
-                                        <a href="<?php echo BASE_URL ?>/relatorio/unidades"><i class="glyphicon glyphicon-th-list"></i> Unidades</a>
+                                        <a href="<?php echo BASE_URL ?>/relatorio/aps"><i class="fa fa-th-list"></i> AP's</a>
                                     </li>
                                     <li>
-                                        <a href="<?php echo BASE_URL ?>/relatorio/filtro"><i class="glyphicon glyphicon-th-list"></i> Consultas</a>
+                                        <a href="<?php echo BASE_URL ?>/relatorio/redemetro"><i class="fa fa-th-list"></i> Rede Metro</a>
+                                    </li>
+                                    <li>
+                                        <a href="<?php echo BASE_URL ?>/relatorio/unidades"><i class="fa fa-th-list"></i> Unidades</a>
+                                    </li>
+                                    <li>
+                                        <a href="<?php echo BASE_URL ?>/relatorio/filtro"><i class="fa fa-th-list"></i> Detalhado</a>
                                     </li>
                                 </ul>
                             </li>
                             <li>
-                                <a href="javascript:;" data-toggle="collapse" data-target="#menu_usuario"><i class="glyphicon glyphicon-user"></i> Usuários <i class="fa fa-fw fa-caret-down"></i></a>
+                                <a href="javascript:;" data-toggle="collapse" data-target="#menu_usuario"><i class="fa fa-users"></i> Usuários <i class="fa fa-fw fa-caret-down pull-right"></i></a>
                                 <ul id="menu_usuario" class="collapse">
                                     <li>
-                                        <a href="<?php echo BASE_URL ?>/cadastrar/usuario"><i class="glyphicon glyphicon-plus-sign"></i> Novo Usuário</a>
+                                        <a href="<?php echo BASE_URL ?>/cadastrar/usuario"><i class="fa fa-user-plus"></i> Novo Usuário</a>
                                     </li>
                                     <li>
-                                        <a href="<?php echo BASE_URL ?>/editar/usuario"><i class="glyphicon glyphicon-user"></i> Editar Perfil</a>
+                                        <a href="<?php echo BASE_URL ?>/editar/usuario"><i class="fa fa-user"></i> Editar Perfil</a>
                                     </li>
                                     <li>
-                                        <a href="<?php echo BASE_URL ?>/usuario/index"><i class="glyphicon glyphicon-th-list"></i> Lista Usuário</a>
+                                        <a href="<?php echo BASE_URL ?>/usuario/index"><i class="fa fa-users"></i> Lista Usuários</a>
                                     </li>
                                 </ul>
                             </li>
                             <li>
-                                <a href="<?php echo BASE_URL ?>/usuario/sair"><i class="glyphicon glyphicon-log-out"></i> Sair</a>
+                                <a href="<?php echo BASE_URL ?>/usuario/sair"><i class="fa fa-sign-out"></i> Sair</a>
                             </li>
                         </ul>
                     </nav>
@@ -150,6 +160,10 @@
         <!-- Inclui todos os plugins compilados (abaixo), ou inclua arquivos separadados se necessário -->
         <script src="<?php echo BASE_URL ?>/assets/js/jquery-3.1.1.min.js"></script>
         <script src="<?php echo BASE_URL ?>/assets/js/bootstrap.min.js"></script>
+        <!--Js do Select2-->
+        <script src="<?php echo BASE_URL ?>/assets/js/select2.min"></script>
+        <!--Maskedinput-->
+        <script src="<?php echo BASE_URL ?>/assets/js/jquery.maskedinput.min.js"></script>
         <script src="<?php echo BASE_URL ?>/assets/js/sgl.js"></script>
 
         <!--MODAL - ESTRUTURA BÁSICA-->

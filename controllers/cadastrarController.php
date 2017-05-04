@@ -31,7 +31,6 @@ class cadastrarController extends controller {
         $dados = array();
         $cidadeModel = new cidade();
         $dados['nucleos'] = $cidadeModel->read('SELECT * FROM sgl_cidade_nucleo', array());
-        print_r( $dados['nucleos']);
         if (isset($_POST['nSalvar']) && !empty($_POST['nSalvar'])) {
             //este array vai armazena os valores do formulário;
             $cidade = array();
@@ -41,7 +40,7 @@ class cadastrarController extends controller {
                 if ($_POST['ncadCategoria'] == 'Núcleo') {
                     $resultado = $cidadeModel->read("SELECT * FROM sgl_cidade_nucleo WHERE cidade_nucleo=:cidade", $cidade);
                     if ($cidadeModel->getNumRows()) {
-                        $dados['erro']['msg'] = "Não é possível cadastrar um núcleo duas vezes!";
+                        $dados['erro']['msg'] = '<i class="fa fa-info-circle" aria-hidden="true"></i> Não é possível cadastrar um núcleo duas vezes!';
                         $dados['erro']['class'] = 'alert-danger';
                     }
                     //insert
@@ -52,19 +51,19 @@ class cadastrarController extends controller {
                     //verifica se já está cadastrado
                     $resultado = $cidadeModel->read("SELECT * FROM sgl_cidade_area_atuacao WHERE cidade_area_atuacao=:cidade AND cod_nucleo=:nucleo", $cidade);
                     if ($cidadeModel->getNumRows()) {
-                        $dados['erro']['msg'] = "Não é possível cadastrar uma cidade duas vezes!";
+                        $dados['erro']['msg'] = '<i class="fa fa-info-circle" aria-hidden="true"></i> Não é possível cadastrar uma cidade duas vezes!';
                         $dados['erro']['class'] = 'alert-danger';
                     }
                     //insert
                     $sql_command = "INSERT INTO sgl_cidade_area_atuacao (cidade_area_atuacao, cod_nucleo) VALUES (:cidade, :nucleo)";
                 }
                 if (!isset($dados['erro']) && empty($dados['erro']) && $cidadeModel->create($sql_command, $cidade)) {
-                    $dados['erro']['msg'] = "Cadastro realizado com sucesso!";
+                    $dados['erro']['msg'] = '<i class="fa fa-check" aria-hidden="true"></i> Cadastro realizado com sucesso!';
                     $dados['erro']['class'] = 'alert-success';
                     $_POST = array();
                 }
             } else {
-                $dados['erro']['msg'] = "Informe o nome da cidade!";
+                $dados['erro']['msg'] = '<i class="fa fa-info-circle" aria-hidden="true"></i> Informe o nome da cidade!';
                 $dados['erro']['class'] = 'alert-warning';
             }
         }
@@ -88,16 +87,16 @@ class cadastrarController extends controller {
                 //Verifica se já está cadastrado
                 $resultado = $orgaoModel->read("SELECT * FROM sgl_orgao WHERE nome_orgao=:nome AND categoria_orgao=:categoria", $orgao);
                 if ($orgaoModel->getNumRows() && count($resultado) > 0) {
-                    $dados['erro']['msg'] = "Não é possível cadastrar um orgão duas vezes!";
+                    $dados['erro']['msg'] = '<i class="fa fa-info-circle" aria-hidden="true"></i> Não é possível cadastrar um orgão duas vezes!';
                     $dados['erro']['class'] = 'alert-danger';
                 }
                 if (!isset($dados['erro']) && empty($dados['erro']) && $orgaoModel->create("INSERT INTO sgl_orgao (nome_orgao, categoria_orgao) VALUES (:nome, :categoria);", $orgao)) {
-                    $dados['erro']['msg'] = "Cadastro realizado com sucesso!";
+                    $dados['erro']['msg'] = '<i class="fa fa-check" aria-hidden="true"></i> Cadastro realizado com sucesso!';
                     $dados['erro']['class'] = 'alert-success';
                     $_POST = array();
                 }
             } else {
-                $dados['erro']['msg'] = "Informe o nome do orgão!";
+                $dados['erro']['msg'] = '<i class="fa fa-info-circle" aria-hidden="true"></i> Informe o nome do orgão!';
                 $dados['erro']['class'] = 'alert-warning';
             }
         }
@@ -124,16 +123,52 @@ class cadastrarController extends controller {
                 $apModel = new ap();
                 $resultado = $apModel->read("SELECT * FROM sgl_ap WHERE nome_ap=:nome AND ip_ap=:ip AND cod_area_atuacao=:cidade", $ap);
                 if ($apModel->getNumRows() && count($resultado) > 0) {
-                    $dados['erro']['msg'] = "Não é possível cadastrar um ap duas vezes!";
+                    $dados['erro']['msg'] = '<i class="fa fa-info-circle" aria-hidden="true"></i> Não é possível cadastrar um ap duas vezes!';
                     $dados['erro']['class'] = 'alert-danger';
                 }
                 if (!isset($dados['erro']) && empty($dados['erro']) && $apModel->create("INSERT INTO sgl_ap (nome_ap, ip_ap,cod_area_atuacao) VALUES (:nome, :ip, :cidade);", $ap)) {
-                    $dados['erro']['msg'] = "Cadastro realizado com sucesso!";
+                    $dados['erro']['msg'] = '<i class="fa fa-check" aria-hidden="true"></i> Cadastro realizado com sucesso!';
                     $dados['erro']['class'] = 'alert-success';
                     $_POST = array();
                 }
             } else {
-                $dados['erro']['msg'] = "Preencha todos os campos.";
+                $dados['erro']['msg'] = '<i class="fa fa-info-circle" aria-hidden="true"></i> Preencha todos os campos.';
+                $dados['erro']['class'] = 'alert-warning';
+            }
+        }
+
+        $this->loadTemplate($view, $dados);
+    }
+
+    /**
+     * Está função pertence a uma action do controle MVC, ela é responśavel pelo controlle nas ações de cadastra um ap em determinada cidade e valida os campus preenchidos via formulário.
+     * @access public
+     * @author Joab Torres <joabtorres1508@gmail.com>
+     */
+    public function redemetro() {
+        $view = "redemetro_cadastrar";
+        $dados = array();
+        $cidadeModel = new cidade();
+        $dados['cidades'] = $cidadeModel->read("SELECT * FROM sgl_cidade_area_atuacao ORDER BY cidade_area_atuacao ASC;", array());
+
+        if (isset($_POST['nSalvar']) && !empty($_POST['nSalvar'])) {
+            if (!empty($_POST['ncadNome']) || !empty($_POST['ncadIP'])) {
+                //array que armazena os dados do formulário
+                $ap = array("nome" => addslashes(strtoupper($_POST['ncadNome'])), "ip" => addslashes($_POST['ncadIP']), "cidade" => addslashes($_POST['ncadCidade']));
+                //Verifica se já está cadastrado
+                $apModel = new ap();
+                $resultado = $apModel->read("SELECT * FROM sgl_ap WHERE nome_ap=:nome AND ip_ap=:ip AND cod_area_atuacao=:cidade", $ap);
+                if ($apModel->getNumRows() && count($resultado) > 0) {
+                    $dados['erro']['msg'] = '<i class="fa fa-info-circle" aria-hidden="true"></i> Não é possível cadastrar um ap duas vezes!';
+                    $dados['erro']['class'] = 'alert-danger';
+                }
+                if (!isset($dados['erro']) && empty($dados['erro']) && $apModel->create("INSERT INTO sgl_ap (nome_ap, ip_ap,cod_area_atuacao) VALUES (:nome, :ip, :cidade);", $ap)) {
+                    $dados['erro']['msg'] = '<i class="fa fa-check" aria-hidden="true"></i> Cadastro realizado com sucesso!';
+                    $dados['erro']['class'] = 'alert-success';
+                    $_POST = array();
+                }
+            } else {
+                $dados['erro']['msg'] = '<i class="fa fa-info-circle" aria-hidden="true"></i> Preencha todos os campos.';
                 $dados['erro']['class'] = 'alert-warning';
             }
         }
@@ -244,7 +279,7 @@ class cadastrarController extends controller {
             }
             //se todos os campos forem preenchidos
             if (isset($dados['unidade']) && !empty($dados['unidade'])) {
-                $dados['erro']['msg'] = "Preencha todos os campos obrigatórios (*).";
+                $dados['erro']['msg'] = '<i class="fa fa-info-circle" aria-hidden="true"></i> Preencha todos os campos obrigatórios (*).';
                 $dados['erro']['class'] = 'alert-danger';
             } else {
                 /*
@@ -297,7 +332,7 @@ class cadastrarController extends controller {
                             $unidadeModel->create("INSERT INTO sgl_unidade_contato (cod_unidade, nome_contato, email_contato, telefone1_contato, telefone2_contato) VALUES (:cod, :nome, :email, :telefone1, :telefone2)", $unidade['contato']);
                         }
                     }
-                    $dados['erro']['msg'] = "Cadastro realizado com sucesso!";
+                    $dados['erro']['msg'] = '<i class="fa fa-check" aria-hidden="true"></i> Cadastro realizado com sucesso!';
                     $dados['erro']['class'] = 'alert-success';
                     $_POST = array();
                 }
@@ -314,6 +349,69 @@ class cadastrarController extends controller {
     public function usuario() {
         $view = "usuario_cadastrar";
         $dados = array();
+        $cidadeModel = new cidade();
+        $dados['cidades_nucleo'] = $cidadeModel->read("SELECT * FROM sgl_cidade_nucleo ORDER BY cidade_nucleo ", array());
+
+        //Array que vai armazena os dados do usuário;
+        $usuario = array();
+        if (isset($_POST['nSalvar'])) {
+            //nome
+            if (!empty($_POST['nNome'])) {
+                $usuario['nome'] = addslashes($_POST['nNome']);
+            } else {
+                $dados['usuario_erro']['nome']['msg'] = 'Informe o nome';
+                $dados['usuario_erro']['nome']['class'] = 'has-error';
+            }
+            //sobrenome
+            if (!empty($_POST['nSobrenome'])) {
+                $usuario['sobrenome'] = addslashes($_POST['nSobrenome']);
+            } else {
+                $dados['usuario_erro']['sobrenome']['msg'] = 'Informe o sobrenome';
+                $dados['usuario_erro']['sobrenome']['class'] = 'has-error';
+            }
+            //sobrenome
+            if (!empty($_POST['nUsuario'])) {
+                $usuario['usuario'] = addslashes($_POST['nUsuario']);
+            } else {
+                $dados['usuario_erro']['usuario']['msg'] = 'Informe o usuário';
+                $dados['usuario_erro']['usuario']['class'] = 'has-error';
+            }
+            //email
+            if (!empty($_POST['nEmail'])) {
+                $usuario['email'] = addslashes($_POST['nEmail']);
+            } else {
+                $dados['usuario_erro']['email']['msg'] = 'Informe o e-mail';
+                $dados['usuario_erro']['email']['class'] = 'has-error';
+            }
+            //email
+            if (!empty($_POST['nSenha']) && !empty($_POST['nRepetirSenha'])) {
+                //senha
+                if ($_POST['nSenha'] == $_POST['nRepetirSenha']) {
+                    $usuario['senha'] = md5(sha1(addslashes($_POST['nSenha'])));
+                } else {
+                    $dados['usuario_erro']['senha']['msg'] = "Os campos 'Senha' e 'Repetir Senha' não estão iguais! ";
+                    $dados['usuario_erro']['senha']['class'] = 'has-error';
+                }
+                $usuario['senha'] = addslashes($_POST['nEmail']);
+            } else {
+                $dados['usuario_erro']['senha']['msg'] = "Os campos 'Senha' e 'Repetir Senha' devem ser preenchidos";
+                $dados['usuario_erro']['senha']['class'] = 'has-error';
+            }
+            
+            //cargo
+            if (!empty($_POST['nCargo'])) {
+                $usuario['cargo'] = addslashes($_POST['nCargo']);
+            } else {
+                $dados['usuario_erro']['cargo']['msg'] = 'Informe o cargo, senão não será exibido o cargo';
+                $dados['usuario_erro']['cargo']['class'] = 'has-warning';
+            }
+            
+            if (isset($dados['usuario_erro']) && !empty($dados['usuario_erro'])) {
+                $dados['erro']['msg'] = '<i class="fa fa-info-circle" aria-hidden="true"></i> Preencha todos os campos obrigatórios (*).';
+                $dados['erro']['class'] = 'alert-danger';
+            }
+        }
+        $dados['usuario'] = $usuario;
         $this->loadTemplate($view, $dados);
     }
 

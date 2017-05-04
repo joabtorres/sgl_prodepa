@@ -4,18 +4,12 @@
             <div class="col-sm-12 col-md-12 col-lg-12" id="pagina-header">
                 <h2>Inicial</h2>
                 <ol class="breadcrumb">
-                    <li class="active"><i class="glyphicon glyphicon-dashboard"></i> Inicial</li>
+                    <li class="active"><i class="fa fa-tachometer"></i> Inicial</li>
                 </ol>
             </div>
         </div>
         <!--FIM pagina-header-->
         <div class="row">
-            <div class="col-sm-12 col-md-12 col-lg-12">
-                <div class="alert alert-success alert-dismissible fade in" role="alert">
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
-                    <strong>Holy guacamole!</strong> Best check yo self, you're not looking too good.
-                </div>
-            </div>
             <div class="col-sm-12 col-md-12 col-lg-12">
                 <div class="jumbotron">
                     <h2>Olá, Joab.</h2>
@@ -35,12 +29,12 @@
                 <div class="panel panel-primary">
                     <div class="panel-heading">
                         <div class="row">
-                            <div class="col-xs-9">
+                            <div class="col-xs-8">
                                 <div class="text-uppercase font-bold">PRODEPA</div>
                                 <div>Website Institucional</div>
                             </div>
-                            <div class="col-xs-3">
-                                <img src="<?php echo BASE_URL?>/assets/imagens/panel_icon.png" class="img-right img-responsive" alt="PRODEPA - LOGOTIPO"/>
+                            <div class="col-xs-4">
+                                <img src="<?php echo BASE_URL ?>/assets/imagens/panel_icon.png" class="img-right img-responsive" alt="PRODEPA - LOGOTIPO"/>
                             </div>
                         </div>
                     </div>
@@ -54,12 +48,12 @@
                 <div class="panel panel-primary">
                     <div class="panel-heading">
                         <div class="row">
-                            <div class="col-xs-9">
+                            <div class="col-xs-8">
                                 <div class="text-uppercase font-bold">ZIMBRA</div>
                                 <div>E-mail Corporativo</div>
                             </div>
-                            <div class="col-xs-3">
-                                <img src="<?php echo BASE_URL?>/assets/imagens/panel_icon.png" class="img-right img-responsive" alt="PRODEPA - LOGOTIPO"/>
+                            <div class="col-xs-4">
+                                <i class="fa fa-envelope-o fa-4x pull-right"></i>
                             </div>
                         </div>
                     </div>
@@ -72,12 +66,12 @@
                 <div class="panel panel-primary">
                     <div class="panel-heading">
                         <div class="row">
-                            <div class="col-xs-9">
+                            <div class="col-xs-8">
                                 <div class="text-uppercase font-bold">TDESK</div>
                                 <div>Monitor de Suporte</div>
                             </div>
-                            <div class="col-xs-3">
-                                <img src="<?php echo BASE_URL?>/assets/imagens/panel_icon.png" class="img-right img-responsive" alt="PRODEPA - LOGOTIPO"/>
+                            <div class="col-xs-4">
+                                <i class="fa fa-file-text-o fa-4x pull-right"></i>                               
                             </div>
                         </div>
                     </div>
@@ -90,12 +84,12 @@
                 <div class="panel panel-primary">
                     <div class="panel-heading">
                         <div class="row">
-                            <div class="col-xs-9">
+                            <div class="col-xs-8">
                                 <div class="text-uppercase font-bold">ZABBIX</div>
                                 <div>Monitoramento de redes</div>
                             </div>
-                            <div class="col-xs-3">
-                                <img src="<?php echo BASE_URL?>/assets/imagens/panel_icon.png" class="img-right img-responsive" alt="PRODEPA - LOGOTIPO"/>
+                            <div class="col-xs-4">
+                                <i class="fa fa-area-chart fa-4x pull-right" ></i>
                             </div>
                         </div>
                     </div>
@@ -104,39 +98,22 @@
                     </div>
                 </div>
             </div>
+
             <div class="col-sm-6 col-md-4 col-lg-4">
                 <div class="panel panel-primary">
                     <div class="panel-heading">
                         <div class="row">
-                            <div class="col-xs-9">
-                                <div class="text-uppercase font-bold">OCOMON</div>
-                                <div>Monitor de Ocorrências</div>
-                            </div>
-                            <div class="col-xs-3">
-                                <img src="<?php echo BASE_URL?>/assets/imagens/panel_icon.png" class="img-right img-responsive" alt="PRODEPA - LOGOTIPO"/>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="panel-body">
-                        <a href="http://ocomon.prodepa.gov.br/" target="_blank">Carregar Página<span>&raquo;</span></a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-6 col-md-4 col-lg-4">
-                <div class="panel panel-primary">
-                    <div class="panel-heading">
-                        <div class="row">
-                            <div class="col-xs-9">
+                            <div class="col-xs-8">
                                 <div class="text-uppercase font-bold">Relatórios</div>
                                 <div>Gerenciamento de Link's</div>
                             </div>
-                            <div class="col-xs-3">
-                                <img src="<?php echo BASE_URL?>/assets/imagens/panel_icon.png" class="img-right img-responsive" alt="PRODEPA - LOGOTIPO"/>
+                            <div class="col-xs-4">
+                                <i class="fa fa-book fa-4x pull-right"></i>
                             </div>
                         </div>
                     </div>
                     <div class="panel-body">
-                        <a href="relatorios_consulta.html">Carregar Página<span>&raquo;</span></a>
+                        <a href="<?php echo BASE_URL ?>/relatorio/filtro">Carregar Página<span>&raquo;</span></a>
                     </div>
                 </div>
             </div>

@@ -4,8 +4,8 @@
             <div class="col-sm-12 col-md-12 col-lg-12" id="pagina-header">
                 <h2>Cadastrar Unidade</h2>
                 <ol class="breadcrumb">
-                    <li><a href="<?php echo BASE_URL ?>/home"><i class="glyphicon glyphicon-dashboard"></i> Inicial</a></li>
-                    <li class="active"><i class="glyphicon glyphicon-plus-sign"></i> Cadastrar Unidade</li>
+                    <li><a  href="<?php echo BASE_URL ?>/home"><i class="fa fa-tachometer"></i> Inicial</a></li>
+                    <li class="active"><i class="fa fa-plus-square"></i> Cadastrar Unidade</li>
                 </ol>
             </div>
         </div>
@@ -14,7 +14,7 @@
             <div class="col-sm-12 col-md-12 col-lg-12">
                 <div class="alert <?php echo (isset($erro['class'])) ? $erro['class'] : 'alert-warning'; ?> " role="alert" id="alert-msg">
                     <button class="close" data-hide="alert">&times;</button>
-                    <div id="resposta"><?php echo (isset($erro['msg'])) ? $erro['msg'] : 'Não é possível cadastrar uma unidade já cadastrada.'; ?></div>
+                    <div id="resposta"><?php echo (isset($erro['msg'])) ? $erro['msg'] : '<i class="fa fa-info-circle" aria-hidden="true"></i> Não é possível cadastrar uma unidade já cadastrada.'; ?></div>
                 </div>
             </div>
             <div class="col-sm-12 col-md-12 col-lg-12">
@@ -159,8 +159,8 @@
                     <section class="panel panel-primary">
                         <header class="panel-heading"><p class="panel-title">Contato</p></header>
                         <article class="panel-body">
-                            <span class="btn btn-info" onclick="add_contato()">Novo</span>
-                            <span class="btn btn-warning" onclick="remover_contato()">Excluir</span>
+                            <span class="btn btn-info" onclick="add_contato()"><i class="fa fa-user-plus" aria-hidden="true"></i> Novo</span>
+                            <span class="btn btn-warning" onclick="remover_contato()"><i class="fa fa-user-times" aria-hidden="true"></i> Excluir</span>
                             <input type="hidden" id="iQtdContato" name="nQtdContato" value="1"/>
                             <div id="iCadContato">
                                 <div class="row container_cad_contato">
@@ -183,12 +183,12 @@
                                     </div>
                                 </div>
                             </div> 
-                            
+
                         </article>
                     </section> <!-- FIM PANEL CONTATO -->
                     <div class="form-group">
-                        <button type="submit" class="btn btn-success" value="Salvar" name="nSalvar">Salvar</button>
-                        <a href="<?php echo BASE_URL ?>/home" class="btn btn-danger">Cancelar</a>
+                        <button type="submit" class="btn btn-success" name="nSalvar" value="Salvar"><i class="fa fa-check-circle-o" aria-hidden="true"></i> Salvar</button>
+                        <a href="<?php echo BASE_URL ?>/home" class="btn btn-danger"><i class="fa fa-times" aria-hidden="true"></i> Cancelar</a>
                     </div>
                 </form>
             </div>

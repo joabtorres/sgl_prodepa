@@ -2,10 +2,10 @@
     <div class="container-fluid">
         <div class="row" >
             <div class="col-sm-12 col-md-12 col-lg-12" id="pagina-header">
-                <h2>Busca Detalhada</h2>
+                <h2>Relatório Detalhado</h2>
                 <ol class="breadcrumb">
                     <li><a  href="index.html"><i class="glyphicon glyphicon-dashboard"></i> Inicial</a></li>
-                    <li class="active"><i class="glyphicon glyphicon-th-list"></i> Busca Detalhada</li>
+                    <li class="active"><i class="glyphicon glyphicon-th-list"></i> Relatório Detalhado</li>
                 </ol>
             </div>
         </div>
@@ -13,9 +13,9 @@
         <div class="row">
 
             <div class="col-sm-12 col-md-12 col-lg-12">
-                <div class="panel panel-primary">
+                <div class="panel panel-success">
                     <div class="panel-heading">
-                        <p class="panel-title">Busca Detalhada</p>
+                        <p class="panel-title">Relatório Detalhado</p>
                     </div>
                     <div class="panel-body">
                         <form method="POST" autocomplete="off">

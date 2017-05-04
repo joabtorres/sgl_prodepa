@@ -1,12 +1,34 @@
 var BASE_URL = 'http://sgl.prodepa.pc';
-
-/* fundo_tela_login - Moda background da tag body se existi container tela_login*/
-function fundo_tela_login() {
-    if (document.getElementById('tela_login')) {
-        $('body').css('background-color', '#EBEFF2');
+/**
+ * 
+ * @author Joab Torres Alencar
+ * @description Só carrega o conteudo da página após seu total carregamento
+ */
+function mostrarConteudo() {
+    var elemento = document.getElementById("tela_load");
+    elemento.style.display = "none";
+    var elemento = document.getElementById("tela_sistema");
+    if (elemento) {
+        elemento.style.display = "block";
+    }
+    var elemento = document.getElementById("tela_login");
+    if (elemento) {
+        elemento.style.display = "block";
     }
 }
 
+/**
+ * 
+ * @author Joab Torres Alencar
+ * @description Executa ações após o carreamento da página
+ */
+$(document).ready(function () {
+    //ativa estilo e js do plugin select2
+    $('select').select2({
+        placeholder: "Selecionar campo",
+        allowClear: true
+    });
+});
 /*
  * @author Joab Torres Alencar
  * @description Está função submite o forumlário de buscar rápida que está no menu principal
@@ -37,9 +59,11 @@ if (document.getElementById("form-cidade")) {
 }
 
 /**
- * PÁGINA UNIDADE DETALHADA- MAPA
+ * @author Joab Torres Alencar
+ * Pagina: Unidade Detalhada
  */
 
+//mapa
 if (document.getElementById("view-mapa-unidade")) {
     var map;
     function initialize() {
@@ -109,6 +133,7 @@ function add_contato() {
         containerContato.innerHTML = containerContato.innerHTML + '<div class="row container_cad_contato" id="contato_' + qtd + '"><hr/><div class="col-md-6 form-group"> <label for="iNome' + qtd + '">Nome:</label> <input type="text" name="nNome' + qtd + '" id="iNome' + qtd + '" class="form-control" placeholder="Exemplo: Joab T. Alencar"> </div><div class="col-md-6 form-group"> <label for="iEmail' + qtd + '">E-mail:</label> <input type="email" name="nEmail' + qtd + '" id="iEmail' + qtd + '" class="form-control" placeholder="Exemplo: usuario@live.com" > </div><div class="col-md-6 form-group"> <label for="iTelefone1_' + qtd + '">Telefone 1:</label> <input type="text" name="nTelefone1_' + qtd + '" id="iTelefone1_' + qtd + '" class="form-control" placeholder="Exemplo: (93) 3518-0011"> </div><div class="col-md-6 form-group"> <label for="iTelefone2_' + qtd + '">Telefone 2:</label> <input type="text" name="nTelefone2_' + qtd + '" id="iTelefone2_' + qtd + '" class="form-control" placeholder="Exemplo: (093) 99222-3333" > </div></div>';
     }
 }
+
 function remover_contato() {
     var elemento = document.getElementById("iQtdContato");
     var qtd = parseInt(elemento.value);
@@ -117,6 +142,7 @@ function remover_contato() {
         elemento.value = qtd - 1;
     }
 }
+
 $(document).ready(function () {
 
     $("#iConexao").change(function () {

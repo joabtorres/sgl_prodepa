@@ -2,10 +2,10 @@
     <div class="container-fluid">
         <div class="row" >
             <div class="col-sm-12 col-md-12 col-lg-12" id="pagina-header">
-                <h2>Cadastrar AP</h2>
+                <h2>Cadastrar Rede Metro</h2>
                 <ol class="breadcrumb">
                     <li><a  href="<?php echo BASE_URL ?>/home"><i class="fa fa-tachometer"></i> Inicial</a></li>
-                    <li class="active"><i class="fa fa-plus-square"></i> Cadastrar AP</li>
+                    <li class="active"><i class="fa fa-plus-square"></i> Cadastrar Rede Metro</li>
                 </ol>
             </div>
         </div>
@@ -21,23 +21,19 @@
                 <form method="POST" autocomplete="off">
                     <div class="panel panel-primary">
                         <div class="panel-heading">
-                            <p class="panel-title">AP</p>
+                            <p class="panel-title">Rede Metro</p>
                         </div>
                         <div class="panel-body">
                             <div class="row">
-                                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                <div class="form-group col-sm-6 col-md-4 col-lg-4">
                                     <label for="icadNome">Nome: </label>
-                                    <input type="text" name="ncadNome" id="icadNome" class="form-control" placeholder="Exemplo: AP-01"/>
+                                    <input type="text" name="ncadNome" id="icadNome" class="form-control" placeholder="Exemplo: Rede Metro Itaituba"/>
                                 </div>
-                                <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                    <label for="icadIP">IP: </label>
-                                    <input type="text" name="ncadIP" id="icadIP" class="form-control" placeholder="Exemplo: 10.101.45.14"/>
+                                <div class="form-group col-sm-6 col-md-4 col-lg-4">
+                                    <label for="icadIP">Estensão: </label>
+                                    <input type="text" name="ncadEstensao" id="icadIP" class="form-control" placeholder="Exemplo: 5.4 Km"/>
                                 </div>
-                                <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                    <label for="icadIP">Banda Suportada: </label>
-                                    <input type="text" name="ncadBanda" id="icadIP" class="form-control" placeholder="Exemplo: 10 Mbps"/>
-                                </div>
-                                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                <div class="form-group col-sm-6 col-md-4 col-lg-4">
                                     <label for="icadCidade">Cidade: </label>
                                     <select name="ncadCidade" id="icadCidade" class=" form-control">
                                         <?php

@@ -26,12 +26,14 @@
                                 <tr>
                                     <th>Orgão</th>
                                     <th>AP</th>
+                                    <th>Rede Metro</th>
                                     <th>Unidade</th>
                                 </tr>
                                 <tbody>
                                     <tr>
                                         <td><a href="<?php echo BASE_URL . '/relatorio/orgaos/1/' . $resultado['cod_area_atuacao'] ?>">Consultar Orgãos</a></td>
                                         <td><a href="<?php echo BASE_URL . '/relatorio/aps/1/' . $resultado['cod_area_atuacao'] ?>">Consultar Ap's</a></td>
+                                        <td><a href="<?php echo BASE_URL . '/relatorio/redemetro/1/' . $resultado['cod_area_atuacao'] ?>">Consultar Rede Metro</a></td>
                                         <td><a href="<?php echo BASE_URL . '/relatorio/unidades/1/' . $resultado['cod_area_atuacao'] ?>">Consultar Unidades</a></td>
                                     </tr>
                                 </tbody>
