@@ -30,12 +30,13 @@
                                     <input type="text" name="ncadOrgao" id="icadOrgao" class="form-control" placeholder="Exemplo:  ADEPARÁ - Agência de Defesa Agropecuária do Estado do Pará "/>
                                 </div>
                                 <div class="form-group col-sm-12 col-md-4 col-lg-4">
-                                    <label for="icadCategoria">Categoria: </label>
+                                    <label for="icadCategoria">Esfera: </label>
                                     <select name="ncadCategoria" id="icadCategoria" class=" form-control">
-                                        <option value="Municipal" >Municipal</option>
                                         <option value="Estadual">Estadual</option>
                                         <option value="Federal">Federal</option>
+                                        <option value="Municipal" >Municipal</option>
                                         <option value="Privado">Privado</option>
+                                        <option value="Terceiro Setor">Terceiro Setor</option>
                                     </select>
                                 </div>
                             </div>
