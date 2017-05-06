@@ -152,17 +152,17 @@ class cadastrarController extends controller {
         $dados['cidades'] = $cidadeModel->read("SELECT * FROM sgl_cidade_area_atuacao ORDER BY cidade_area_atuacao ASC;", array());
 
         if (isset($_POST['nSalvar']) && !empty($_POST['nSalvar'])) {
-            if (!empty($_POST['ncadNome']) || !empty($_POST['ncadIP'])) {
+            if (!empty($_POST['ncadNome']) || !empty($_POST['ncadEstensao'])) {
                 //array que armazena os dados do formulário
-                $ap = array("nome" => addslashes(strtoupper($_POST['ncadNome'])), "ip" => addslashes($_POST['ncadIP']), "cidade" => addslashes($_POST['ncadCidade']));
+                $redemetro = array("nome" => addslashes(strtoupper($_POST['ncadNome'])), "estensao" => addslashes($_POST['ncadEstensao']), "cidade" => addslashes($_POST['ncadCidade']));
                 //Verifica se já está cadastrado
-                $apModel = new ap();
-                $resultado = $apModel->read("SELECT * FROM sgl_ap WHERE nome_ap=:nome AND ip_ap=:ip AND cod_area_atuacao=:cidade", $ap);
-                if ($apModel->getNumRows() && count($resultado) > 0) {
-                    $dados['erro']['msg'] = '<i class="fa fa-info-circle" aria-hidden="true"></i> Não é possível cadastrar um ap duas vezes!';
+                $redeModel = new redemetro();
+                $resultado = $redeModel->read("SELECT * FROM sgl_redemetro WHERE nome_redemetro=:nome AND nome_redemetro=:estensao AND cod_area_atuacao=:cidade", $redemetro);
+                if ($redeModel->getNumRows() && count($resultado) > 0) {
+                    $dados['erro']['msg'] = '<i class="fa fa-info-circle" aria-hidden="true"></i> Não é possível cadastrar uma rede metro duas vezes!';
                     $dados['erro']['class'] = 'alert-danger';
                 }
-                if (!isset($dados['erro']) && empty($dados['erro']) && $apModel->create("INSERT INTO sgl_ap (nome_ap, ip_ap,cod_area_atuacao) VALUES (:nome, :ip, :cidade);", $ap)) {
+                if (!isset($dados['erro']) && empty($dados['erro']) && $redeModel->create("INSERT INTO sgl_redemetro (nome_redemetro, estensao_redemetro,cod_area_atuacao) VALUES (:nome, :estensao, :cidade);", $redemetro)) {
                     $dados['erro']['msg'] = '<i class="fa fa-check" aria-hidden="true"></i> Cadastro realizado com sucesso!';
                     $dados['erro']['class'] = 'alert-success';
                     $_POST = array();
