@@ -45,7 +45,7 @@
                                 </div>
                                 <div class="form-group col-sm-6 col-md-4 col-lg-4">
                                     <label for="icadCCode">Color Code: </label>
-                                    <input type="text" name="ncadCCode" id="icadCCode" class="form-control" placeholder="Exemplo: 10.101.45.14"/>
+                                    <input type="text" name="ncadCCode" id="icadCCode" class="form-control" placeholder="Exemplo: 11"/>
                                 </div> 
                                 <div class="form-group col-sm-6 col-md-4 col-lg-4">
                                     <label for="icadIP">IP: </label>

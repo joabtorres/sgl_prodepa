@@ -116,17 +116,17 @@ class cadastrarController extends controller {
         $dados['cidades'] = $cidadeModel->read("SELECT * FROM sgl_cidade_area_atuacao ORDER BY cidade_area_atuacao ASC;", array());
 
         if (isset($_POST['nSalvar']) && !empty($_POST['nSalvar'])) {
-            if (!empty($_POST['ncadNome']) || !empty($_POST['ncadIP'])) {
+            if (!empty($_POST['ncadNome']) || !empty($_POST['ncadBanda']) || !empty($_POST['ncadCCode']) || !empty($_POST['ncadIP'])) {
                 //array que armazena os dados do formulário
-                $ap = array("nome" => addslashes(strtoupper($_POST['ncadNome'])), "ip" => addslashes($_POST['ncadIP']), "cidade" => addslashes($_POST['ncadCidade']));
+                $ap = array("cidade" => addslashes($_POST['ncadCidade']), "nome" => addslashes(strtoupper($_POST['ncadNome'])), "banda" => addslashes($_POST['ncadBanda']), "color_code" => addslashes($_POST['ncadCCode']), "ip" => addslashes($_POST['ncadIP']));
                 //Verifica se já está cadastrado
                 $apModel = new ap();
-                $resultado = $apModel->read("SELECT * FROM sgl_ap WHERE nome_ap=:nome AND ip_ap=:ip AND cod_area_atuacao=:cidade", $ap);
+                $resultado = $apModel->read("SELECT * FROM sgl_ap WHERE nome_ap=:nome AND ip_ap=:ip AND cod_area_atuacao=:cidade AND color_code_ap=:color_code AND banda_ap=:banda", $ap);
                 if ($apModel->getNumRows() && count($resultado) > 0) {
                     $dados['erro']['msg'] = '<i class="fa fa-info-circle" aria-hidden="true"></i> Não é possível cadastrar um ap duas vezes!';
                     $dados['erro']['class'] = 'alert-danger';
                 }
-                if (!isset($dados['erro']) && empty($dados['erro']) && $apModel->create("INSERT INTO sgl_ap (nome_ap, ip_ap,cod_area_atuacao) VALUES (:nome, :ip, :cidade);", $ap)) {
+                if (!isset($dados['erro']) && empty($dados['erro']) && $apModel->create("INSERT INTO sgl_ap (cod_area_atuacao,nome_ap,banda_ap,color_code_ap,ip_ap) VALUES (:cidade, :nome, :banda, :color_code, :ip);", $ap)) {
                     $dados['erro']['msg'] = '<i class="fa fa-check" aria-hidden="true"></i> Cadastro realizado com sucesso!';
                     $dados['erro']['class'] = 'alert-success';
                     $_POST = array();
@@ -141,7 +141,7 @@ class cadastrarController extends controller {
     }
 
     /**
-     * Está função pertence a uma action do controle MVC, ela é responśavel pelo controlle nas ações de cadastra um ap em determinada cidade e valida os campus preenchidos via formulário.
+     * Está função pertence a uma action do controle MVC, ela é responśavel pelo controlle nas ações de cadastra uma rede metro em determinada cidade e valida os campus preenchidos via formulário.
      * @access public
      * @author Joab Torres <joabtorres1508@gmail.com>
      */
@@ -397,7 +397,7 @@ class cadastrarController extends controller {
                 $dados['usuario_erro']['senha']['msg'] = "Os campos 'Senha' e 'Repetir Senha' devem ser preenchidos";
                 $dados['usuario_erro']['senha']['class'] = 'has-error';
             }
-            
+
             //cargo
             if (!empty($_POST['nCargo'])) {
                 $usuario['cargo'] = addslashes($_POST['nCargo']);
@@ -405,7 +405,7 @@ class cadastrarController extends controller {
                 $dados['usuario_erro']['cargo']['msg'] = 'Informe o cargo, senão não será exibido o cargo';
                 $dados['usuario_erro']['cargo']['class'] = 'has-warning';
             }
-            
+
             if (isset($dados['usuario_erro']) && !empty($dados['usuario_erro'])) {
                 $dados['erro']['msg'] = '<i class="fa fa-info-circle" aria-hidden="true"></i> Preencha todos os campos obrigatórios (*).';
                 $dados['erro']['class'] = 'alert-danger';
@@ -413,6 +413,16 @@ class cadastrarController extends controller {
         }
         $dados['usuario'] = $usuario;
         $this->loadTemplate($view, $dados);
+    }
+
+    /**
+     * Está função pertence a uma action do controle MVC, ela é responśavel pelo controlle nas ações de cadastra históricos de unidade e valida os campus preenchidos via formulário.
+     * @access public
+     * @param int $cod_unidade - código da unidade registrada no banco
+     * @author Joab Torres <joabtorres1508@gmail.com>
+     */
+    public function historico($cod_unidade) {
+        
     }
 
 }

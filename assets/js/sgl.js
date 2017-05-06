@@ -108,7 +108,6 @@ if (document.getElementById('form-unidade')) {
      */
 
     function selectCidade() {
-
         var valor = $("#iCidade").val();
         $.getJSON(BASE_URL + '/assets/json/ap.json', function (ap) {
             var resultado = '<option value=""></option>';

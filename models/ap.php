@@ -121,8 +121,8 @@ class ap extends model {
         }
 
         $cidadeModel = new cidade();
-        $cidades = $cidadeModel->read("SELECT DISTINCT(sgl_cidade_area_atuacao.cidade_area_atuacao), sgl_cidade_area_atuacao.cod_area_atuacao, sgl_cidade_area_atuacao.cod_nucleo FROM sgl_cidade_area_atuacao, sgl_ap WHERE sgl_cidade_area_atuacao.cod_area_atuacao=sgl_ap.cod_area_atuacao GROUP BY sgl_cidade_area_atuacao.cod_area_atuacao ORDER BY sgl_cidade_area_atuacao.cod_area_atuacao ASC;", array());
-        $aps = $this->read("SELECT * FROM sgl_ap ORDER BY nome_ap ASC", array());
+        $cidades = $cidadeModel->read("SELECT * FROM sgl_cidade_area_atuacao ORDER BY sgl_cidade_area_atuacao.cidade_area_atuacao ASC;", array());
+        $aps = $this->read("SELECT DISTINCT(c.cidade_area_atuacao), ap.* FROM sgl_cidade_area_atuacao AS c INNER JOIN sgl_ap AS ap ON c.cod_area_atuacao=ap.cod_area_atuacao ORDER BY c.cidade_area_atuacao ASC, ap.nome_ap ASC;", array());
 
         foreach ($cidades as $cidade) {
             foreach ($aps as $ap) {

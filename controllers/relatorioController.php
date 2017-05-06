@@ -241,7 +241,15 @@ class relatorioController extends controller {
         $this->loadTemplate($view, $dados);
     }
 
-    public function redemetro() {
+    /**
+     * Está função pertence a uma action do controle MVC, mostra as redemetro registradas nas cidades e seus respectivos links cadastrados.
+     * @param int $page - paginação
+     * @param int $cod_cidade - codigo cidade area de atuação
+     * @param int $cod_redemetro - código da redemetro
+     * @access public
+     * @author Joab Torres <joabtorres1508@gmail.com>
+     */
+    public function redemetro($page = 1, $cod_cidade = 0, $cod_ap = 0) {
         $view = "redemetro_relatorio";
         $dados = array();
         //models
