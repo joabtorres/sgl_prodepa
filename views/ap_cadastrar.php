@@ -25,19 +25,7 @@
                         </div>
                         <div class="panel-body">
                             <div class="row">
-                                <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                    <label for="icadNome">Nome: </label>
-                                    <input type="text" name="ncadNome" id="icadNome" class="form-control" placeholder="Exemplo: AP-01"/>
-                                </div>
-                                <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                    <label for="icadIP">IP: </label>
-                                    <input type="text" name="ncadIP" id="icadIP" class="form-control" placeholder="Exemplo: 10.101.45.14"/>
-                                </div>
-                                <div class="form-group col-sm-6 col-md-3 col-lg-3">
-                                    <label for="icadIP">Banda Suportada: </label>
-                                    <input type="text" name="ncadBanda" id="icadIP" class="form-control" placeholder="Exemplo: 10 Mbps"/>
-                                </div>
-                                <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                                <div class="form-group col-sm-6 col-md-4 col-lg-4">
                                     <label for="icadCidade">Cidade: </label>
                                     <select name="ncadCidade" id="icadCidade" class=" form-control">
                                         <?php
@@ -47,6 +35,23 @@
                                         ?>
                                     </select>
                                 </div>
+                                <div class="form-group col-sm-6 col-md-8 col-lg-8">
+                                    <label for="icadNome">Nome: </label>
+                                    <input type="text" name="ncadNome" id="icadNome" class="form-control" placeholder="Exemplo: AP-01"/>
+                                </div>
+                                <div class="form-group col-sm-6 col-md-4 col-lg-4">
+                                    <label for="icadBanda">Banda: </label>
+                                    <input type="text" name="ncadBanda" id="icadBanda" class="form-control" placeholder="Exemplo: 10 Mbps"/>
+                                </div>
+                                <div class="form-group col-sm-6 col-md-4 col-lg-4">
+                                    <label for="icadCCode">Color Code: </label>
+                                    <input type="text" name="ncadCCode" id="icadCCode" class="form-control" placeholder="Exemplo: 10.101.45.14"/>
+                                </div> 
+                                <div class="form-group col-sm-6 col-md-4 col-lg-4">
+                                    <label for="icadIP">IP: </label>
+                                    <input type="text" name="ncadIP" id="icadIP" class="form-control" placeholder="Exemplo: 10.101.45.14"/>
+                                </div>                                
+
                             </div>
                         </div>
                     </div>

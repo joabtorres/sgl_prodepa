@@ -18,21 +18,13 @@
                 </div>
             </div>
             <div class="col-sm-12 col-md-12 col-lg-12">
-                <form method="POST" autocomplete="off">
+                <form method="POST" autocomplete="off" id="form-unidade">
                     <div class="panel panel-primary">
                         <div class="panel-heading">
                             <p class="panel-title">Rede Metro</p>
                         </div>
                         <div class="panel-body">
                             <div class="row">
-                                <div class="form-group col-sm-6 col-md-4 col-lg-4">
-                                    <label for="icadNome">Nome: </label>
-                                    <input type="text" name="ncadNome" id="icadNome" class="form-control" placeholder="Exemplo: Rede Metro Itaituba"/>
-                                </div>
-                                <div class="form-group col-sm-6 col-md-4 col-lg-4">
-                                    <label for="icadIP">Estensão: </label>
-                                    <input type="text" name="ncadEstensao" id="icadIP" class="form-control" placeholder="Exemplo: 5.4 Km"/>
-                                </div>
                                 <div class="form-group col-sm-6 col-md-4 col-lg-4">
                                     <label for="icadCidade">Cidade: </label>
                                     <select name="ncadCidade" id="icadCidade" class=" form-control">
@@ -42,6 +34,14 @@
                                         }
                                         ?>
                                     </select>
+                                </div>
+                                <div class="form-group col-sm-6 col-md-4 col-lg-4">
+                                    <label for="icadNome">Nome: </label>
+                                    <input type="text" name="ncadNome" id="icadNome" class="form-control" placeholder="Exemplo: Rede Metro Itaituba"/>
+                                </div>
+                                <div class="form-group col-sm-6 col-md-4 col-lg-4">
+                                    <label for="icadEstensao">Estensão: </label>
+                                    <input type="text" name="ncadEstensao" id="icadEstensao" class="form-control" placeholder="Exemplo: 5.4 Km"/>
                                 </div>
                             </div>
                         </div>

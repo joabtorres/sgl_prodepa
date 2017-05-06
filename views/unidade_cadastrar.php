@@ -18,7 +18,7 @@
                 </div>
             </div>
             <div class="col-sm-12 col-md-12 col-lg-12">
-                <form method="POST" autocomplete="off">
+                <form method="POST" autocomplete="off" id="form-unidade">
                     <section class="panel panel-primary">
                         <header class="panel-heading">
                             <p class="panel-title"> Unidade</p>
@@ -61,9 +61,41 @@
                                     <label for="iConexao" class="control-label">Conexão:* <?php echo (isset($unidade['conexao']['msg'])) ? '<small><span class="glyphicon glyphicon-remove"></span> ' . $unidade['conexao']['msg'] . ' </small>' : ''; ?></label>
 
                                     <select name="nConexao" id="iConexao" class="form-control">
+                                        <option value=""></option>
                                         <option value="Rádio">Rádio</option>
                                         <option value="Fibra">Fibra</option>
                                     </select>
+                                </div>
+                                <div class="col-md-4 form-group" id="list_ap">
+                                    <label for="iAP">AP:*</label>
+                                    <script>var selectAp = <?php echo (!empty($_POST['nAP'])) ? $_POST['nAP'] : 'null'; ?></script>
+
+                                    <select name="nAP" id="iAP" class="form-control">
+                                        <option></option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4 form-group" id="list_redemetro">
+                                    <label for="iAP">Rede Metro:*</label>
+                                    <script>var selectRedMetro = <?php echo (!empty($_POST['nRedeMetro'])) ? $_POST['nRedeMetro'] : 'null'; ?></script>
+
+                                    <select name="nRedeMetro" id="iRedeMetro" class="form-control">
+
+                                    </select>
+                                </div>
+                                <div class="col-md-4 form-group <?php echo (isset($unidade['ip']['class'])) ? $unidade['ip']['class'] : ''; ?>">
+                                    <label for="iIP" class="control-label">IP:* <?php echo (isset($unidade['ip']['msg'])) ? '<small><span class="glyphicon glyphicon-remove"></span> ' . $unidade['ip']['msg'] . ' </small>' : ''; ?></label>
+                                    <input type="text" name="nIP" id="iIP" class="form-control" placeholder="Exemplo: 10.87.24.1"  value="<?php echo (!empty($_POST['nIP'])) ? $_POST['nIP'] : ''; ?>">
+                                </div>
+
+
+                                <div class="col-md-4 form-group <?php echo (isset($unidade['vlan']['class'])) ? $unidade['vlan']['class'] : ''; ?>">
+                                    <label for="iVLAN" class="control-label">VLAN:* <?php echo (isset($unidade['vlan']['msg'])) ? '<small><span class="glyphicon glyphicon-remove"></span> ' . $unidade['vlan']['msg'] . ' </small>' : ''; ?></label>
+                                    <input type="text" name="nVLAN" id="iVLAN" class="form-control" placeholder="Exemplo: inf_propazdorothy" value="<?php echo (!empty($_POST['nVLAN'])) ? $_POST['nVLAN'] : ''; ?>">
+                                </div>
+
+                                <div class="col-md-4 form-group <?php echo (isset($unidade['vlan']['class'])) ? $unidade['vlan']['class'] : ''; ?>">
+                                    <label for="iTagVlan" class="control-label">TAG VLAN:* <?php echo (isset($unidade['vlan']['msg'])) ? '<small><span class="glyphicon glyphicon-remove"></span> ' . $unidade['vlan']['msg'] . ' </small>' : ''; ?></label>
+                                    <input type="text" name="nTagVlan" id="iTagVlan" class="form-control" placeholder="Exemplo: 67" maxlength="5" value="<?php echo (!empty($_POST['nTagVlan'])) ? $_POST['nTagVlan'] : ''; ?>">
                                 </div>
 
                                 <div class="col-md-4 form-group <?php echo (isset($unidade['banda']['class'])) ? $unidade['banda']['class'] : ''; ?>">
@@ -76,41 +108,63 @@
                                     <input type="text" name="nStatus" id="iStatus" class="form-control" placeholder="Exemplo: Ativo" value="<?php echo (!empty($_POST['nStatus'])) ? $_POST['nStatus'] : ''; ?>">
                                 </div>
 
-                                <div class="col-md-4 form-group <?php echo (isset($unidade['ip']['class'])) ? $unidade['ip']['class'] : ''; ?>">
-                                    <label for="iIP" class="control-label">IP:* <?php echo (isset($unidade['ip']['msg'])) ? '<small><span class="glyphicon glyphicon-remove"></span> ' . $unidade['ip']['msg'] . ' </small>' : ''; ?></label>
-                                    <input type="text" name="nIP" id="iIP" class="form-control" placeholder="Exemplo: 10.87.24.1"  value="<?php echo (!empty($_POST['nIP'])) ? $_POST['nIP'] : ''; ?>">
+                                <div class="col-md-4 form-group <?php echo (isset($unidade['data']['class'])) ? $unidade['data']['class'] : ''; ?>">
+                                    <label for="inDataAtivacao" class="control-label">Data de Ativação:* <?php echo (isset($unidade['data']['msg'])) ? '<small><span class="glyphicon glyphicon-remove"></span> ' . $unidade['data']['msg'] . ' </small>' : ''; ?></label>
+                                    <input type="text" name="nDataAtivacao" id="inDataAtivacao" class="form-control input-date" maxlength="10" placeholder="Exemplo: 20/03/2009" value="<?php echo (!empty($_POST['nDataAtivacao'])) ? $_POST['nDataAtivacao'] : ''; ?>">
                                 </div>
-                                <div class="col-md-4 form-group">
-                                    <label for="iAP">AP:*</label>
-                                    <script>var selectAp = <?php echo (!empty($_POST['nAP'])) ? $_POST['nAP'] : 'null'; ?></script>
-
-                                    <select name="nAP" id="iAP" class="form-control">
-
-                                    </select>
-                                </div>
-
-                                <div class="col-md-4 form-group <?php echo (isset($unidade['vlan']['class'])) ? $unidade['vlan']['class'] : ''; ?>">
-                                    <label for="iVLAN" class="control-label">TAG VLAN:* <?php echo (isset($unidade['vlan']['msg'])) ? '<small><span class="glyphicon glyphicon-remove"></span> ' . $unidade['vlan']['msg'] . ' </small>' : ''; ?></label>
-                                    <input type="text" name="nVLAN" id="iVLAN" class="form-control" placeholder="Exemplo: 67" maxlength="5" value="<?php echo (!empty($_POST['nVLAN'])) ? $_POST['nVLAN'] : ''; ?>">
-                                </div>
-
                                 <div class="col-md-4   form-group <?php echo (isset($unidade['zabbix']['class'])) ? $unidade['zabbix']['class'] : ''; ?>">
                                     <label for="iZabbix" class="control-label">Zabbix:* <?php echo (isset($unidade['zabbix']['msg'])) ? '<small><span class="glyphicon glyphicon-remove"></span> ' . $unidade['zabbix']['msg'] . ' </small>' : ''; ?></label>
                                     <input type="text" name="nZabbix" id="iZabbix" class="form-control" placeholder="Exemplo: Cadastrado" value="<?php echo (!empty($_POST['nZabbix'])) ? $_POST['nZabbix'] : ''; ?>">
                                 </div>
-                                <div class="col-md-4  form-group <?php echo (isset($unidade['url']['class'])) ? $unidade['url']['class'] : ''; ?>">
+                                <div class="col-md-8  form-group <?php echo (isset($unidade['url']['class'])) ? $unidade['url']['class'] : ''; ?>">
                                     <label for="iUrlZabbix" class="control-label">Url no Zabbix:* <?php echo (isset($unidade['url']['msg'])) ? '<small><span class="glyphicon glyphicon-remove"></span> ' . $unidade['url']['msg'] . ' </small>' : ''; ?></label>
                                     <input type="text" name="nUrlZabbix" id="iUrlZabbix" class="form-control" placeholder="Exemplo: http://zabbix.prodepa.pa.gov.br/zabbix/charts.php?form_refresh=1&fullscreen=1&groupid=0&hostid=14022&graphid=0" value="<?php echo (!empty($_POST['nUrlZabbix'])) ? $_POST['nUrlZabbix'] : ''; ?>">
                                 </div>
 
-                                <div class="col-md-4 form-group <?php echo (isset($unidade['data']['class'])) ? $unidade['data']['class'] : ''; ?>">
-                                    <label for="inDataAtivacao" class="control-label">Data de Ativação:* <?php echo (isset($unidade['data']['msg'])) ? '<small><span class="glyphicon glyphicon-remove"></span> ' . $unidade['data']['msg'] . ' </small>' : ''; ?></label>
-                                    <input type="text" name="nDataAtivacao" id="inDataAtivacao" class="form-control" maxlength="10" placeholder="Exemplo: 20/03/2009" value="<?php echo (!empty($_POST['nDataAtivacao'])) ? $_POST['nDataAtivacao'] : ''; ?>">
-                                </div>
+
 
                             </div> <!-- fim row-->
                         </article>
                     </section> <!-- fim panel DADOS GERAIS -->
+
+                    <section class="panel panel-primary">
+                        <header class="panel-heading">
+                            <p class="panel-title">Contrato</p>
+                        </header>
+                        <article class="panel-body">
+                            <span class="btn btn-success" onclick="add_contrato()"><i class="fa fa-plus" aria-hidden="true"></i> Novo</span>
+                            <span class="btn btn-danger" onclick="remover_contrato()"><i class="fa fa-close" aria-hidden="true"></i> Excluir</span>
+                            <input type="hidden" id="iQtdContrato" name="nQtdContrato" value="1"/>
+                            <div id="icadContrato">
+                                <div class="row container_cad_contrato">
+                                    <hr/>
+                                    <div class="col-md-4 form-group">
+                                        <label for="iNumeroContrato1">Número do Contrato:</label>
+                                        <input type="text" name="nNumeroContrato1" id="iNumeroContrato1" class="form-control" placeholder="Exemplo: 22454/6635" >
+                                    </div>
+                                    <div class="col-md-8 form-group">
+                                        <label for="iTipoContratro1">Tipo de Contrato:</label>
+                                        <select id="iTipoContratro1" name="nTipoContratro1" class="form-control">
+                                            <option value=""></option>
+                                            <option value="ACT - Acordo de Cooperação Técnica">ACT - Acordo de Cooperação Técnica</option>
+                                            <option value="ACTF - Acordo de Cooperação Técnico e Financeiro">ACTF - Acordo de Cooperação Técnico e Financeiro</option>
+                                            <option value="ACR"> C - Contrato</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label for="iDataInicial1">Data Inicial:</label>
+                                        <input type="date" name="nDataInicial1" id="iDataInicial1" class="form-control input-date" placeholder="Exemplo: 20/05/2011">
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label for="iDataVigencia1">Data de Vigência:</label>
+                                        <input type="date" name="nDataVigencia1" id="iDataVigencia1" class="form-control input-date" placeholder="Exemplo: 20/06/2014" >
+                                    </div>
+                                </div>
+                            </div> 
+                        </article>
+                    </section><!-- fim panel DADOS GERAIS -->
+
+
                     <section class="panel panel-primary">
                         <header class="panel-heading">
                             <p class="panel-title">Endereço</p>
@@ -149,8 +203,8 @@
                                 <!-- CHAMANDO GOOGLE MAPS API -->
                                 <script src="http://maps.google.com/maps/api/js?key=AIzaSyCg1ogHawJGuDbw7nd6qBz9yYxYPoGTWQo&sensor=false"></script>
                                 <script>
-                                        var getLatitude = <?php echo (!empty($_POST['nLatitude'])) ? $_POST['nLatitude'] : 'null'; ?>;
-                                        var getLongitude = <?php echo (!empty($_POST['nLongitude'])) ? $_POST['nLongitude'] : 'null'; ?>;
+                                var getLatitude = <?php echo (!empty($_POST['nLatitude'])) ? $_POST['nLatitude'] : 'null'; ?>;
+                                var getLongitude = <?php echo (!empty($_POST['nLongitude'])) ? $_POST['nLongitude'] : 'null'; ?>;
                                 </script>
                             </div>
                         </article>
@@ -174,12 +228,12 @@
                                         <input type="email" name="nEmail1" id="iEmail1" class="form-control" placeholder="Exemplo: usuario@live.com" value="<?php echo (!empty($_POST["nEmail"])) ? $_POST["nEmail"] : ""; ?>">
                                     </div>
                                     <div class="col-md-6 form-group">
-                                        <label for="iTelefone1_1">Telefone 1:</label>
-                                        <input type="text" name="nTelefone1_1" id="iTelefone1_1" class="form-control" placeholder="Exemplo: (93) 3518-0011" value="<?php echo (!empty($_POST["nTelefone1"])) ? $_POST["nTelefone1"] : ""; ?>">
+                                        <label for="iTelefone1_1">Telefone:</label>
+                                        <input type="text" name="nTelefone1_1" id="iTelefone1_1" class="form-control input-telefone" placeholder="Exemplo: (93) 3518-0011" value="<?php echo (!empty($_POST["nTelefone1"])) ? $_POST["nTelefone1"] : ""; ?>">
                                     </div>
                                     <div class="col-md-6 form-group">
-                                        <label for="iTelefone2_1">Telefone 2:</label>
-                                        <input type="text" name="nTelefone2_1" id="iTelefone2_1" class="form-control" placeholder="Exemplo: (093) 99222-3333" value="<?php echo (!empty($_POST["nTelefone2"])) ? $_POST["nTelefone2"] : ""; ?>">
+                                        <label for="iTelefone2_1">Celular:</label>
+                                        <input type="text" name="nTelefone2_1" id="iTelefone2_1" class="form-control input-celular" placeholder="Exemplo: (093) 99222-3333" value="<?php echo (!empty($_POST["nTelefone2"])) ? $_POST["nTelefone2"] : ""; ?>">
                                     </div>
                                 </div>
                             </div> 

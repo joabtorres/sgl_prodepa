@@ -70,7 +70,6 @@ class orgao extends model {
         } else {
             $sql = $this->db->query($sql_command);
         }
-        echo $sql->rowCount();
         if ($sql->rowCount() > 0) {
             $this->numRows = $sql->rowCount();
             return $sql->fetchAll();
