@@ -28,9 +28,25 @@ class model {
         global $config;
         try {
             $this->db = new PDO('mysql:dbname=' . $config['dbname'] . ';host=' . $config['host'] . ';charset=utf8', $config['dbuser'], $config['dbpass'], array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));
-            $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);           
+            $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch (PDOException $e) {
             echo "Conexão ao banco de dados falhou: " . $e->getMessage();
+        }
+    }
+
+    /**
+     * Está função é responsável para formata datas padrão Brasil e retorna no padrão Banco de Dados
+     * @param String $date : Data no padrão DIA/MES/ANO (20/02/1999)
+     * @return String data formatada OR boollean False
+     * @access protected
+     * @author Joab Torres <joabtorres1508@gmail.com>
+     */
+    protected function formatDateBD($date) {
+        $arrayDate = explode("/", $date);
+        if (count($arrayDate) == 3) {
+            return $arrayDate[2] . '-' . $arrayDate[1] . '-' . $arrayDate[0];
+        } else {
+            return false;
         }
     }
 

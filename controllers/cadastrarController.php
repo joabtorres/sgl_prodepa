@@ -189,155 +189,175 @@ class cadastrarController extends controller {
         $unidadeModel = new unidade();
         $dados['orgaos'] = $orgaoModel->read("SELECT * FROM sgl_orgao ORDER BY nome_orgao ASC", array());
         $dados['cidades'] = $cidadeModel->read("SELECT DISTINCT(sgl_cidade_area_atuacao.cidade_area_atuacao), sgl_cidade_area_atuacao.cod_area_atuacao, sgl_cidade_area_atuacao.cod_nucleo FROM sgl_cidade_area_atuacao, sgl_ap WHERE sgl_cidade_area_atuacao.cod_area_atuacao=sgl_ap.cod_area_atuacao GROUP BY sgl_cidade_area_atuacao.cod_area_atuacao ORDER BY sgl_cidade_area_atuacao.cod_area_atuacao ASC;", array());
+        //array que vai armazena os dados recebido do formulário
+        $unidade = array();
 
         if (isset($_POST['nSalvar']) && !empty($_POST['nSalvar'])) {
-            //array que vai armazena os dados recebido do formulário
-            $unidade = array();
+            /*
+             * ADCIONANDO CÓDIGO DA UNIDADE
+             */
+            $ultimo_codigo = $unidadeModel->read("SELECT MAX(cod_unidade) AS qtd FROM sgl_unidade ORDER BY cod_unidade DESC");
+            $unidade['cod'] = ++$ultimo_codigo[0]['qtd'];
             //orgão
             $unidade['orgao'] = addslashes($_POST['nOrgao']);
             //cidade
             $unidade['cidade'] = addslashes($_POST['nCidade']);
 
+
             if (!empty($_POST['nUnidade']) && isset($_POST['nUnidade'])) {
                 //nome da unidade
                 $unidade['unidade'] = addslashes($_POST['nUnidade']);
             } else {
-                $dados['unidade']['nome']['msg'] = 'Informe a unidade';
-                $dados['unidade']['nome']['class'] = 'has-error';
-            }
-            if (!empty($_POST['nIP']) && isset($_POST['nIP'])) {
-                //ip
-                $unidade['ip'] = addslashes($_POST['nIP']);
-            } else {
-                $dados['unidade']['ip']['msg'] = 'Informe o ip';
-                $dados['unidade']['ip']['class'] = 'has-error';
-            }
-            if (!empty($_POST['nAP']) && isset($_POST['nAP'])) {
-                //ap
-                $unidade['ap'] = addslashes($_POST['nAP']);
-            } else {
-                $unidade['ap'] = null;
-            }
-            if (!empty($_POST['nIP']) && isset($_POST['nIP'])) {
-                //ip
-                $unidade['ip'] = addslashes($_POST['nIP']);
-            } else {
-                $dados['unidade']['ip']['msg'] = 'Informe o ip';
-                $dados['unidade']['ip']['class'] = 'has-error';
-            }
-
-            if (!empty($_POST['nVLAN']) && isset($_POST['nVLAN'])) {
-                //vlan
-                $unidade['vlan'] = addslashes($_POST['nVLAN']);
-            } else {
-                $dados['unidade']['vlan']['msg'] = 'Informe a vlan';
-                $dados['unidade']['vlan']['class'] = 'has-error';
+                $dados['unidade_erro']['nome']['msg'] = 'Informe a unidade';
+                $dados['unidade_erro']['nome']['class'] = 'has-error';
             }
 
             if (!empty($_POST['nConexao']) && isset($_POST['nConexao'])) {
                 //conexao
                 $unidade['conexao'] = addslashes($_POST['nConexao']);
             }
+
+            if (!empty($_POST['nAP']) && isset($_POST['nAP'])) {
+                //ap
+                $unidade['ap'] = addslashes($_POST['nAP']);
+            } else {
+                $unidade['ap'] = null;
+            }
+
+            if (!empty($_POST['nRedeMetro']) && isset($_POST['nRedeMetro'])) {
+                //redemetro
+                $unidade['redemetro'] = addslashes($_POST['nRedeMetro']);
+            } else {
+                $unidade['redemetro'] = null;
+            }
+
+            if (!empty($_POST['nIP']) && isset($_POST['nIP'])) {
+                //ip
+                $unidade['ip'] = addslashes($_POST['nIP']);
+            } else {
+                $dados['unidade_erro']['ip']['msg'] = 'Informe o ip';
+                $dados['unidade_erro']['ip']['class'] = 'has-error';
+            }
+
+            if (!empty($_POST['nVLAN']) && isset($_POST['nVLAN'])) {
+                //vlan
+                $unidade['vlan'] = addslashes($_POST['nVLAN']);
+            } else {
+                $dados['unidade_erro']['vlan']['msg'] = 'Informe o nome da VLAN';
+                $dados['unidade_erro']['vlan']['class'] = 'has-error';
+            }
+
+            if (!empty($_POST['nTagVlan']) && isset($_POST['nTagVlan'])) {
+                //tag_vlan
+                $unidade['tag_vlan'] = addslashes($_POST['nTagVlan']);
+            } else {
+                $dados['unidade_erro']['tag_vlan']['msg'] = 'Informe a TAG VLAN';
+                $dados['unidade_erro']['tag_vlan']['class'] = 'has-error';
+            }
+
             if (!empty($_POST['nBanda']) && isset($_POST['nBanda'])) {
                 //banda
                 $unidade['banda'] = addslashes($_POST['nBanda']);
             } else {
-                $dados['unidade']['banda']['msg'] = 'Informe o valor da banda';
-                $dados['unidade']['banda']['class'] = 'has-error';
+                $dados['unidade_erro']['banda']['msg'] = 'Informe o valor da banda';
+                $dados['unidade_erro']['banda']['class'] = 'has-error';
             }
+
             if (!empty($_POST['nStatus']) && isset($_POST['nStatus'])) {
                 //statu
                 $unidade['statu'] = addslashes($_POST['nStatus']);
             } else {
-                $dados['unidade']['statu']['msg'] = 'Informe o status';
-                $dados['unidade']['statu']['class'] = 'has-error';
+                $dados['unidade_erro']['statu']['msg'] = 'Informe o status';
+                $dados['unidade_erro']['statu']['class'] = 'has-error';
             }
-            if (!empty($_POST['nZabbix']) && isset($_POST['nZabbix'])) {
-                //zabbix
-                $unidade['zabbix'] = addslashes($_POST['nZabbix']);
-            } else {
-                $dados['unidade']['zabbix']['msg'] = 'Informe o status no zabbix';
-                $dados['unidade']['zabbix']['class'] = 'has-error';
-            }
-            if (!empty($_POST['nUrlZabbix']) && isset($_POST['nUrlZabbix'])) {
-                //url
-                $unidade['url'] = addslashes($_POST['nUrlZabbix']);
-            } else {
-                $dados['unidade']['url']['msg'] = 'Informe a url do zabbix';
-                $dados['unidade']['url']['class'] = 'has-error';
-            }
+
             if (!empty($_POST['nDataAtivacao']) && isset($_POST['nDataAtivacao'])) {
                 //data
-                $unidade['data'] = $this->formatDateBD(addslashes($_POST['nDataAtivacao']));
+                $unidade['data'] = addslashes($_POST['nDataAtivacao']);
                 if ($unidade['data'] == false) {
-                    $dados['unidade']['data']['msg'] = 'DIA/MÊS/ANO';
-                    $dados['unidade']['data']['class'] = 'has-error';
+                    $dados['unidade_erro']['data']['msg'] = 'DIA/MÊS/ANO';
+                    $dados['unidade_erro']['data']['class'] = 'has-error';
                 }
             } else {
-                $dados['unidade']['data']['msg'] = 'Informe a data de ativação';
-                $dados['unidade']['data']['class'] = 'has-error';
+                $dados['unidade_erro']['data']['msg'] = 'Informe a data de ativação';
+                $dados['unidade_erro']['data']['class'] = 'has-error';
             }
+
+            //zabbix
+            $unidade['zabbix'] = addslashes($_POST['nZabbix']);
+            //url
+            $unidade['url'] = addslashes($_POST['nUrlZabbix']);
+
+            /*
+             * capturando contrato
+             */
+            for ($qtd = addslashes($_POST['nQtdContrato']); $qtd >= 1; $qtd--) {
+                if (!empty($_POST['nNumeroContrato' . $qtd]) || !empty($_POST['nTipoContratro' . $qtd]) || !empty($_POST['nDataInicial' . $qtd]) || !empty($_POST['nDataVigencia' . $qtd])) {
+                    //cod unidade
+                    $unidade['contratos'][$qtd]['cod'] = $unidade['cod'];
+                    //numero do contrato
+                    $unidade['contratos'][$qtd]['numero'] = addslashes($_POST['nNumeroContrato' . $qtd]);
+                    //numero data inicial
+                    $unidade['contratos'][$qtd]['tipocontrato'] = addslashes($_POST['nTipoContratro' . $qtd]);
+                    //numero data inicial
+                    $unidade['contratos'][$qtd]['data_inicial'] = addslashes($_POST['nDataInicial' . $qtd]);
+                    //numero data vigencia
+                    $unidade['contratos'][$qtd]['data_vigencia'] = addslashes($_POST['nDataVigencia' . $qtd]);
+                }
+            }
+            /*
+             * capturando endereço da unidade
+             */
+
+            $unidade['endereco']['cod'] = $unidade['cod'];
+            //logradouro
+            $unidade['endereco']['logradouro'] = addslashes($_POST['nLogradouro']);
+            //numero
+            $unidade['endereco']['numero'] = addslashes($_POST['nNumero']);
+            //logradouro
+            $unidade['endereco']['bairro'] = addslashes($_POST['nBairro']);
+            //complemento
+            $unidade['endereco']['complemento'] = addslashes($_POST['nComplemento']);
+            //latitude
+            $unidade['endereco']['latitude'] = addslashes($_POST['nLatitude']);
+            //longitude
+            $unidade['endereco']['longitude'] = addslashes($_POST['nLongitude']);
+            //gps
+            $unidade['endereco']['gps'] = addslashes($_POST['nGPS']);
+
+            /*
+             * Capturando contato da unidade
+             */
+
+            for ($qtd = $_POST['nQtdContato']; $qtd >= 1; $qtd--) {
+                if (!empty($_POST['nNome' . $qtd]) || !empty($_POST['nEmail' . $qtd]) || !empty($_POST['nTelefone1_' . $qtd]) || !empty($_POST['nTelefone2_' . $qtd])) {
+
+                    $unidade['contato'][$qtd]['cod'] = $unidade['cod'];
+                    //gps/
+                    $unidade['contato'][$qtd]['nome'] = addslashes($_POST['nNome' . $qtd]);
+                    //email
+                    $unidade['contato'][$qtd]['email'] = addslashes($_POST['nEmail' . $qtd]);
+                    //telefone1
+                    $unidade['contato'][$qtd]['telefone1'] = addslashes($_POST['nTelefone1_' . $qtd]);
+                    //telefone2
+                    $unidade['contato'][$qtd]['telefone2'] = addslashes($_POST['nTelefone2_' . $qtd]);
+                }
+            }
+
+
             //se todos os campos forem preenchidos
-            if (isset($dados['unidade']) && !empty($dados['unidade'])) {
+            if (isset($dados['unidade_erro']) && !empty($dados['unidade_erro'])) {
                 $dados['erro']['msg'] = '<i class="fa fa-info-circle" aria-hidden="true"></i> Preencha todos os campos obrigatórios (*).';
                 $dados['erro']['class'] = 'alert-danger';
             } else {
-                /*
-                 * ADCIONANDO CÓDIGO DA UNIDADE
-                 */
-                $ultimo_codigo = $unidadeModel->read("SELECT MAX(cod_unidade) AS qtd FROM sgl_unidade ORDER BY cod_unidade DESC");
-                $unidade['cod'] = ++$ultimo_codigo[0]['qtd'];
-
-                //cadastrar unidade
-                if ($unidadeModel->create("INSERT INTO sgl_unidade (cod_unidade, cod_orgao, cod_cidade, nome_unidade, ip_unidade, cod_ap, tag_vlan_unidade, conexao_unidade, banda_unidade, statu_unidade, zabbix_unidade, url_zabbix_unidade, data_ativacao_unidade) VALUES (:cod, :orgao, :cidade, :unidade, :ip, :ap, :vlan, :conexao, :banda, :statu, :zabbix, :url, :data)", $unidade)) {
-                    /*
-                     * capturando endereço da unidade
-                     */
-
-                    $unidade['endereco']['cod'] = $unidade['cod'];
-                    //logradouro
-                    $unidade['endereco']['logradouro'] = addslashes($_POST['nLogradouro']);
-                    //numero
-                    $unidade['endereco']['numero'] = addslashes($_POST['nNumero']);
-                    //logradouro
-                    $unidade['endereco']['bairro'] = addslashes($_POST['nBairro']);
-                    //complemento
-                    $unidade['endereco']['complemento'] = addslashes($_POST['nComplemento']);
-                    //latitude
-                    $unidade['endereco']['latitude'] = addslashes($_POST['nLatitude']);
-                    //longitude
-                    $unidade['endereco']['longitude'] = addslashes($_POST['nLongitude']);
-                    //gps
-                    $unidade['endereco']['gps'] = addslashes($_POST['nGPS']);
-
-                    //cadastrar endereço da unidade
-                    $unidadeModel->create("INSERT INTO sgl_unidade_endereco (cod_unidade, logradouro_endereco, numero_endereco, bairro_endereco, complemento_endereco, latitude_endereco, longitude_endereco, gps_endereco) VALUES (:cod, :logradouro, :numero, :bairro, :complemento, :latitude, :longitude, :gps)", $unidade['endereco']);
-
-                    /*
-                     * Capturando contato da unidade
-                     */
-
-                    for ($qtd = 1; $qtd <= $_POST['nQtdContato']; $qtd++) {
-                        if (!empty($_POST['nNome' . $qtd]) || !empty($_POST['nEmail' . $qtd]) || !empty($_POST['nTelefone1_' . $qtd]) || !empty($_POST['nTelefone2_' . $qtd])) {
-
-                            $unidade['contato']['cod'] = $unidade['cod'];
-                            //gps/
-                            $unidade['contato']['nome'] = addslashes($_POST['nNome' . $qtd]);
-                            //email
-                            $unidade['contato']['email'] = addslashes($_POST['nEmail' . $qtd]);
-                            //telefone1
-                            $unidade['contato']['telefone1'] = addslashes($_POST['nTelefone1_' . $qtd]);
-                            //telefone2
-                            $unidade['contato']['telefone2'] = addslashes($_POST['nTelefone2_' . $qtd]);
-                            $unidadeModel->create("INSERT INTO sgl_unidade_contato (cod_unidade, nome_contato, email_contato, telefone1_contato, telefone2_contato) VALUES (:cod, :nome, :email, :telefone1, :telefone2)", $unidade['contato']);
-                        }
-                    }
-                    $dados['erro']['msg'] = '<i class="fa fa-check" aria-hidden="true"></i> Cadastro realizado com sucesso!';
-                    $dados['erro']['class'] = 'alert-success';
-                    $_POST = array();
-                }
+                $unidadeModel->create($unidade);
+                $dados['erro']['msg'] = '<i class="fa fa-check" aria-hidden="true"></i> Cadastro realizado com sucesso!';
+                $dados['erro']['class'] = 'alert-success';
+                $_POST = array();
+                $unidade = array();
             }
         }
+        $dados['unidade'] = $unidade;
         $this->loadTemplate($view, $dados);
     }
 

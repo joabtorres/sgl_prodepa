@@ -131,6 +131,17 @@ if (document.getElementById('form-unidade')) {
             }
             $("#iRedeMetro").html(resultado);
         });
+        //tipo de conexao
+        if ($("#iConexao").val() === "Fibra") {
+
+            $("#iAP").attr('disabled', 'true');
+
+            $("#iRedeMetro").removeAttr('disabled');
+        } else {
+            $("#iRedeMetro").attr('disabled', 'true');
+
+            $("#iAP").removeAttr('disabled');
+        }
     }
     /**
      * Aplicando mascaras
@@ -277,18 +288,21 @@ if (document.getElementById('form-unidade')) {
             option_null = document.createElement('option');
             option_null.setAttribute('value', '');
             option_act = document.createElement('option');
-            option_act.setAttribute('value', 'ACT - ');
-            option_act.appendChild(document.createTextNode('ACT - '));
-            option_acr = document.createElement('option');
-            option_acr.setAttribute('value', 'ACR - ');
-            option_acr.appendChild(document.createTextNode('ACR - '));
-
+            option_act.setAttribute('value', 'ACT - Acordo de Cooperação Técnica');
+            option_act.appendChild(document.createTextNode('ACT - Acordo de Cooperação Técnica'));
+            option_actf = document.createElement('option');
+            option_actf.setAttribute('value', 'ACTF - Acordo de Cooperação Técnico e Financeiro');
+            option_actf.appendChild(document.createTextNode('ACTF - Acordo de Cooperação Técnico e Financeiro'));
+            option_c = document.createElement('option');
+            option_c.setAttribute('value', 'C - Contrato');
+            option_c.appendChild(document.createTextNode('C - Contrato'));
             select_tipo.appendChild(option_null);
             select_tipo.appendChild(option_act);
-            select_tipo.appendChild(option_acr);
+            select_tipo.appendChild(option_actf);
+            select_tipo.appendChild(option_c);
             div_tipo.appendChild(label_tipo);
             div_tipo.appendChild(select_tipo);
-            
+
             div_data_inicial = document.createElement('div');
             div_data_inicial.setAttribute('class', 'col-md-6 form-group');
             label_data_inicial = document.createElement('label');
