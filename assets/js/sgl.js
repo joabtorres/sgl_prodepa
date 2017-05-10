@@ -473,7 +473,7 @@ if (document.getElementById("container-usuario-form")) {
      */
     readDefaultURL = function () {
         var valor = $('input[name=nSexo]:checked').val();
-        if (valor === "Masculino") {
+        if (valor === "M") {
             $("#viewImagem-1").attr('src', '/assets/imagens/user_masculino.png');
         } else {
             $("#viewImagem-1").attr('src', '/assets/imagens/user_feminino.png');

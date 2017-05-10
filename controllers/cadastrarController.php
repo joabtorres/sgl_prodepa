@@ -370,6 +370,7 @@ class cadastrarController extends controller {
         $view = "usuario_cadastrar";
         $dados = array();
         $cidadeModel = new cidade();
+        $usuarioModel = new usuario();
         $dados['cidades_nucleo'] = $cidadeModel->read("SELECT * FROM sgl_cidade_nucleo ORDER BY cidade_nucleo ", array());
 
         //Array que vai armazena os dados do usuário;
@@ -392,6 +393,13 @@ class cadastrarController extends controller {
             //sobrenome
             if (!empty($_POST['nUsuario'])) {
                 $usuario['usuario'] = addslashes($_POST['nUsuario']);
+                if ($usuarioModel->read_specific('SELECT * FROM sgl_usuario WHERE usuario_usuario=:usuario', array('usuario' => $usuario['usuario']))) {
+                    $dados['usuario_erro']['usuario']['msg'] = 'usuário já cadastrado';
+                    $dados['usuario_erro']['usuario']['class'] = 'has-error';
+                    $dados['erro']['msg'] = '<i class="fa fa-info-circle" aria-hidden="true"></i> Não é possível cadastrar um usuario já cadastrado, por favor informe outro nome de usuário';
+                    $dados['erro']['class'] = 'alert-danger';
+                    $usuario['usuario'] = null;
+                }
             } else {
                 $dados['usuario_erro']['usuario']['msg'] = 'Informe o usuário';
                 $dados['usuario_erro']['usuario']['class'] = 'has-error';
@@ -399,6 +407,13 @@ class cadastrarController extends controller {
             //email
             if (!empty($_POST['nEmail'])) {
                 $usuario['email'] = addslashes($_POST['nEmail']);
+                if ($usuarioModel->read_specific('SELECT * FROM sgl_usuario WHERE email_usuario=:email', array('email' => $usuario['email']))) {
+                    $dados['usuario_erro']['email']['msg'] = 'E-mail já cadastrado';
+                    $dados['usuario_erro']['email']['class'] = 'has-error';
+                    $dados['erro']['msg'] = '<i class="fa fa-info-circle" aria-hidden="true"></i> Não é possível cadastrar um e-mail já cadastrado, por favor informe outro endereço de e-mail';
+                    $dados['erro']['class'] = 'alert-danger';
+                    $usuario['email'] = null;
+                }
             } else {
                 $dados['usuario_erro']['email']['msg'] = 'Informe o e-mail';
                 $dados['usuario_erro']['email']['class'] = 'has-error';
@@ -417,7 +432,8 @@ class cadastrarController extends controller {
                 $dados['usuario_erro']['senha']['msg'] = "Os campos 'Senha' e 'Repetir Senha' devem ser preenchidos";
                 $dados['usuario_erro']['senha']['class'] = 'has-error';
             }
-
+            //nucleo
+            $usuario['nucleo'] = addslashes($_POST['nNucleo']);
             //cargo
             if (!empty($_POST['nCargo'])) {
                 $usuario['cargo'] = addslashes($_POST['nCargo']);
@@ -425,10 +441,24 @@ class cadastrarController extends controller {
                 $dados['usuario_erro']['cargo']['msg'] = 'Informe o cargo, senão não será exibido o cargo';
                 $dados['usuario_erro']['cargo']['class'] = 'has-warning';
             }
+            //sexo
+            $usuario['sexo'] = addslashes($_POST['nSexo']);
 
+            //nivel de acesso
+            $usuario['nivel'] = addslashes($_POST['tNivelDeAcesso']);
+
+            //imagem
+            if (isset($_FILES['tImagem-1']) && $_FILES['tImagem-1']['error'] == 0) {
+                $usuario['imagem'] = $_FILES['tImagem-1'];
+            }
             if (isset($dados['usuario_erro']) && !empty($dados['usuario_erro'])) {
                 $dados['erro']['msg'] = '<i class="fa fa-info-circle" aria-hidden="true"></i> Preencha todos os campos obrigatórios (*).';
                 $dados['erro']['class'] = 'alert-danger';
+            } else {
+                $usuarioModel->create($usuario);
+                $dados['erro']['msg'] = '<i class="fa fa-check" aria-hidden="true"></i> Cadastro realizado com sucesso!';
+                $dados['erro']['class'] = 'alert-success';
+                $_POST = array();
             }
         }
         $dados['usuario'] = $usuario;

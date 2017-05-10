@@ -51,7 +51,6 @@
                             <div class="form-group">
                                 <label for="iNucleo">Núcleo: </label>
                                 <select name="nNucleo" id="iNucleo" class="form-control js-example-basic-single">
-                                    <option></option>
                                     <?php foreach ($cidades_nucleo as $nucleo) : ?>
                                         <option value="<?php echo $nucleo['cod_nucleo'] ?>" >Núcleo <?php echo $nucleo['cidade_nucleo'] ?></option>
                                     <?php endforeach; ?>
@@ -65,14 +64,31 @@
                             </div>
                             <div class="form-group">
                                 <span>Sexo:</span><br/>
-                                <label><input type="radio" name="nSexo" value="Masculino" checked onclick="readDefaultURL()"/> Masculino</label>
-                                <label><input type="radio" name="nSexo" value="Feminino" onclick="readDefaultURL()"/> Feminino</label>
+
+                                <?php
+                                if (!empty($usuario['sexo'])) {
+
+                                    $sexos = array(array('genero' => 'Masculino', 'sigla' => 'M'), array('genero' => 'Feminino', 'sigla' => 'F'));
+                                    foreach ($sexos as $sexo) {
+                                        if ($usuario['sexo'] == $sexo['sigla']) {
+                                            echo '<label><input type="radio" name="nSexo" value="' . $sexo["sigla"] . '" checked onclick="readDefaultURL()"/> ' . $sexo["genero"] . ' </label>';
+                                        } else {
+                                            echo '<label><input type="radio" name="nSexo" value="' . $sexo["sigla"] . '" onclick="readDefaultURL()"/> ' . $sexo["genero"] . ' </label>';
+                                        }
+                                    }
+                                } else {
+                                    echo '<label><input type="radio" name="nSexo" value="M" checked onclick="readDefaultURL()"/> Masculino</label>';
+                                    echo '<label><input type="radio" name="nSexo" value="F" onclick="readDefaultURL()"/> Feminino</label>';
+                                }
+                                ?>                                                               
                             </div>
+                            
                             <div class="form-group">
                                 <span>Nível de Acesso:</span><br/>
                                 <label><input type="radio" name="tNivelDeAcesso" value="0" checked/> Usuário Padrão</label>
                                 <label><input type="radio" name="tNivelDeAcesso" value="1"/> Administrador</label>
                             </div>
+
                             <p class="text-center" style="margin-top: 10%;" id="fotos">
                                 <img src="<?php echo BASE_URL ?>/assets/imagens/user_masculino.png" class="img-center" alt="Usuario" id="viewImagem-1"/>
                                 <input type="hidden" name="qtd_fotos" value="1">
