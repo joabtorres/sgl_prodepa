@@ -432,12 +432,11 @@ class cadastrarController extends controller {
                 if (!empty($_POST['nSenha']) && !empty($_POST['nRepetirSenha'])) {
                     //senha
                     if ($_POST['nSenha'] == $_POST['nRepetirSenha']) {
-                        $usuario['senha'] = addslashes($_POST['nSenha']);
+                        $usuario['senha'] = $_POST['nSenha'];
                     } else {
                         $dados['usuario_erro']['senha']['msg'] = "Os campos 'Senha' e 'Repetir Senha' não estão iguais! ";
                         $dados['usuario_erro']['senha']['class'] = 'has-error';
                     }
-                    $usuario['senha'] = addslashes($_POST['nEmail']);
                 } else {
                     $dados['usuario_erro']['senha']['msg'] = "Os campos 'Senha' e 'Repetir Senha' devem ser preenchidos";
                     $dados['usuario_erro']['senha']['class'] = 'has-error';

@@ -21,7 +21,7 @@
                 <form method="POST" autocomplete="off" id="form-cidade">
                     <div class="panel panel-primary">
                         <div class="panel-heading">
-                            <p class="panel-title">Cidade</p>
+                            <p class="panel-title"> <i class="fa fa-plus-square"></i> Cidade</p>
                         </div>
                         <div class="panel-body">
                             <div class="row">

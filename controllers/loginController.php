@@ -22,7 +22,7 @@ class loginController extends controller {
         $dados = array();
         if (isset($_POST['nEntrar']) && !empty($_POST['nEntrar'])) {
             if (!empty($_POST['nSerachUsuario']) && !empty($_POST['nSearchSenha'])) {
-                $usuario = array('usuario' => addslashes($_POST['nSerachUsuario']), 'senha' => md5(sha1(addslashes($_POST['nSearchSenha']))));
+                $usuario = array('usuario' => addslashes($_POST['nSerachUsuario']), 'senha' => md5(sha1($_POST['nSearchSenha'])));
                 $dominio = strstr($usuario['usuario'], '@prodepa.pa.gov.br');
                 $usuarioModel = new usuario();
                 if ($dominio) {

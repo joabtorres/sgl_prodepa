@@ -25,14 +25,14 @@
                                 <div class="col-sm-12 col-md-12 col-lg-12">
                                     <div class="panel panel-primary">
                                         <div class="panel-heading">
-                                            <p class="panel-title"><span class="font-bold">Cidade: </span> <?php echo $cidades['cidade']?> </p>
-                                            <p class="panel-title"><span class="font-bold">Orgão: </span> <?php echo $orgaos['nome_orgao']?> </p>
+                                            <p class="panel-title"><span class="font-bold">Cidade: </span> <?php echo $cidades['cidade'] ?> </p>
+                                            <p class="panel-title"><span class="font-bold">Orgão: </span> <?php echo $orgaos['nome_orgao'] ?> -  <?php echo $orgaos['categoria_orgao'] ?></p>
                                         </div>
                                         <table class="table table-striped table-bordered table-hover table-condensed">
                                             <thead>
                                                 <tr>
                                                     <th class="text-center">#</th>
-                                                    <th></span> Unidade </th>
+                                                    <th>Unidade </th>
                                                     <th>Ação</th>
                                                 </tr>
                                             </thead>
@@ -50,7 +50,7 @@
                                                         </td>
                                                         <td><a href="<?php echo BASE_URL . '/unidade/orgao/' . $unidades['cod_unidade'] . '/' . $cidades['cod_cidade'] . '/' . $orgaos['cod_orgao'] ?>"><?php echo $unidades['nome_unidade'] ?></a></td>
 
-                                                        <td class="table-acao"><button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal_recupera">Editar</button> <button type="button"  class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modal_recupera">Excluir</button></td>
+                                                        <td class="table-acao"><a class="btn btn-primary btn-sm" href="<?php echo BASE_URL . '/editar/unidade/' . $unidades['cod_unidade'] ?>"><i class="fa fa-pencil"></i></a> <button type="button"  class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modal_recupera"><i class="fa fa-trash"></i></button></td>
                                                     </tr>
                                                     <?php
                                                 endforeach;
@@ -76,7 +76,8 @@
                                     <thead>
                                         <tr>
                                             <th class="text-center">#</th>
-                                            <th></span> Orgão </th>
+                                            <th> Orgão </th>
+                                            <th>Esfera </th>
                                             <th>Unidade(s)</th>
                                             <th>Ação</th>
                                         </tr>
@@ -95,8 +96,9 @@
                                                         ?>
                                                     </td>
                                                     <td><a href="<?php echo BASE_URL . '/relatorio/orgaos/' . $pagina_atual . '/' . $cidades['cod_cidade'] . '/' . $orgaos['cod_orgao'] ?>"><?php echo $orgaos['nome_orgao'] ?></a></td>
+                                                    <td><?php echo $orgaos['categoria_orgao'] ?></td>
                                                     <td class="text-center "><?php echo count($orgaos['unidades']) ?></td>
-                                                    <td class="table-acao"><button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal_recupera">Editar</button> <button type="button"  class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modal_recupera">Excluir</button></td>
+                                                    <td class="table-acao"><a class="btn btn-primary btn-sm" href="<?php echo BASE_URL . '/editar/orgao/' . $orgaos['cod_orgao'] ?>"><i class="fa fa-pencil"></i></a> <button type="button"  class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modal_recupera"><i class="fa fa-trash"></i></button></td>
                                                 </tr>
                                                 <?php
                                             endif;
@@ -125,7 +127,7 @@
                 <nav aria-label="Page navigation">
                     <ul class="pagination">
                         <li>
-                            <a href="<?php echo BASE_URL .'/relatorio/'.$action.'/1'?><?php echo (isset($cod_cidade)) ? "/" . $cod_cidade : "" ?>" aria-label="Previous">
+                            <a href="<?php echo BASE_URL . '/relatorio/' . $action . '/1' ?><?php echo (isset($cod_cidade)) ? "/" . $cod_cidade : "" ?>" aria-label="Previous">
                                 <span aria-hidden="true">&laquo;</span>
                             </a>
                         </li>
@@ -133,14 +135,14 @@
                         $cod_cidade = (isset($cod_cidade)) ? "/" . $cod_cidade : "";
                         for ($p = 0; $p < ceil($paginas); $p++) {
                             if ($pagina_atual == ($p + 1)) {
-                                echo "<li class='active'><a href='" . BASE_URL . "/relatorio/".$action."/" . ($p + 1) . $cod_cidade . "'>" . ($p + 1) . "</a></li>";
+                                echo "<li class='active'><a href='" . BASE_URL . "/relatorio/" . $action . "/" . ($p + 1) . $cod_cidade . "'>" . ($p + 1) . "</a></li>";
                             } else {
-                                echo "<li><a href='" . BASE_URL . "/relatorio/".$action."/" . ($p + 1) . $cod_cidade . "'>" . ($p + 1) . "</a></li>";
+                                echo "<li><a href='" . BASE_URL . "/relatorio/" . $action . "/" . ($p + 1) . $cod_cidade . "'>" . ($p + 1) . "</a></li>";
                             }
                         }
                         ?>
                         <li>
-                            <a href="<?php echo BASE_URL .'/relatorio/'.$action.'/'.ceil($paginas) . $cod_cidade ?>" aria-label="Next">
+                            <a href="<?php echo BASE_URL . '/relatorio/' . $action . '/' . ceil($paginas) . $cod_cidade ?>" aria-label="Next">
                                 <span aria-hidden="true">&raquo;</span>
                             </a>
                         </li>

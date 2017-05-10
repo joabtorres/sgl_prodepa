@@ -76,7 +76,9 @@
                                     <thead>
                                         <tr>
                                             <th class="text-center">#</th>
-                                            <th></span> AP </th>
+                                            <th>AP </th>
+                                            <th>Banda </th>
+                                            <th>IP </th>
                                             <th>Unidade(s)<span></th>
                                             <th>Ação</th>
                                         </tr>
@@ -95,6 +97,8 @@
                                                         ?>
                                                     </td>
                                                     <td><a href="<?php echo BASE_URL . '/relatorio/aps/' . $pagina_atual . '/' . $cidades['cod_cidade'] . '/' . $aps['cod_ap'] ?>"><?php echo $aps['nome_ap'] ?></a></td>
+                                                    <td></td>
+                                                    <td></td>
                                                     <td class="text-center table-acao"><?php echo count($aps['unidades']) ?></td>
                                                     <td class="table-acao"><button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal_recupera">Editar</button> <button type="button"  class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modal_recupera">Excluir</button></td>
                                                 </tr>
