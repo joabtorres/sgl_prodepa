@@ -19,7 +19,12 @@ class controller {
      * @author Joab Torres <joabtorres1508@gmail.com>
      */
     protected function checkUserPattern() {
-        return false;
+        if (isset($_SESSION['user_sgl']['statu']) && $_SESSION['user_sgl']['statu']) {
+            return true;
+        } else {
+            return false;
+            header("Location: /login");
+        }
     }
 
     /**
@@ -29,7 +34,11 @@ class controller {
      * @author Joab Torres <joabtorres1508@gmail.com>
      */
     protected function checkUserAdministrator() {
-        return false;
+        if (isset($_SESSION['user_sgl']['statu']) && $_SESSION['user_sgl']['statu'] && $_SESSION['user_sgl']['nivel']) {
+            return true;
+        } else {
+            header("Location: /home");
+        }
     }
 
     /**
@@ -75,7 +84,7 @@ class controller {
      * @author Joab Torres <joabtorres1508@gmail.com>
      */
     protected function pagination($pageAtual, $limit, $action) {
-       
+        
     }
 
     /**

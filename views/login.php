@@ -18,7 +18,7 @@
 
     <body onload="mostrarConteudo()"> 
         <div id="tela_load">
-           
+
         </div>
         <div class="container-fluid">
             <div class="row">
@@ -28,12 +28,12 @@
                     <div class="row">
                         <div class="col-md-6"><img src="<?php echo BASE_URL; ?>/assets/imagens/logo_login.png" alt="Logotipo da PRODEPA" class="img-center img-responsive"></div>
                         <div class="col-md-6">
-                            <form method="POST" action="<?php echo BASE_URL; ?>/home">
+                            <form method="POST">
                                 <div class="form-group">
-                                    <label for="iSerachEmail">E-mail:</label>
+                                    <label for="iSerachUsuario">Usuário:</label>
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-envelope-o fa-fw"></i></span>
-                                        <input type="email" id="iSerachEmail" name="nSerachEmail" class="form-control" autofocus>
+                                        <input type="text" id="iSerachUsuario" name="nSerachUsuario" class="form-control" autofocus placeholder="E-mail / Usuário">
                                     </div>                                    
                                 </div>
                                 <div class="form-group">
@@ -44,8 +44,12 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <!--<p class="bg-danger">O Campo E-mail ou Senha está incorreto !</p>;-->
-                                    <button type="submit" name="nEntrar" class="btn btn-primary"><i class="fa fa-sign-in" aria-hidden="true"></i> Fazer Login</button>
+                                    <?php
+                                    if (isset($erro)) {
+                                        echo '<p class="bg-danger">' . $erro["msg"] . '</p>';
+                                    }
+                                    ?>
+                                    <button type="submit" name="nEntrar" class="btn btn-primary" value="Entrar"><i class="fa fa-sign-in" aria-hidden="true"></i> Fazer Login</button>
                                     <a data-toggle="modal" data-target=".modal-search-email"><span class="glyphicon glyphicon-lock"></span> Esqueceu a senha?</a>
                                 </div>
                             </form>
