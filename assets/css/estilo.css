@@ -9,11 +9,13 @@
 .h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6, p, a, form, label, input[type='text'], input[type='email'], input[type='number'], textarea, body {
     font-family: "ubuntu-regular", sans-serif;
 }
-
 form label{
     font-weight: normal!important;
 }
 /* CLASSES GLOBAIS*/
+.cursor-pointer{
+    cursor: pointer;
+}
 .select2-container .select2-selection--single{
     height: 34px!important;
     padding: 2px!important;
