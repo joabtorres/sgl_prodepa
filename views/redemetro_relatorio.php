@@ -55,10 +55,10 @@
                         endif;
                     endforeach;
                 } else {
-                    echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">
+                    echo '<div class="col-xs-12"><div class="alert alert-danger alert-dismissible fade in" role="alert">
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
                     Desculpe, não foi possível localizar nenhum registro !
-                    </div>';
+                    </div></div>';
                 }
                 ?>
             </div>  
