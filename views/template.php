@@ -21,7 +21,7 @@
 
     <body onload="mostrarConteudo()">
         <div id="tela_load">
-           
+
         </div>
         <div id="tela_sistema">
 
@@ -53,10 +53,10 @@
                         </form>
                     </li>
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> Joab <b class="caret"></b></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> <?php echo $_SESSION['user_sgl']['nome'] ?> <b class="caret"></b></a>
                         <ul class="dropdown-menu">
                             <li>
-                                <a href="<?php echo BASE_URL ?>/editar/usuario/1"><i class="fa fa-user"></i> Editar Perfil</a>
+                                <a href="<?php echo BASE_URL ?>/editar/usuario/<?php echo $_SESSION['user_sgl']['cod'] ?>"><i class="fa fa-user"></i> Editar Perfil</a>
                             </li>
                             <li class="divider"></li>
                             <li>
@@ -71,10 +71,10 @@
                 <div class="collapse navbar-collapse navbar-ex1-collapse">
                     <nav class="side-nav">
                         <figure>
-                            <img src="<?php echo BASE_URL ?>/assets/imagens/user_masculino.png" class="img-center img-responsive img-circle">
+                            <img src="<?php echo BASE_URL . '/' . $_SESSION['user_sgl']['imagem']; ?>" class="img-center img-responsive img-circle">
                             <figcaption>
-                                <p class="text-center text-uppercase">Joab Torres Alencar</p>
-                                <p class="text-center">Estagiário</p>
+                                <p class="text-center text-uppercase"><?php echo $_SESSION['user_sgl']['nome'] . ' ' . $_SESSION['user_sgl']['sobrenome'] ?></p>
+                                <p class="text-center"><?php echo $_SESSION['user_sgl']['cargo'] ?></p>
                             </figcaption>
                         </figure>
 
@@ -83,26 +83,28 @@
                             <li >
                                 <a href="<?php echo BASE_URL ?>"><i class="fa fa-tachometer"></i> Inicial</a>
                             </li>
-                            <li>
-                                <a href="javascript:;" data-toggle="collapse" data-target="#menu_cadastro"><i class="glyphicon glyphicon-plus-sign"></i> Cadastrar <i class="fa fa-fw fa-caret-down pull-right"></i></a>
-                                <ul id="menu_cadastro" class="collapse">
-                                    <li>
-                                        <a href="<?php echo BASE_URL ?>/cadastrar/cidade"><i class="fa fa-plus-square"></i> Cidade</a>
-                                    </li>
-                                    <li>
-                                        <a href="<?php echo BASE_URL ?>/cadastrar/ap"><i class="fa fa-plus-square"></i> AP</a>
-                                    </li>
-                                    <li>
-                                        <a href="<?php echo BASE_URL ?>/cadastrar/redemetro"><i class="fa fa-plus-square"></i> Rede Metro</a>
-                                    </li>
-                                    <li>
-                                        <a href="<?php echo BASE_URL ?>/cadastrar/orgao"><i class="fa fa-plus-square"></i> Orgão</a>
-                                    </li>
-                                    <li>
-                                        <a href="<?php echo BASE_URL ?>/cadastrar/unidade"><i class="fa fa-plus-square"></i> Unidade</a>
-                                    </li>
-                                </ul>
-                            </li>
+                            <?php if (isset($_SESSION['user_sgl']['nivel']) && !empty($_SESSION['user_sgl']['nivel'])) : ?>
+                                <li>
+                                    <a href="javascript:;" data-toggle="collapse" data-target="#menu_cadastro"><i class="glyphicon glyphicon-plus-sign"></i> Cadastrar <i class="fa fa-fw fa-caret-down pull-right"></i></a>
+                                    <ul id="menu_cadastro" class="collapse">
+                                        <li>
+                                            <a href="<?php echo BASE_URL ?>/cadastrar/cidade"><i class="fa fa-plus-square"></i> Cidade</a>
+                                        </li>
+                                        <li>
+                                            <a href="<?php echo BASE_URL ?>/cadastrar/ap"><i class="fa fa-plus-square"></i> AP</a>
+                                        </li>
+                                        <li>
+                                            <a href="<?php echo BASE_URL ?>/cadastrar/redemetro"><i class="fa fa-plus-square"></i> Rede Metro</a>
+                                        </li>
+                                        <li>
+                                            <a href="<?php echo BASE_URL ?>/cadastrar/orgao"><i class="fa fa-plus-square"></i> Orgão</a>
+                                        </li>
+                                        <li>
+                                            <a href="<?php echo BASE_URL ?>/cadastrar/unidade"><i class="fa fa-plus-square"></i> Unidade</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            <?php endif; ?>
                             <li>
                                 <a href="javascript:;" data-toggle="collapse" data-target="#menu_relatorio"><i class="fa fa-share"></i> Relatórios <i class="fa fa-fw fa-caret-down pull-right"></i></a>
                                 <ul id="menu_relatorio" class="collapse">
@@ -126,20 +128,22 @@
                                     </li>
                                 </ul>
                             </li>
-                            <li>
-                                <a href="javascript:;" data-toggle="collapse" data-target="#menu_usuario"><i class="fa fa-users"></i> Usuários <i class="fa fa-fw fa-caret-down pull-right"></i></a>
-                                <ul id="menu_usuario" class="collapse">
-                                    <li>
-                                        <a href="<?php echo BASE_URL ?>/cadastrar/usuario"><i class="fa fa-user-plus"></i> Novo Usuário</a>
-                                    </li>
-                                    <li>
-                                        <a href="<?php echo BASE_URL ?>/editar/usuario"><i class="fa fa-user"></i> Editar Perfil</a>
-                                    </li>
-                                    <li>
-                                        <a href="<?php echo BASE_URL ?>/usuario/index"><i class="fa fa-users"></i> Lista Usuários</a>
-                                    </li>
-                                </ul>
-                            </li>
+                            <?php if (isset($_SESSION['user_sgl']['nivel']) && !empty($_SESSION['user_sgl']['nivel'])) : ?>
+                                <li>
+                                    <a href="javascript:;" data-toggle="collapse" data-target="#menu_usuario"><i class="fa fa-users"></i> Usuários <i class="fa fa-fw fa-caret-down pull-right"></i></a>
+                                    <ul id="menu_usuario" class="collapse">
+                                        <li>
+                                            <a href="<?php echo BASE_URL ?>/cadastrar/usuario"><i class="fa fa-user-plus"></i> Novo Usuário</a>
+                                        </li>
+                                        <li>
+                                            <a href="<?php echo BASE_URL ?>/editar/usuario"><i class="fa fa-user"></i> Editar Perfil</a>
+                                        </li>
+                                        <li>
+                                            <a href="<?php echo BASE_URL ?>/usuario/index"><i class="fa fa-users"></i> Lista Usuários</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            <?php endif; ?>
                             <li>
                                 <a href="<?php echo BASE_URL ?>/usuario/sair"><i class="fa fa-sign-out"></i> Sair</a>
                             </li>

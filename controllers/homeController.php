@@ -18,9 +18,11 @@ class homeController extends controller {
      * @author Joab Torres <joabtorres1508@gmail.com>
      */
     public function index() {
-        $view = "home";
-        $dados = array("nome" => "Joab Torres Alencar");
-        $this->loadTemplate($view, $dados);
+        if ($this->checkUserPattern()) {
+            $view = "home";
+            $dados = array("nome" => "Joab Torres Alencar");
+            $this->loadTemplate($view, $dados);
+        }
     }
 
 }

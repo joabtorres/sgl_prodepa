@@ -22,7 +22,6 @@ class controller {
         if (isset($_SESSION['user_sgl']['statu']) && $_SESSION['user_sgl']['statu']) {
             return true;
         } else {
-            return false;
             header("Location: /login");
         }
     }

@@ -47,7 +47,15 @@ class usuario extends model {
         $sql->bindValue(':cargo', $data['cargo']);
         $sql->bindValue(':sexo', $data['sexo']);
         $sql->bindValue(':nivel', $data['nivel']);
-        $sql->bindValue(':imagem', $this->save_image($data['imagem']));
+        if (!empty($data['imagem'])) {
+            $sql->bindValue(':imagem', $this->save_image($data['imagem']));
+        } else {
+            if ($data['sexo'] = 'M') {
+                $sql->bindValue(':imagem', 'uploads/usuarios/user_masculino.png');
+            }else{
+                $sql->bindValue(':imagem', 'uploads/usuarios/user_feminino.png');
+            }
+        }
         $sql->bindValue(':statu', 1);
         $sql->execute();
     }
@@ -140,8 +148,8 @@ class usuario extends model {
      */
     private function save_image($file) {
         $imagem = array();
-        $largura = 240;
-        $altura = 240;
+        $largura = 140;
+        $altura = 140;
         $imagem['temp'] = $file['tmp_name'];
         $imagem['extensao'] = explode(".", $file['name']);
         $imagem['extensao'] = strtolower(end($imagem['extensao']));

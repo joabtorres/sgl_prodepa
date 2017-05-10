@@ -56,6 +56,7 @@ class usuarioController extends controller {
      * @author Joab Torres <joabtorres1508@gmail.com>
      */
     public function sair() {
+        $_SESSION['user_sgl'] = array();
         header("Location: /login");
     }
 
