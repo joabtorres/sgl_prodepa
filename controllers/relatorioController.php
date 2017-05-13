@@ -432,7 +432,7 @@ class relatorioController extends controller {
                     $cidadeModel = new cidade();
 
                     //array que vai ser utilizado na consulta com banco de dados
-                    $data = array('cod_nucleo' => 2, 'nome_unidade' => '%' . $_SESSION['sgl']['buscarapida']['campo'] . '%');
+                    $data = array('cod_nucleo' => $_SESSION['user_sgl']['nucleo'], 'nome_unidade' => '%' . $_SESSION['sgl']['buscarapida']['campo'] . '%');
 
                     //paginação
                     $limite = 1;
@@ -485,7 +485,7 @@ class relatorioController extends controller {
                     $cidadeModel = new cidade();
 
                     //array que vai ser utilizado na consulta com banco de dados
-                    $data = array('cod_nucleo' => 2, 'nome_orgao' => '%' . $_SESSION['sgl']['buscarapida']['campo'] . '%');
+                    $data = array('cod_nucleo' => $_SESSION['user_sgl']['nucleo'], 'nome_orgao' => '%' . $_SESSION['sgl']['buscarapida']['campo'] . '%');
 
                     //paginação
                     $limite = 1;

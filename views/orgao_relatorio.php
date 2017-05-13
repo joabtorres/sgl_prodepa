@@ -4,11 +4,11 @@
             <div class="col-sm-12 col-md-12 col-lg-12" id="pagina-header">
                 <h2><?php echo (isset($orgao)) ? $orgao['nome'] : "Orgãos" ?></h2>
                 <ol class="breadcrumb">
-                    <li><a  href="<?php echo BASE_URL ?>/home"><i class="glyphicon glyphicon-dashboard"></i> Inicial</a></li>
+                    <li><a  href="<?php echo BASE_URL ?>/home"><i class="fa fa-tachometer"></i> Inicial</a></li>
                     <?php if (isset($cidade)): ?>
-                        <li><a href="<?php echo BASE_URL ?>/relatorio/cidades/1/<?php echo $cidade['cod'] ?>"><i class="glyphicon glyphicon-th-list"></i> <?php echo $cidade['nome'] ?></a></li>
+                        <li><a href="<?php echo BASE_URL ?>/relatorio/cidades/1/<?php echo $cidade['cod'] ?>"><i class="fa fa-list"></i> <?php echo $cidade['nome'] ?></a></li>
                     <?php endif; ?>
-                    <li class="active"><i class="glyphicon glyphicon-th-list"></i> <?php echo (isset($orgao)) ? $orgao['nome'] : "Orgãos" ?></li>
+                    <li class="active"><i class="fa fa-list"></i> <?php echo (isset($orgao)) ? $orgao['nome'] : "Orgãos" ?></li>
                 </ol>
             </div>
         </div>
@@ -98,7 +98,7 @@
                                                     <td><a href="<?php echo BASE_URL . '/relatorio/orgaos/' . $pagina_atual . '/' . $cidades['cod_cidade'] . '/' . $orgaos['cod_orgao'] ?>"><?php echo $orgaos['nome_orgao'] ?></a></td>
                                                     <td><?php echo $orgaos['categoria_orgao'] ?></td>
                                                     <td class="text-center "><?php echo count($orgaos['unidades']) ?></td>
-                                                    <td class="table-acao"><a class="btn btn-primary btn-sm" href="<?php echo BASE_URL . '/editar/orgao/' . $orgaos['cod_orgao'] ?>"><i class="fa fa-pencil"></i></a> <button type="button"  class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modal_recupera"><i class="fa fa-trash"></i></button></td>
+                                                    <td class="table-acao"><a class="btn btn-primary btn-sm" href="<?php echo BASE_URL . '/editar/orgao/' . $orgaos['cod_orgao'] ?>"><i class="fa fa-pencil"></i></a> <button type="button"  class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modal_orgao_<?php echo $cidades['cod_cidade'] . '_' . $orgaos['cod_orgao'] ?>"><i class="fa fa-trash"></i></button></td>
                                                 </tr>
                                                 <?php
                                             endif;
@@ -161,3 +161,49 @@
 </div>
 </div>
 <!-- /#conteudo_sistema -->
+
+<?php
+if (isset($resultadoView)) {
+    if (isset($orgao)) {
+        foreach ($resultadoView as $cidades):
+            foreach ($cidades['orgaos'] as $orgaos) :
+                if (!empty($orgaos['unidades'])):
+                    ?>
+
+
+                    <?php
+                endif;
+            endforeach;
+        endforeach;
+    }else {
+        foreach ($resultadoView as $cidades):
+            foreach ($cidades['orgaos'] as $orgaos) :
+                if (!empty($orgaos['unidades'])):
+                    ?>
+                    <!--MODAL - ESTRUTURA BÁSICA-->
+                    <section class="modal fade" id="modal_orgao_<?php echo $cidades['cod_cidade'] . '_' . $orgaos['cod_orgao'] ?>" tabindex="-1" role="dialog">
+                        <article class="modal-dialog modal-lg" role="document">
+                            <section class="modal-content">
+                                <header class="modal-header bg-primary">
+                                    <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    <p class="panel-title">Deseja remover este registro?</p>
+                                </header>
+                                <article class="modal-body">
+                                    <p class="text-justify"><?php echo '<b>Orgão: </b>' . $orgaos['nome_orgao'] . ' - <b>Código: </b>' . $orgaos['cod_orgao'].' - <b> Unidade(s): </b> '.count($orgaos['unidades'])?></p>
+                                    <p class="text-justify text-danger"><span class="font-bold">OBS¹ : </span> Se você remove o orgão:  <b class="font-bold"><?php echo $orgaos['nome_orgao'] ?></b>, será removido todas as unidades cadastradas e seus respectivos históricos</p>
+                                    <p class="text-ri"></p>
+                                </article>
+                                <footer class="modal-footer">
+                                    <a class="btn btn-danger " href="<?php echo BASE_URL . '/excluir/orgao/' . $orgaos['cod_orgao'] ?>"> <i class="fa fa-trash"></i> Excluir</a> | 
+                                    <button class="btn btn-default" type="button" data-dismiss="modal"><i class="fa fa-close"></i> Fechar</button>
+                                </footer>
+                            </section>
+                        </article>
+                    </section>
+                    <?php
+                endif;
+            endforeach;
+        endforeach;
+    }
+}
+?>

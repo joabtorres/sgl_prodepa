@@ -13,6 +13,9 @@ form label{
     font-weight: normal!important;
 }
 /* CLASSES GLOBAIS*/
+.no-margin{
+    margin: 0;
+}
 .cursor-pointer{
     cursor: pointer;
 }
@@ -20,10 +23,16 @@ form label{
     height: 34px!important;
     padding: 2px!important;
 }
+.text-blue{
+    color: #2E3092;
+    font-weight: bolder;
+}
+.font-stronge{
+    font-weight:600;
+}
 .title-destaque{
     color: #2E3092;
     font-weight: bolder;
-    display: block;
 }
 .clear{
     clear: both;
@@ -45,6 +54,9 @@ form label{
 .jumbotron{background-color: #337AB7; color: white; padding-top:10px; padding-bottom: 10px;}
 .jumbotron>ul>li{font-size: 17px;}
 
+.title_sublinha{
+    border-bottom: 1px solid #cecece;
+}
 .table-acao{
     width: 130px
 }

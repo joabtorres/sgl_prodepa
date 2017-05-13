@@ -4,8 +4,8 @@
             <div class="col-sm-12 col-md-12 col-lg-12" id="pagina-header">
                 <h2><?php echo (isset($cidade)) ? $cidade['nome'] : "Cidades" ?></h2>
                 <ol class="breadcrumb">
-                    <li><a  href="<?php echo BASE_URL ?>/home"><i class="glyphicon glyphicon-dashboard"></i> Inicial</a></li>
-                    <li class="active"><i class="glyphicon glyphicon-th-list"></i> <?php echo (isset($cidade)) ? $cidade['nome'] : "Cidades" ?></li>
+                    <li><a  href="<?php echo BASE_URL ?>/home"><i class="fa fa-tachometer"></i> Inicial</a></li>
+                    <li class="active"><i class="fa fa-list"></i> <?php echo (isset($cidade)) ? $cidade['nome'] : "Cidades" ?></li>
                 </ol>
             </div>
         </div>
