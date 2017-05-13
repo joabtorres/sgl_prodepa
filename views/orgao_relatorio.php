@@ -28,35 +28,37 @@
                                             <p class="panel-title"><span class="font-bold">Cidade: </span> <?php echo $cidades['cidade'] ?> </p>
                                             <p class="panel-title"><span class="font-bold">Orgão: </span> <?php echo $orgaos['nome_orgao'] ?> -  <?php echo $orgaos['categoria_orgao'] ?></p>
                                         </div>
-                                        <table class="table table-striped table-bordered table-hover table-condensed">
-                                            <thead>
-                                                <tr>
-                                                    <th class="text-center">#</th>
-                                                    <th>Unidade </th>
-                                                    <th>Ação</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody >
-                                                <?php
-                                                $qtd = 1;
-                                                foreach ($orgaos['unidades'] as $unidades):
-                                                    ?>
+                                        <div class="table-responsive">
+                                            <table class="table table-striped table-bordered table-hover table-condensed">
+                                                <thead>
                                                     <tr>
-                                                        <td class="text-center table-qtd">
-                                                            <?php
-                                                            echo $qtd;
-                                                            $qtd++;
-                                                            ?>
-                                                        </td>
-                                                        <td><a href="<?php echo BASE_URL . '/unidade/orgao/' . $unidades['cod_unidade'] . '/' . $cidades['cod_cidade'] . '/' . $orgaos['cod_orgao'] ?>"><?php echo $unidades['nome_unidade'] ?></a></td>
-
-                                                        <td class="table-acao"><a class="btn btn-primary btn-sm" href="<?php echo BASE_URL . '/editar/unidade/' . $unidades['cod_unidade'] ?>"><i class="fa fa-pencil"></i></a> <button type="button"  class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modal_unidade_<?php echo $cidades['cod_cidade'] . '_' . $orgaos['cod_orgao'] . '_' . $unidades['cod_unidade'] ?>"><i class="fa fa-trash"></i></button></td>
+                                                        <th class="text-center">#</th>
+                                                        <th>Unidade </th>
+                                                        <th>Ação</th>
                                                     </tr>
+                                                </thead>
+                                                <tbody >
                                                     <?php
-                                                endforeach;
-                                                ?>
-                                            </tbody>
-                                        </table>
+                                                    $qtd = 1;
+                                                    foreach ($orgaos['unidades'] as $unidades):
+                                                        ?>
+                                                        <tr>
+                                                            <td class="text-center table-qtd">
+                                                                <?php
+                                                                echo $qtd;
+                                                                $qtd++;
+                                                                ?>
+                                                            </td>
+                                                            <td><a href="<?php echo BASE_URL . '/unidade/orgao/' . $unidades['cod_unidade'] . '/' . $cidades['cod_cidade'] . '/' . $orgaos['cod_orgao'] ?>"><?php echo $unidades['nome_unidade'] ?></a></td>
+
+                                                            <td class="table-acao"><a class="btn btn-primary btn-sm" href="<?php echo BASE_URL . '/editar/unidade/' . $unidades['cod_unidade'] ?>"><i class="fa fa-pencil"></i></a> <button type="button"  class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modal_unidade_<?php echo $cidades['cod_cidade'] . '_' . $orgaos['cod_orgao'] . '_' . $unidades['cod_unidade'] ?>"><i class="fa fa-trash"></i></button></td>
+                                                        </tr>
+                                                        <?php
+                                                    endforeach;
+                                                    ?>
+                                                </tbody>
+                                            </table>
+                                        </div>
                                     </div>
                                 </div>
                                 <?php
@@ -72,40 +74,42 @@
                                 <div class="panel-heading">
                                     <p class="panel-title"><span class="font-bold">Cidade: </span> <?php echo $cidades['cidade'] ?> </p>
                                 </div>
-                                <table class="table table-striped table-bordered table-hover table-condensed">
-                                    <thead>
-                                        <tr>
-                                            <th class="text-center">#</th>
-                                            <th> Orgão </th>
-                                            <th>Esfera </th>
-                                            <th>Unidade(s)</th>
-                                            <th>Ação</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody >
-                                        <?php
-                                        $qtd = 1;
-                                        foreach ($cidades['orgaos'] as $orgaos) :
-                                            if (!empty($orgaos['unidades'])):
-                                                ?>
-                                                <tr>
-                                                    <td class="text-center table-qtd">
-                                                        <?php
-                                                        echo $qtd;
-                                                        $qtd++;
-                                                        ?>
-                                                    </td>
-                                                    <td><a href="<?php echo BASE_URL . '/relatorio/orgaos/' . $pagina_atual . '/' . $cidades['cod_cidade'] . '/' . $orgaos['cod_orgao'] ?>"><?php echo $orgaos['nome_orgao'] ?></a></td>
-                                                    <td><?php echo $orgaos['categoria_orgao'] ?></td>
-                                                    <td class="text-center "><?php echo count($orgaos['unidades']) ?></td>
-                                                    <td class="table-acao"><a class="btn btn-primary btn-sm" href="<?php echo BASE_URL . '/editar/orgao/' . $orgaos['cod_orgao'] ?>"><i class="fa fa-pencil"></i></a> <button type="button"  class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modal_orgao_<?php echo $cidades['cod_cidade'] . '_' . $orgaos['cod_orgao'] ?>"><i class="fa fa-trash"></i></button></td>
-                                                </tr>
-                                                <?php
-                                            endif;
-                                        endforeach;
-                                        ?>
-                                    </tbody>
-                                </table>
+                                <div class="table-responsive">
+                                    <table class="table table-striped table-bordered table-hover table-condensed">
+                                        <thead>
+                                            <tr>
+                                                <th class="text-center">#</th>
+                                                <th> Orgão </th>
+                                                <th>Esfera </th>
+                                                <th>Unidade(s)</th>
+                                                <th>Ação</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody >
+                                            <?php
+                                            $qtd = 1;
+                                            foreach ($cidades['orgaos'] as $orgaos) :
+                                                if (!empty($orgaos['unidades'])):
+                                                    ?>
+                                                    <tr>
+                                                        <td class="text-center table-qtd">
+                                                            <?php
+                                                            echo $qtd;
+                                                            $qtd++;
+                                                            ?>
+                                                        </td>
+                                                        <td><a href="<?php echo BASE_URL . '/relatorio/orgaos/' . $pagina_atual . '/' . $cidades['cod_cidade'] . '/' . $orgaos['cod_orgao'] ?>"><?php echo $orgaos['nome_orgao'] ?></a></td>
+                                                        <td><?php echo $orgaos['categoria_orgao'] ?></td>
+                                                        <td class="text-center "><?php echo count($orgaos['unidades']) ?></td>
+                                                        <td class="table-acao"><a class="btn btn-primary btn-sm" href="<?php echo BASE_URL . '/editar/orgao/' . $orgaos['cod_orgao'] ?>"><i class="fa fa-pencil"></i></a> <button type="button"  class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modal_orgao_<?php echo $cidades['cod_cidade'] . '_' . $orgaos['cod_orgao'] ?>"><i class="fa fa-trash"></i></button></td>
+                                                    </tr>
+                                                    <?php
+                                                endif;
+                                            endforeach;
+                                            ?>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                         <?php
@@ -168,29 +172,31 @@ if (isset($resultadoView)) {
         foreach ($resultadoView as $cidades):
             foreach ($cidades['orgaos'] as $orgaos) :
                 if (!empty($orgaos['unidades'])):
-                    ?>
-                    <!--MODAL - ESTRUTURA BÁSICA-->
-                    <section class="modal fade" id="modal_unidade_<?php echo $cidades['cod_cidade'] . '_' . $orgaos['cod_orgao'] . '_' . $unidades['cod_unidade'] ?>" tabindex="-1" role="dialog">
-                        <article class="modal-dialog modal-md" role="document">
-                            <section class="modal-content">
-                                <header class="modal-header bg-primary">
-                                    <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                    <p class="panel-title">Deseja remover este registro?</p>
-                                </header>
-                                <article class="modal-body">
-                                    <p class="text-justify"><?php echo '<b>Unidade: </b>' . $unidades['nome_unidade'] . ' - <b>Código: </b>' . $unidades['cod_unidade']; ?>;</p>
-                                    <p class="text-justify text-danger"><span class="font-bold">OBS¹ : </span> Se você remove a unidade:  <b class="font-bold"><?php echo $orgaos['nome_orgao'] ?></b>, será removido todos os respectivos dados como, por exemplo, endereço, contato e históricos.</p>
-                                    <p class="text-ri"></p>
-                                </article>
-                                <footer class="modal-footer">
-                                    <a class="btn btn-danger " href="<?php echo BASE_URL . '/excluir/orgao/' . $orgaos['cod_orgao'] ?>"> <i class="fa fa-trash"></i> Excluir</a> | 
-                                    <button class="btn btn-default" type="button" data-dismiss="modal"><i class="fa fa-close"></i> Fechar</button>
-                                </footer>
-                            </section>
-                        </article>
-                    </section>
+                    foreach ($orgaos['unidades'] as $unidades):
+                        ?>
+                        <!--MODAL - ESTRUTURA BÁSICA-->
+                        <section class="modal fade" id="modal_unidade_<?php echo $cidades['cod_cidade'] . '_' . $orgaos['cod_orgao'] . '_' . $unidades['cod_unidade'] ?>" tabindex="-1" role="dialog">
+                            <article class="modal-dialog modal-md" role="document">
+                                <section class="modal-content">
+                                    <header class="modal-header bg-primary">
+                                        <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        <p class="panel-title">Deseja remover este registro?</p>
+                                    </header>
+                                    <article class="modal-body">
+                                        <p class="text-justify"><?php echo '<b>Unidade: </b>' . $unidades['nome_unidade'] . ' - <b>Código: </b>' . $unidades['cod_unidade']; ?>;</p>
+                                        <p class="text-justify text-danger"><span class="font-bold">OBS¹ : </span> Se você remove a unidade:  <b class="font-bold"><?php echo $unidades['nome_unidade'] ?></b>, será removido todos os respectivos dados como, por exemplo, endereço, contato e históricos.</p>
+                                        <p class="text-ri"></p>
+                                    </article>
+                                    <footer class="modal-footer">
+                                        <a class="btn btn-danger " href="<?php echo BASE_URL . '/excluir/unidade/' . $unidades['cod_unidade'] ?>"> <i class="fa fa-trash"></i> Excluir</a> | 
+                                        <button class="btn btn-default" type="button" data-dismiss="modal"><i class="fa fa-close"></i> Fechar</button>
+                                    </footer>
+                                </section>
+                            </article>
+                        </section>
 
-                    <?php
+                        <?php
+                    endforeach;
                 endif;
             endforeach;
         endforeach;

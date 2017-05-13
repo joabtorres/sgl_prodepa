@@ -179,8 +179,8 @@ class relatorioController extends controller {
             if (empty($cod_cidade)) {
                 //-- COMANDO PARA LISTA AS  CIDADES DESTACADAS QUE CONTEM UNIDADE REGISTRADA;
                 $resultado_cidade = $cidadeModel->read("SELECT DISTINCT(sgl_cidade_area_atuacao.cidade_area_atuacao), sgl_cidade_area_atuacao.cod_area_atuacao FROM sgl_unidade, sgl_cidade_area_atuacao, sgl_cidade_nucleo WHERE sgl_unidade.cod_cidade=sgl_cidade_area_atuacao.cod_area_atuacao AND sgl_cidade_area_atuacao.cod_nucleo=sgl_cidade_nucleo.cod_nucleo AND sgl_cidade_nucleo.cod_nucleo=:cod_nucleo ORDER BY sgl_cidade_area_atuacao.cidade_area_atuacao ASC LIMIT " . $indice . ',' . $limite, $data);
-                $resultado_ap = $apModel->read("SELECT DISTINCT(sgl_ap.nome_ap), sgl_ap.cod_ap, sgl_ap.banda_ap, sgl_cidade_area_atuacao.cidade_area_atuacao FROM sgl_ap, sgl_unidade, sgl_cidade_area_atuacao, sgl_cidade_nucleo WHERE sgl_ap.cod_ap=sgl_unidade.cod_ap AND sgl_unidade.cod_cidade=sgl_cidade_area_atuacao.cod_area_atuacao AND sgl_cidade_area_atuacao.cod_nucleo=sgl_cidade_nucleo.cod_nucleo AND sgl_cidade_nucleo.cod_nucleo=:cod_nucleo ORDER BY sgl_cidade_area_atuacao.cidade_area_atuacao ASC, sgl_ap.nome_ap ASC;", $data);
-                $resultado_unidade = $unidadeModel->read("SELECT sgl_ap.nome_ap, sgl_ap.cod_ap, sgl_ap.banda_ap, sgl_cidade_area_atuacao.cidade_area_atuacao, sgl_unidade.cod_unidade, sgl_unidade.nome_unidade FROM sgl_ap, sgl_unidade, sgl_cidade_area_atuacao, sgl_cidade_nucleo WHERE sgl_ap.cod_ap=sgl_unidade.cod_ap AND sgl_unidade.cod_cidade=sgl_cidade_area_atuacao.cod_area_atuacao AND sgl_cidade_area_atuacao.cod_nucleo=sgl_cidade_nucleo.cod_nucleo AND sgl_cidade_nucleo.cod_nucleo=:cod_nucleo ORDER BY sgl_cidade_area_atuacao.cidade_area_atuacao ASC, sgl_ap.nome_ap ASC, sgl_unidade.nome_unidade ASC;", $data);
+                $resultado_ap = $apModel->read("SELECT DISTINCT(sgl_ap.nome_ap), sgl_ap.cod_ap, sgl_ap.banda_ap, sgl_ap.ip_ap, sgl_cidade_area_atuacao.cidade_area_atuacao FROM sgl_ap, sgl_unidade, sgl_cidade_area_atuacao, sgl_cidade_nucleo WHERE sgl_ap.cod_ap=sgl_unidade.cod_ap AND sgl_unidade.cod_cidade=sgl_cidade_area_atuacao.cod_area_atuacao AND sgl_cidade_area_atuacao.cod_nucleo=sgl_cidade_nucleo.cod_nucleo AND sgl_cidade_nucleo.cod_nucleo=:cod_nucleo ORDER BY sgl_cidade_area_atuacao.cidade_area_atuacao ASC, sgl_ap.nome_ap ASC;", $data);
+                $resultado_unidade = $unidadeModel->read("SELECT  sgl_cidade_area_atuacao.cidade_area_atuacao, sgl_ap.nome_ap, sgl_ap.cod_ap, sgl_ap.banda_ap,sgl_ap.ip_ap, sgl_unidade.cod_unidade, sgl_unidade.nome_unidade FROM sgl_ap, sgl_unidade, sgl_cidade_area_atuacao, sgl_cidade_nucleo WHERE sgl_ap.cod_ap=sgl_unidade.cod_ap AND sgl_unidade.cod_cidade=sgl_cidade_area_atuacao.cod_area_atuacao AND sgl_cidade_area_atuacao.cod_nucleo=sgl_cidade_nucleo.cod_nucleo AND sgl_cidade_nucleo.cod_nucleo=:cod_nucleo ORDER BY sgl_cidade_area_atuacao.cidade_area_atuacao ASC, sgl_ap.nome_ap ASC, sgl_unidade.nome_unidade ASC;", $data);
 
                 //total de cidades
                 $cidadeModel->read("SELECT DISTINCT(sgl_cidade_area_atuacao.cidade_area_atuacao), sgl_cidade_area_atuacao.cod_area_atuacao FROM sgl_unidade, sgl_cidade_area_atuacao, sgl_cidade_nucleo WHERE sgl_unidade.cod_cidade=sgl_cidade_area_atuacao.cod_area_atuacao AND sgl_cidade_area_atuacao.cod_nucleo=sgl_cidade_nucleo.cod_nucleo AND sgl_cidade_nucleo.cod_nucleo=:cod_nucleo ORDER BY sgl_cidade_area_atuacao.cidade_area_atuacao ASC", $data);
@@ -189,22 +189,22 @@ class relatorioController extends controller {
 
                 $data['cod_cidade'] = addslashes($cod_cidade);
                 //lista todos os orgãos que tem unidade cadastrada de cidade específica
-                $resultado_cidade = $cidadeModel->read("SELECT DISTINCT(sgl_cidade_area_atuacao.cidade_area_atuacao), sgl_cidade_area_atuacao.cod_area_atuacao FROM sgl_unidade, sgl_cidade_area_atuacao, sgl_cidade_nucleo WHERE sgl_unidade.cod_cidade=sgl_cidade_area_atuacao.cod_area_atuacao AND sgl_cidade_area_atuacao.cod_nucleo=sgl_cidade_nucleo.cod_nucleo AND sgl_cidade_nucleo.cod_nucleo=:cod_nucleo  AND sgl_cidade_area_atuacao.cod_area_atuacao=:cod_cidade ORDER BY sgl_cidade_area_atuacao.cidade_area_atuacao ASC ;", $data);
+                $resultado_cidade = $cidadeModel->read("SELECT DISTINCT(sgl_cidade_area_atuacao.cidade_area_atuacao), sgl_cidade_area_atuacao.cod_area_atuacao FROM sgl_unidade, sgl_cidade_area_atuacao, sgl_cidade_nucleo WHERE sgl_unidade.cod_cidade=sgl_cidade_area_atuacao.cod_area_atuacao AND sgl_cidade_area_atuacao.cod_nucleo=sgl_cidade_nucleo.cod_nucleo AND sgl_cidade_nucleo.cod_nucleo=:cod_nucleo AND sgl_cidade_area_atuacao.cod_area_atuacao=:cod_cidade ORDER BY sgl_cidade_area_atuacao.cidade_area_atuacao ASC;", $data);
                 if ($resultado_cidade) {
                     $dados['cidade'] = array("nome" => $resultado_cidade[0]['cidade_area_atuacao'], "cod" => $resultado_cidade[0]['cod_area_atuacao']);
                 }
                 //se não for setado o orgão
                 if (empty($cod_ap)) {
-                    $resultado_ap = $apModel->read("SELECT DISTINCT(sgl_ap.nome_ap), sgl_ap.cod_ap, sgl_cidade_area_atuacao.cidade_area_atuacao FROM sgl_ap, sgl_unidade, sgl_cidade_area_atuacao, sgl_cidade_nucleo WHERE sgl_ap.cod_ap=sgl_unidade.cod_ap AND sgl_unidade.cod_cidade=sgl_cidade_area_atuacao.cod_area_atuacao AND sgl_cidade_area_atuacao.cod_nucleo=sgl_cidade_nucleo.cod_nucleo AND sgl_cidade_nucleo.cod_nucleo=:cod_nucleo AND sgl_cidade_area_atuacao.cod_area_atuacao=:cod_cidade ORDER BY sgl_cidade_area_atuacao.cidade_area_atuacao ASC, sgl_ap.nome_ap ASC;", $data);
-                    $resultado_unidade = $unidadeModel->read("SELECT sgl_ap.nome_ap, sgl_ap.cod_ap, sgl_cidade_area_atuacao.cidade_area_atuacao, sgl_unidade.cod_unidade, sgl_unidade.nome_unidade FROM sgl_ap, sgl_unidade, sgl_cidade_area_atuacao, sgl_cidade_nucleo WHERE sgl_ap.cod_ap=sgl_unidade.cod_ap AND sgl_unidade.cod_cidade=sgl_cidade_area_atuacao.cod_area_atuacao AND sgl_cidade_area_atuacao.cod_nucleo=sgl_cidade_nucleo.cod_nucleo AND sgl_cidade_nucleo.cod_nucleo=:cod_nucleo AND sgl_cidade_area_atuacao.cod_area_atuacao=:cod_cidade ORDER BY sgl_cidade_area_atuacao.cidade_area_atuacao ASC, sgl_ap.nome_ap ASC, sgl_unidade.nome_unidade;", $data);
+                    $resultado_ap = $apModel->read("SELECT DISTINCT(sgl_ap.nome_ap), sgl_ap.cod_ap, sgl_ap.banda_ap, sgl_ap.ip_ap, sgl_cidade_area_atuacao.cidade_area_atuacao FROM sgl_ap, sgl_unidade, sgl_cidade_area_atuacao, sgl_cidade_nucleo WHERE sgl_ap.cod_ap=sgl_unidade.cod_ap AND sgl_unidade.cod_cidade=sgl_cidade_area_atuacao.cod_area_atuacao AND sgl_cidade_area_atuacao.cod_nucleo=sgl_cidade_nucleo.cod_nucleo AND sgl_cidade_nucleo.cod_nucleo=:cod_nucleo AND sgl_cidade_area_atuacao.cod_area_atuacao=:cod_cidade ORDER BY sgl_cidade_area_atuacao.cidade_area_atuacao ASC, sgl_ap.nome_ap ASC;", $data);
+                    $resultado_unidade = $unidadeModel->read("SELECT  sgl_cidade_area_atuacao.cidade_area_atuacao, sgl_ap.nome_ap, sgl_ap.cod_ap, sgl_ap.banda_ap,sgl_ap.ip_ap, sgl_unidade.cod_unidade, sgl_unidade.nome_unidade FROM sgl_ap, sgl_unidade, sgl_cidade_area_atuacao, sgl_cidade_nucleo WHERE sgl_ap.cod_ap=sgl_unidade.cod_ap AND sgl_unidade.cod_cidade=sgl_cidade_area_atuacao.cod_area_atuacao AND sgl_cidade_area_atuacao.cod_nucleo=sgl_cidade_nucleo.cod_nucleo AND sgl_cidade_nucleo.cod_nucleo=:cod_nucleo AND sgl_cidade_area_atuacao.cod_area_atuacao=:cod_cidade ORDER BY sgl_cidade_area_atuacao.cidade_area_atuacao ASC, sgl_ap.nome_ap ASC, sgl_unidade.nome_unidade ASC;", $data);
 
                     $total_registro = 1;
                 } else {
                     //lista todos os orgãos que tem unidade cadastrada de cidade específica e orgão específico
                     $data['cod_ap'] = addslashes($cod_ap);
 
-                    $resultado_ap = $apModel->read("SELECT DISTINCT(sgl_ap.nome_ap), sgl_ap.cod_ap, sgl_cidade_area_atuacao.cidade_area_atuacao FROM sgl_ap, sgl_unidade, sgl_cidade_area_atuacao, sgl_cidade_nucleo WHERE sgl_ap.cod_ap=sgl_unidade.cod_ap AND sgl_unidade.cod_cidade=sgl_cidade_area_atuacao.cod_area_atuacao AND sgl_cidade_area_atuacao.cod_nucleo=sgl_cidade_nucleo.cod_nucleo AND sgl_cidade_nucleo.cod_nucleo=:cod_nucleo AND sgl_cidade_area_atuacao.cod_area_atuacao=:cod_cidade AND sgl_ap.cod_ap=:cod_ap ORDER BY sgl_cidade_area_atuacao.cidade_area_atuacao ASC, sgl_ap.nome_ap ASC;", $data);
-                    $resultado_unidade = $unidadeModel->read("SELECT sgl_ap.nome_ap, sgl_ap.cod_ap, sgl_cidade_area_atuacao.cidade_area_atuacao, sgl_unidade.cod_unidade, sgl_unidade.nome_unidade FROM sgl_ap, sgl_unidade, sgl_cidade_area_atuacao, sgl_cidade_nucleo WHERE sgl_ap.cod_ap=sgl_unidade.cod_ap AND sgl_unidade.cod_cidade=sgl_cidade_area_atuacao.cod_area_atuacao AND sgl_cidade_area_atuacao.cod_nucleo=sgl_cidade_nucleo.cod_nucleo AND sgl_cidade_nucleo.cod_nucleo=:cod_nucleo AND sgl_cidade_area_atuacao.cod_area_atuacao=:cod_cidade AND sgl_ap.cod_ap=:cod_ap ORDER BY sgl_cidade_area_atuacao.cidade_area_atuacao ASC, sgl_ap.nome_ap ASC, sgl_unidade.nome_unidade;", $data);
+                    $resultado_ap = $apModel->read("SELECT DISTINCT(sgl_ap.nome_ap), sgl_ap.cod_ap, sgl_ap.banda_ap, sgl_ap.ip_ap, sgl_cidade_area_atuacao.cidade_area_atuacao FROM sgl_ap, sgl_unidade, sgl_cidade_area_atuacao, sgl_cidade_nucleo WHERE sgl_ap.cod_ap=sgl_unidade.cod_ap AND sgl_unidade.cod_cidade=sgl_cidade_area_atuacao.cod_area_atuacao AND sgl_cidade_area_atuacao.cod_nucleo=sgl_cidade_nucleo.cod_nucleo AND sgl_cidade_nucleo.cod_nucleo=:cod_nucleo AND sgl_cidade_area_atuacao.cod_area_atuacao=:cod_cidade AND sgl_ap.cod_ap=:cod_ap ORDER BY sgl_cidade_area_atuacao.cidade_area_atuacao ASC, sgl_ap.nome_ap ASC;", $data);
+                    $resultado_unidade = $unidadeModel->read("SELECT  sgl_cidade_area_atuacao.cidade_area_atuacao, sgl_ap.nome_ap, sgl_ap.cod_ap, sgl_ap.banda_ap,sgl_ap.ip_ap, sgl_unidade.cod_unidade, sgl_unidade.nome_unidade FROM sgl_ap, sgl_unidade, sgl_cidade_area_atuacao, sgl_cidade_nucleo WHERE sgl_ap.cod_ap=sgl_unidade.cod_ap AND sgl_unidade.cod_cidade=sgl_cidade_area_atuacao.cod_area_atuacao AND sgl_cidade_area_atuacao.cod_nucleo=sgl_cidade_nucleo.cod_nucleo AND sgl_cidade_nucleo.cod_nucleo=:cod_nucleo AND sgl_cidade_area_atuacao.cod_area_atuacao=:cod_cidade AND sgl_ap.cod_ap=:cod_ap ORDER BY sgl_cidade_area_atuacao.cidade_area_atuacao ASC, sgl_ap.nome_ap ASC, sgl_unidade.nome_unidade ASC;", $data);
 
                     if ($resultado_ap) {
                         $dados['ap'] = array('nome' => $resultado_ap[0]['nome_ap'], 'cod' => $resultado_ap[0]['cod_ap']);
@@ -221,7 +221,7 @@ class relatorioController extends controller {
                     $resultado[$qtdCidade] = array('cidade' => $cidade['cidade_area_atuacao'], 'cod_cidade' => $cidade['cod_area_atuacao'], 'aps' => array());
                     foreach ($resultado_ap as $ap) {
                         $qtdUnidade = 0;
-                        $resultado[$qtdCidade]['aps'][$qtdAps] = array('nome_ap' => $ap['nome_ap'], 'cod_ap' => $ap['cod_ap'], 'unidades' => array());
+                        $resultado[$qtdCidade]['aps'][$qtdAps] = array('nome_ap' => $ap['nome_ap'], 'cod_ap' => $ap['cod_ap'], 'banda_ap' => $ap['banda_ap'], 'ip_ap' => $ap['ip_ap'], 'unidades' => array());
                         foreach ($resultado_unidade as $unidade) {
                             if ($cidade['cidade_area_atuacao'] == $unidade['cidade_area_atuacao'] && $ap['nome_ap'] == $unidade['nome_ap'] && $cidade['cidade_area_atuacao'] == $ap['cidade_area_atuacao']) {
                                 $resultado[$qtdCidade]['aps'][$qtdAps]['unidades'][$qtdUnidade] = array('nome_unidade' => $unidade['nome_unidade'], 'cod_unidade' => $unidade['cod_unidade']);
@@ -252,16 +252,17 @@ class relatorioController extends controller {
      * @access public
      * @author Joab Torres <joabtorres1508@gmail.com>
      */
-    public function redemetro($page = 1, $cod_cidade = 0, $cod_ap = 0) {
+    public function redemetro($page = 1, $cod_cidade = 0, $cod_redemetro = 0) {
         if ($this->checkUserPattern()) {
             $view = "redemetro_relatorio";
             $dados = array();
             //models
+            $redeModel = new redemetro();
             $unidadeModel = new unidade();
             $cidadeModel = new cidade();
 
             //array que vai ser utilizado na consulta com banco de dados
-            $data = array('cod_nucleo' => $_SESSION['user_sgl']['nucleo'], 'conexao' => "Fibra");
+            $data = array('cod_nucleo' => $_SESSION['user_sgl']['nucleo']);
 
             //paginação
             $limite = 1;
@@ -269,47 +270,71 @@ class relatorioController extends controller {
             $pagina_atual = (isset($page) && !empty($page)) ? addslashes($page) : 1;
             $indice = ($pagina_atual - 1) * $limite;
 
+            //se não for setado a cidade
             if (empty($cod_cidade)) {
                 //-- COMANDO PARA LISTA AS  CIDADES DESTACADAS QUE CONTEM UNIDADE REGISTRADA;
-                $resultado_cidade = $cidadeModel->read("SELECT DISTINCT(sgl_cidade_area_atuacao.cidade_area_atuacao), sgl_cidade_area_atuacao.cod_area_atuacao FROM sgl_cidade_area_atuacao, sgl_cidade_nucleo, sgl_unidade WHERE sgl_cidade_area_atuacao.cod_nucleo=sgl_cidade_nucleo.cod_nucleo AND sgl_cidade_area_atuacao.cod_area_atuacao=sgl_unidade.cod_cidade  AND sgl_cidade_nucleo.cod_nucleo=:cod_nucleo AND sgl_unidade.conexao_unidade=:conexao ORDER BY sgl_cidade_area_atuacao.cidade_area_atuacao ASC LIMIT " . $indice . ',' . $limite, $data);
+                $resultado_cidade = $cidadeModel->read("SELECT DISTINCT(sgl_cidade_area_atuacao.cidade_area_atuacao), sgl_cidade_area_atuacao.cod_area_atuacao FROM sgl_unidade, sgl_cidade_area_atuacao, sgl_cidade_nucleo WHERE sgl_unidade.cod_cidade=sgl_cidade_area_atuacao.cod_area_atuacao AND sgl_cidade_area_atuacao.cod_nucleo=sgl_cidade_nucleo.cod_nucleo AND sgl_cidade_nucleo.cod_nucleo=:cod_nucleo ORDER BY sgl_cidade_area_atuacao.cidade_area_atuacao ASC LIMIT " . $indice . ',' . $limite, $data);
+                //-- COMANDO PARA LISTA AS REDESMETROS EM DESTAQUE QUE CONTEM UNIDADES CADASTRADAS
+                $resultado_redemetro = $redeModel->read("SELECT DISTINCT(sgl_redemetro.nome_redemetro), sgl_redemetro.cod_redemetro, sgl_cidade_area_atuacao.cidade_area_atuacao FROM sgl_redemetro, sgl_unidade, sgl_cidade_area_atuacao, sgl_cidade_nucleo WHERE sgl_redemetro.cod_redemetro=sgl_unidade.cod_redemetro AND sgl_unidade.cod_cidade=sgl_cidade_area_atuacao.cod_area_atuacao AND sgl_cidade_area_atuacao.cod_nucleo=sgl_cidade_nucleo.cod_nucleo AND sgl_cidade_nucleo.cod_nucleo=:cod_nucleo ORDER BY sgl_cidade_area_atuacao.cidade_area_atuacao ASC, sgl_redemetro.nome_redemetro ASC;", $data);
+                //-- COMANDO PARA LISTA sgl_cidade_area_atuacao.cidade_area_atuacao, sgl_redemetro.nome_redemetro, sgl_redemetro.cod_redemetro, sgl_unidade.cod_unidade, sgl_unidade.nome_unidade, cujo em ordem alfabetica sgl_cidade_area_atuacao.cidade_area_atuacao ASC, sgl_redemetro.nome_redemetro ASC, sgl_unidade.nome_unidade ASC;
+                $resultado_unidade = $unidadeModel->read("SELECT  sgl_cidade_area_atuacao.cidade_area_atuacao, sgl_redemetro.nome_redemetro, sgl_redemetro.cod_redemetro, sgl_unidade.cod_unidade, sgl_unidade.nome_unidade FROM sgl_redemetro, sgl_unidade, sgl_cidade_area_atuacao, sgl_cidade_nucleo WHERE sgl_redemetro.cod_redemetro=sgl_unidade.cod_redemetro AND sgl_unidade.cod_cidade=sgl_cidade_area_atuacao.cod_area_atuacao AND sgl_cidade_area_atuacao.cod_nucleo=sgl_cidade_nucleo.cod_nucleo AND sgl_cidade_nucleo.cod_nucleo=:cod_nucleo ORDER BY sgl_cidade_area_atuacao.cidade_area_atuacao ASC, sgl_redemetro.nome_redemetro ASC, sgl_unidade.nome_unidade ASC;", $data);
 
-                //-- COMANDO PARA LISTA AS UNIDADES REGISTRADAS POR NÚCLEO E ORDEM ALFABETICA DAS CIDADE
-                $resultado_unidade = $unidadeModel->read('SELECT sgl_unidade.nome_unidade, sgl_unidade.cod_unidade, sgl_cidade_area_atuacao.cod_area_atuacao, sgl_cidade_area_atuacao.cidade_area_atuacao FROM sgl_unidade, sgl_cidade_area_atuacao, sgl_cidade_nucleo WHERE sgl_unidade.cod_cidade=sgl_cidade_area_atuacao.cod_area_atuacao AND sgl_cidade_area_atuacao.cod_nucleo=sgl_cidade_nucleo.cod_nucleo AND sgl_cidade_nucleo.cod_nucleo=:cod_nucleo AND sgl_unidade.conexao_unidade=:conexao ORDER BY sgl_cidade_area_atuacao.cidade_area_atuacao ASC, sgl_unidade.nome_unidade ASC;', $data);
-
-                //para paginação total de registro
-                $cidadeModel->read("SELECT DISTINCT(sgl_cidade_area_atuacao.cidade_area_atuacao), sgl_cidade_area_atuacao.cod_area_atuacao FROM sgl_cidade_area_atuacao, sgl_cidade_nucleo, sgl_unidade WHERE sgl_cidade_area_atuacao.cod_nucleo=sgl_cidade_nucleo.cod_nucleo AND sgl_cidade_area_atuacao.cod_area_atuacao=sgl_unidade.cod_cidade AND sgl_cidade_nucleo.cod_nucleo=:cod_nucleo AND sgl_unidade.conexao_unidade=:conexao ORDER BY sgl_cidade_area_atuacao.cidade_area_atuacao ASC ", $data);
+                //total de cidades
+                $cidadeModel->read("SELECT DISTINCT(sgl_cidade_area_atuacao.cidade_area_atuacao), sgl_cidade_area_atuacao.cod_area_atuacao FROM sgl_unidade, sgl_cidade_area_atuacao, sgl_cidade_nucleo WHERE sgl_unidade.cod_cidade=sgl_cidade_area_atuacao.cod_area_atuacao AND sgl_cidade_area_atuacao.cod_nucleo=sgl_cidade_nucleo.cod_nucleo AND sgl_cidade_nucleo.cod_nucleo=:cod_nucleo ORDER BY sgl_cidade_area_atuacao.cidade_area_atuacao ASC;", $data);
                 $total_registro = $cidadeModel->getNumRows();
             } else {
+
                 $data['cod_cidade'] = addslashes($cod_cidade);
-                //-- COMANDO PARA LISTA AS  CIDADES DESTACADAS QUE CONTEM UNIDADE REGISTRADA;
-                $resultado_cidade = $cidadeModel->read("SELECT DISTINCT(sgl_cidade_area_atuacao.cidade_area_atuacao), sgl_cidade_area_atuacao.cod_area_atuacao FROM sgl_cidade_area_atuacao, sgl_cidade_nucleo, sgl_unidade WHERE sgl_cidade_area_atuacao.cod_nucleo=sgl_cidade_nucleo.cod_nucleo AND sgl_cidade_area_atuacao.cod_area_atuacao=sgl_unidade.cod_cidade AND sgl_cidade_nucleo.cod_nucleo=:cod_nucleo AND sgl_unidade.conexao_unidade=:conexao AND sgl_cidade_area_atuacao.cod_area_atuacao=:cod_cidade ORDER BY sgl_cidade_area_atuacao.cidade_area_atuacao ASC ;", $data);
+                //-- COMANDO PARA LISTA AS  CIDADES DESTACADAS QUE CONTEM UNIDADE REGISTRADA -- cidade especifíca
+                $resultado_cidade = $cidadeModel->read("SELECT DISTINCT(sgl_cidade_area_atuacao.cidade_area_atuacao), sgl_cidade_area_atuacao.cod_area_atuacao FROM sgl_unidade, sgl_cidade_area_atuacao, sgl_cidade_nucleo WHERE sgl_unidade.cod_cidade=sgl_cidade_area_atuacao.cod_area_atuacao AND sgl_cidade_area_atuacao.cod_nucleo=sgl_cidade_nucleo.cod_nucleo AND sgl_cidade_nucleo.cod_nucleo=:cod_nucleo AND sgl_cidade_area_atuacao.cod_area_atuacao=:cod_cidade ORDER BY sgl_cidade_area_atuacao.cidade_area_atuacao ASC;", $data);
                 if ($resultado_cidade) {
                     $dados['cidade'] = array("nome" => $resultado_cidade[0]['cidade_area_atuacao'], "cod" => $resultado_cidade[0]['cod_area_atuacao']);
                 }
-                //-- COMANDO PARA LISTA AS UNIDADES REGISTRADAS POR NÚCLEO E ORDEM ALFABETICA DAS CIDADE
-                $resultado_unidade = $unidadeModel->read('SELECT sgl_unidade.nome_unidade, sgl_unidade.cod_unidade, sgl_cidade_area_atuacao.cod_area_atuacao, sgl_cidade_area_atuacao.cidade_area_atuacao FROM sgl_unidade, sgl_cidade_area_atuacao, sgl_cidade_nucleo WHERE sgl_unidade.cod_cidade=sgl_cidade_area_atuacao.cod_area_atuacao AND sgl_cidade_area_atuacao.cod_nucleo=sgl_cidade_nucleo.cod_nucleo AND sgl_cidade_nucleo.cod_nucleo=:cod_nucleo AND sgl_unidade.conexao_unidade=:conexao AND sgl_cidade_area_atuacao.cod_area_atuacao=:cod_cidade ORDER BY sgl_cidade_area_atuacao.cidade_area_atuacao ASC, sgl_unidade.nome_unidade ASC;', $data);
+                //se não for setado a redemetro
+                if (empty($cod_redemetro)) {
+                    //-- COMANDO PARA LISTA AS REDESMETROS EM DESTAQUE QUE CONTEM UNIDADES CADASTRADAS -- cidade especifíca 
+                    $resultado_redemetro = $redeModel->read("SELECT DISTINCT(sgl_redemetro.nome_redemetro), sgl_redemetro.cod_redemetro, sgl_cidade_area_atuacao.cidade_area_atuacao FROM sgl_redemetro, sgl_unidade, sgl_cidade_area_atuacao, sgl_cidade_nucleo WHERE sgl_redemetro.cod_redemetro=sgl_unidade.cod_redemetro AND sgl_unidade.cod_cidade=sgl_cidade_area_atuacao.cod_area_atuacao AND sgl_cidade_area_atuacao.cod_nucleo=sgl_cidade_nucleo.cod_nucleo AND sgl_cidade_nucleo.cod_nucleo=:cod_nucleo AND sgl_cidade_area_atuacao.cod_area_atuacao=:cod_cidade ORDER BY sgl_cidade_area_atuacao.cidade_area_atuacao ASC, sgl_redemetro.nome_redemetro ASC;", $data);
+                    //-- COMANDO PARA LISTA sgl_cidade_area_atuacao.cidade_area_atuacao, sgl_redemetro.nome_redemetro, sgl_redemetro.cod_redemetro, sgl_unidade.cod_unidade, sgl_unidade.nome_unidade, cujo em ordem alfabetica sgl_cidade_area_atuacao.cidade_area_atuacao ASC, sgl_redemetro.nome_redemetro ASC, sgl_unidade.nome_unidade ASC; -- cidade especifíca
+                    $resultado_unidade = $unidadeModel->read("SELECT  sgl_cidade_area_atuacao.cidade_area_atuacao, sgl_redemetro.nome_redemetro, sgl_redemetro.cod_redemetro, sgl_unidade.cod_unidade, sgl_unidade.nome_unidade FROM sgl_redemetro, sgl_unidade, sgl_cidade_area_atuacao, sgl_cidade_nucleo WHERE sgl_redemetro.cod_redemetro=sgl_unidade.cod_redemetro AND sgl_unidade.cod_cidade=sgl_cidade_area_atuacao.cod_area_atuacao AND sgl_cidade_area_atuacao.cod_nucleo=sgl_cidade_nucleo.cod_nucleo AND sgl_cidade_nucleo.cod_nucleo=:cod_nucleo AND sgl_cidade_area_atuacao.cod_area_atuacao=:cod_cidade ORDER BY sgl_cidade_area_atuacao.cidade_area_atuacao ASC, sgl_redemetro.nome_redemetro ASC, sgl_unidade.nome_unidade ASC;", $data);
 
-                $total_registro = 1;
+                    $total_registro = 1;
+                } else {
+                    //REDE METRO
+                    $data['cod_redemetro'] = addslashes($cod_redemetro);
+                    //-- COMANDO PARA LISTA AS REDESMETROS EM DESTAQUE QUE CONTEM UNIDADES CADASTRADAS -- cidade especifíca é REDE METRO ESPECÍFICO
+                    $resultado_redemetro = $redeModel->read("SELECT DISTINCT(sgl_redemetro.nome_redemetro), sgl_redemetro.cod_redemetro, sgl_cidade_area_atuacao.cidade_area_atuacao FROM sgl_redemetro, sgl_unidade, sgl_cidade_area_atuacao, sgl_cidade_nucleo WHERE sgl_redemetro.cod_redemetro=sgl_unidade.cod_redemetro AND sgl_unidade.cod_cidade=sgl_cidade_area_atuacao.cod_area_atuacao AND sgl_cidade_area_atuacao.cod_nucleo=sgl_cidade_nucleo.cod_nucleo AND sgl_cidade_nucleo.cod_nucleo=:cod_nucleo AND sgl_cidade_area_atuacao.cod_area_atuacao=:cod_cidade AND sgl_redemetro.cod_redemetro=:cod_redemetro ORDER BY sgl_cidade_area_atuacao.cidade_area_atuacao ASC, sgl_redemetro.nome_redemetro ASC;", $data);
+                    //-- COMANDO PARA LISTA sgl_cidade_area_atuacao.cidade_area_atuacao, sgl_redemetro.nome_redemetro, sgl_redemetro.cod_redemetro, sgl_unidade.cod_unidade, sgl_unidade.nome_unidade, cujo em ordem alfabetica sgl_cidade_area_atuacao.cidade_area_atuacao ASC, sgl_redemetro.nome_redemetro ASC, sgl_unidade.nome_unidade ASC; -- cidade especifíca é REDE METRO ESPECÍFICO
+                    $resultado_unidade = $unidadeModel->read("SELECT  sgl_cidade_area_atuacao.cidade_area_atuacao, sgl_redemetro.nome_redemetro, sgl_redemetro.cod_redemetro, sgl_unidade.cod_unidade, sgl_unidade.nome_unidade FROM sgl_redemetro, sgl_unidade, sgl_cidade_area_atuacao, sgl_cidade_nucleo WHERE sgl_redemetro.cod_redemetro=sgl_unidade.cod_redemetro AND sgl_unidade.cod_cidade=sgl_cidade_area_atuacao.cod_area_atuacao AND sgl_cidade_area_atuacao.cod_nucleo=sgl_cidade_nucleo.cod_nucleo AND sgl_cidade_nucleo.cod_nucleo=:cod_nucleo AND sgl_cidade_area_atuacao.cod_area_atuacao=:cod_cidade AND sgl_redemetro.cod_redemetro=:cod_redemetro ORDER BY sgl_cidade_area_atuacao.cidade_area_atuacao ASC, sgl_redemetro.nome_redemetro ASC, sgl_unidade.nome_unidade ASC;", $data);
+
+                    if ($resultado_redemetro) {
+                        $dados['redemetro'] = array('nome' => $resultado_redemetro[0]['nome_redemetro'], 'cod' => $resultado_redemetro[0]['cod_redemetro']);
+                    }
+                    $total_registro = 1;
+                }
             }
             //SE TODOS OS CAMPOS RETORNARAM VERDADEIROS OU SEJA POSSUEM DADOS DA CONSULTA AO BANCO
-            if ($resultado_cidade && $resultado_unidade) {
+            if ($resultado_cidade && $resultado_redemetro && $resultado_unidade) {
                 $resultado = array();
                 $qtdCidade = 0;
                 foreach ($resultado_cidade as $cidade) {
-                    $qtdUnidade = 0;
-                    $resultado[$qtdCidade] = array('cidade' => $cidade['cidade_area_atuacao'], 'cod_cidade' => $cidade['cod_area_atuacao'], 'unidades' => array());
-                    foreach ($resultado_unidade as $unidade) {
-                        if ($cidade['cidade_area_atuacao'] == $unidade['cidade_area_atuacao']) {
-                            $resultado[$qtdCidade]['unidades'][$qtdUnidade] = array('nome_unidade' => $unidade['nome_unidade'], 'cod_unidade' => $unidade['cod_unidade']);
+                    $qtdRedeMetro = 0;
+                    $resultado[$qtdCidade] = array('cidade' => $cidade['cidade_area_atuacao'], 'cod_cidade' => $cidade['cod_area_atuacao'], 'redemetro' => array());
+                    foreach ($resultado_redemetro as $redemetro) {
+                        $qtdUnidade = 0;
+                        $resultado[$qtdCidade]['redemetro'][$qtdRedeMetro] = array('nome_redemetro' => $redemetro['nome_redemetro'], 'cod_redemetro' => $redemetro['cod_redemetro'], 'unidades' => array());
+                        foreach ($resultado_unidade as $unidade) {
+                            if ($cidade['cidade_area_atuacao'] == $unidade['cidade_area_atuacao'] && $redemetro['nome_redemetro'] == $unidade['nome_redemetro'] && $cidade['cidade_area_atuacao'] == $redemetro['cidade_area_atuacao']) {
+                                $resultado[$qtdCidade]['redemetro'][$qtdRedeMetro]['unidades'][$qtdUnidade] = array('nome_unidade' => $unidade['nome_unidade'], 'cod_unidade' => $unidade['cod_unidade']);
+                            }
+                            $qtdUnidade = $qtdUnidade + 1;
                         }
-                        $qtdUnidade = $qtdUnidade + 1;
+                        $qtdRedeMetro = $qtdRedeMetro + 1;
                     }
                     $qtdCidade = $qtdCidade + 1;
                 }
                 //resultado da consulta
                 $dados['resultadoView'] = $resultado;
             }
-
 
             //PAGINAÇÃO
             $dados['paginas'] = $total_registro / $limite;
