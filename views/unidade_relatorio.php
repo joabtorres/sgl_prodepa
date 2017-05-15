@@ -4,9 +4,9 @@
             <div class="col-sm-12 col-md-12 col-lg-12" id="pagina-header">
                 <h2>Unidades</h2>
                 <ol class="breadcrumb">
-                    <li><a  href="<?php echo BASE_URL . '/home' ?>"><i class="glyphicon glyphicon-dashboard"></i> Inicial</a></li>
+                    <li><a  href="<?php echo BASE_URL . '/home' ?>"><i class="fa fa-tachometer"></i> Inicial</a></li>
                     <?php if (isset($cidade)) : ?>
-                        <li><a  href="<?php echo BASE_URL . '/relatorio/cidades/1/' . $cidade['cod'] ?>"><i class="glyphicon glyphicon-dashboard"></i> <?php echo $cidade['nome'] ?></a></li>
+                        <li><a  href="<?php echo BASE_URL . '/relatorio/cidades/1/' . $cidade['cod'] ?>"><i class="fa fa-list"></i> <?php echo $cidade['nome'] ?></a></li>
                     <?php endif; ?>
                     <li class="active"><i class="glyphicon glyphicon-th-list"></i> Unidades</li>
                 </ol>
@@ -44,8 +44,8 @@
                                                     $qtd++;
                                                     ?>
                                                 </td>
-                                                <td><a href="<?php echo BASE_URL ?>/unidade/index/<?php echo $unidade['cod_unidade'] . '/' . $cidades['cod_cidade'] ?>"><?php echo $unidade['nome_unidade'] ?></a></td>
-                                                <td class="table-acao"><button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal_recupera">Editar</button> <button type="button"  class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modal_recupera">Excluir</button></td>
+                                                <td><a href="<?php echo BASE_URL ?>/unidade/index/<?php echo $unidade['cod_unidade'] ?>"><?php echo $unidade['nome_unidade'] ?></a></td>
+                                                <td class="table-acao"><a class="btn btn-primary btn-sm" href="<?php echo BASE_URL . '/editar/unidade/' . $unidade['cod_unidade'] ?>"><i class="fa fa-pencil"></i></a> <button type="button"  class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modal_unidade_<?php echo $cidades['cod_cidade'] . '_' . $unidade['cod_unidade'] ?>"><i class="fa fa-trash"></i></button></td>
                                             </tr>
                                         <?php endforeach; ?>
                                     </tbody>
@@ -71,7 +71,7 @@
                 <nav aria-label="Page navigation">
                     <ul class="pagination">
                         <li>
-                            <a href="<?php echo BASE_URL .'/relatorio/'.$action.'/1'?><?php echo (isset($cod_cidade)) ? "/" . $cod_cidade : "" ?>" aria-label="Previous">
+                            <a href="<?php echo BASE_URL . '/relatorio/' . $action . '/1' ?><?php echo (isset($cod_cidade)) ? "/" . $cod_cidade : "" ?>" aria-label="Previous">
                                 <span aria-hidden="true">&laquo;</span>
                             </a>
                         </li>
@@ -79,14 +79,14 @@
                         $cod_cidade = (isset($cod_cidade)) ? "/" . $cod_cidade : "";
                         for ($p = 0; $p < ceil($paginas); $p++) {
                             if ($pagina_atual == ($p + 1)) {
-                                echo "<li class='active'><a href='" . BASE_URL . "/relatorio/".$action."/" . ($p + 1) . $cod_cidade . "'>" . ($p + 1) . "</a></li>";
+                                echo "<li class='active'><a href='" . BASE_URL . "/relatorio/" . $action . "/" . ($p + 1) . $cod_cidade . "'>" . ($p + 1) . "</a></li>";
                             } else {
-                                echo "<li><a href='" . BASE_URL . "/relatorio/".$action."/" . ($p + 1) . $cod_cidade . "'>" . ($p + 1) . "</a></li>";
+                                echo "<li><a href='" . BASE_URL . "/relatorio/" . $action . "/" . ($p + 1) . $cod_cidade . "'>" . ($p + 1) . "</a></li>";
                             }
                         }
                         ?>
                         <li>
-                            <a href="<?php echo BASE_URL .'/relatorio/'.$action.'/'.ceil($paginas) . $cod_cidade ?>" aria-label="Next">
+                            <a href="<?php echo BASE_URL . '/relatorio/' . $action . '/' . ceil($paginas) . $cod_cidade ?>" aria-label="Next">
                                 <span aria-hidden="true">&raquo;</span>
                             </a>
                         </li>
@@ -105,3 +105,36 @@
 </div>
 </div>
 <!-- /#conteudo_sistema -->
+<?php
+if (isset($resultadoView)) {
+    foreach ($resultadoView as $cidades):
+        if (!empty($cidades['unidades'])) :
+
+            foreach ($cidades['unidades'] as $unidades):
+                ?>
+                <!--MODAL - ESTRUTURA BÁSICA-->
+                <section class="modal fade" id="modal_unidade_<?php echo $cidades['cod_cidade'] . '_' . $unidades['cod_unidade'] ?>" tabindex="-1" role="dialog">
+                    <article class="modal-dialog modal-md" role="document">
+                        <section class="modal-content">
+                            <header class="modal-header bg-primary">
+                                <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <p class="panel-title">Deseja remover este registro?</p>
+                            </header>
+                            <article class="modal-body">
+                                <p class="text-justify"><?php echo '<b>Unidade: </b>' . $unidades['nome_unidade'] . ' - <b>Código: </b>' . $unidades['cod_unidade']; ?>;</p>
+                                <p class="text-justify text-danger"><span class="font-bold">OBS¹ : </span> Se você remove a unidade:  <b class="font-bold"><?php echo $unidades['nome_unidade'] ?></b>, será removido todos os respectivos dados como, por exemplo, endereço, contato e históricos.</p>
+                                <p class="text-ri"></p>
+                            </article>
+                            <footer class="modal-footer">
+                                <a class="btn btn-danger " href="<?php echo BASE_URL . '/excluir/unidade/' . $unidades['cod_unidade'] ?>"> <i class="fa fa-trash"></i> Excluir</a> | 
+                                <button class="btn btn-default" type="button" data-dismiss="modal"><i class="fa fa-close"></i> Fechar</button>
+                            </footer>
+                        </section>
+                    </article>
+                </section>
+                <?php
+            endforeach;
+        endif;
+    endforeach;
+}
+?>

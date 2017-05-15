@@ -4,9 +4,9 @@
             <div class="col-sm-12 col-md-12 col-lg-12" id="pagina-header">
                 <h2><?php echo (isset($ap)) ? $ap['nome'] : "Aps" ?></h2>
                 <ol class="breadcrumb">
-                    <li><a  href="<?php echo BASE_URL ?>/home"><i class="glyphicon glyphicon-dashboard"></i> Inicial</a></li>
+                    <li><a  href="<?php echo BASE_URL ?>/home"><i class="fa fa-tachometer"></i> Inicial</a></li>
                     <?php if (isset($cidade)): ?>
-                        <li><a href="<?php echo BASE_URL ?>/relatorio/cidades/1/<?php echo $cidade['cod'] ?>"><i class="glyphicon glyphicon-th-list"></i> <?php echo $cidade['nome'] ?></a></li>
+                        <li><a href="<?php echo BASE_URL ?>/relatorio/cidades/1/<?php echo $cidade['cod'] ?>"><i class="fa fa-list"></i> <?php echo $cidade['nome'] ?></a></li>
                     <?php endif; ?>
                     <li class="active"><i class="glyphicon glyphicon-th-list"></i> <?php echo (isset($ap)) ? $ap['nome'] : "Aps" ?></li>
                 </ol>
@@ -49,7 +49,7 @@
                                                                 $qtd++;
                                                                 ?>
                                                             </td>
-                                                            <td><a href="<?php echo BASE_URL . '/unidade/ap/' . $unidades['cod_unidade'] . '/' . $cidades['cod_cidade'] . '/' . $aps['cod_ap'] ?>"><?php echo $unidades['nome_unidade'] ?></a></td>
+                                                            <td><a href="<?php echo BASE_URL . '/unidade/ap/' . $unidades['cod_unidade'] ?>"><?php echo $unidades['nome_unidade'] ?></a></td>
 
                                                             <td class="table-acao"><a class="btn btn-primary btn-sm" href="<?php echo BASE_URL . '/editar/unidade/' . $unidades['cod_unidade'] ?>"><i class="fa fa-pencil"></i></a> <button type="button"  class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modal_unidade_<?php echo $cidades['cod_cidade'] . '_' . $aps['cod_ap'] . '_' . $unidades['cod_unidade'] ?>"><i class="fa fa-trash"></i></button></td>
                                                         </tr>
