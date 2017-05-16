@@ -1,5 +1,6 @@
 <div id="conteudo_sistema">
     <div class="container-fluid">
+        
         <div class="row" >
             <div class="col-sm-12 col-md-12 col-lg-12" id="pagina-header">
                 <h2><?php echo (isset($redemetro)) ? $redemetro['nome'] : "Rede Metro" ?></h2>
@@ -8,10 +9,11 @@
                     <?php if (isset($cidade)): ?>
                         <li><a href="<?php echo BASE_URL ?>/relatorio/cidades/1/<?php echo $cidade['cod'] ?>"><i class="fa fa-list"></i> <?php echo $cidade['nome'] ?></a></li>
                     <?php endif; ?>
-                    <li class="active"><i class="glyphicon glyphicon-th-list"></i> <?php echo (isset($redemetro)) ? $redemetro['nome'] : "Rede Metro" ?></li>
+                    <li class="active"><i class="fa fa-list"></i> <?php echo (isset($redemetro)) ? $redemetro['nome'] : "Rede Metro" ?></li>
                 </ol>
             </div>
         </div>
+        
         <!--FIM pagina-header-->
         <div class="row">
             <?php
@@ -51,7 +53,7 @@
                                                             </td>
                                                             <td><a href="<?php echo BASE_URL . '/unidade/redemetro/' . $unidades['cod_unidade'] ?>"><?php echo $unidades['nome_unidade'] ?></a></td>
 
-                                                            <td class="table-acao"><a class="btn btn-primary btn-sm" href="<?php echo BASE_URL . '/editar/unidade/' . $unidades['cod_unidade'] ?>"><i class="fa fa-pencil"></i></a> <button type="button"  class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modal_unidade_<?php echo $cidades['cod_cidade'] . '_' . $redemetros['cod_redemetro'] . '_' . $unidades['cod_unidade'] ?>"><i class="fa fa-trash"></i></button></td>
+                                                            <td class="table-acao"><a class="btn btn-primary btn-xs" href="<?php echo BASE_URL . '/editar/unidade/' . $unidades['cod_unidade'] ?>" title="Editar"><i class="fa fa-pencil"></i></a> <button type="button"  class="btn btn-danger btn-xs" data-toggle="modal" data-target="#modal_unidade_<?php echo $cidades['cod_cidade'] . '_' . $redemetros['cod_redemetro'] . '_' . $unidades['cod_unidade'] ?>" title="excluir"><i class="fa fa-trash"></i></button></td>
                                                         </tr>
                                                         <?php
                                                     endforeach;
@@ -100,7 +102,7 @@
                                                         <td><a href="<?php echo BASE_URL . '/relatorio/redemetro/' . $pagina_atual . '/' . $cidades['cod_cidade'] . '/' . $redemetros['cod_redemetro'] ?>"><?php echo $redemetros['nome_redemetro'] ?></a></td>
 
                                                         <td class="text-center table-acao"><?php echo count($redemetros['unidades']) ?></td>
-                                                        <td class="table-acao"><a class="btn btn-primary btn-sm" href="<?php echo BASE_URL . '/editar/redemetro/' . $redemetros['cod_redemetro'] ?>"><i class="fa fa-pencil"></i></a> <button type="button"  class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modal_redemetro_<?php echo $cidades['cod_cidade'] . '_' . $redemetros['cod_redemetro'] ?>"><i class="fa fa-trash"></i></button></td>
+                                                        <td class="table-acao"><a class="btn btn-primary btn-xs" href="<?php echo BASE_URL . '/editar/redemetro/' . $redemetros['cod_redemetro'] ?>"><i class="fa fa-pencil" title="Editar"></i></a> <button type="button"  class="btn btn-danger btn-xs" data-toggle="modal" data-target="#modal_redemetro_<?php echo $cidades['cod_cidade'] . '_' . $redemetros['cod_redemetro'] ?>" title="Excluir"><i class="fa fa-trash"></i></button></td>
                                                     </tr>
                                                     <?php
                                                 endif;
@@ -183,8 +185,8 @@ if (isset($resultadoView)) {
                                         <p class="panel-title">Deseja remover este registro?</p>
                                     </header>
                                     <article class="modal-body">
-                                        <p class="text-justify"><?php echo '<b>Unidade: </b>' . $unidades['nome_unidade'] . ' - <b>Código: </b>' . $unidades['cod_unidade']; ?>;</p>
-                                        <p class="text-justify text-danger"><span class="font-bold">OBS¹ : </span> Se você remove a unidade:  <b class="font-bold"><?php echo $unidades['nome_unidade'] ?></b>, será removido todos os respectivos dados como, por exemplo, endereço, contato e históricos.</p>
+                                        <p ><?php echo '<b>Unidade: </b>' . $unidades['nome_unidade'] . ' - <b>Código: </b>' . $unidades['cod_unidade']; ?>;</p>
+                                        <p class=" text-danger"><span class="font-bold">OBS¹ : </span> Se você remove a unidade:  <b class="font-bold"><?php echo $unidades['nome_unidade'] ?></b>, será removido todos os respectivos dados como, por exemplo, endereço, contato e históricos.</p>
                                         <p class="text-ri"></p>
                                     </article>
                                     <footer class="modal-footer">

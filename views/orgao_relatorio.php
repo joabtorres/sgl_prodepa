@@ -185,7 +185,7 @@ if (isset($resultadoView)) {
                                     <article class="modal-body">
                                         <p ><?php echo '<b>Unidade: </b>' . $unidades['nome_unidade'] . ' - <b>Código: </b>' . $unidades['cod_unidade']; ?>;</p>
                                         <p class="text-justify text-danger"><span class="font-bold">OBS¹ : </span> Se você remove a unidade, será removido todos os respectivos dados como, por exemplo, endereço, contrato, contato e históricos.</p>
-                                        <p class="text-ri"></p>
+
                                     </article>
                                     <footer class="modal-footer">
                                         <a class="btn btn-danger " href="<?php echo BASE_URL . '/excluir/unidade/' . $unidades['cod_unidade'] ?>"> <i class="fa fa-trash"></i> Excluir</a> | 
@@ -216,7 +216,7 @@ if (isset($resultadoView)) {
                                 <article class="modal-body">
                                     <p ><?php echo '<b>Orgão: </b>' . $orgaos['nome_orgao'] . ' - <b>Código: </b>' . $orgaos['cod_orgao'] . ' - <b> Unidade(s): </b> ' . count($orgaos['unidades']) ?>;</p>
                                     <p class="text-justify text-danger"><span class="font-bold">OBS¹ : </span> Se você remove este orgão, será removido todas as unidades cadastradas e seus respectivos históricos.</p>
-                                    <p class="text-ri"></p>
+
                                 </article>
                                 <footer class="modal-footer">
                                     <a class="btn btn-danger " href="<?php echo BASE_URL . '/excluir/orgao/' . $orgaos['cod_orgao'] ?>"> <i class="fa fa-trash"></i> Excluir</a> | 

@@ -8,7 +8,7 @@
                     <?php if (isset($cidade)) : ?>
                         <li><a  href="<?php echo BASE_URL . '/relatorio/cidades/1/' . $cidade['cod'] ?>"><i class="fa fa-list"></i> <?php echo $cidade['nome'] ?></a></li>
                     <?php endif; ?>
-                    <li class="active"><i class="glyphicon glyphicon-th-list"></i> Unidades</li>
+                    <li class="active"><i class="fa fa-list"></i> Unidades</li>
                 </ol>
             </div>
         </div>
@@ -45,7 +45,7 @@
                                                     ?>
                                                 </td>
                                                 <td><a href="<?php echo BASE_URL ?>/unidade/index/<?php echo $unidade['cod_unidade'] ?>"><?php echo $unidade['nome_unidade'] ?></a></td>
-                                                <td class="table-acao"><a class="btn btn-primary btn-sm" href="<?php echo BASE_URL . '/editar/unidade/' . $unidade['cod_unidade'] ?>"><i class="fa fa-pencil"></i></a> <button type="button"  class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modal_unidade_<?php echo $cidades['cod_cidade'] . '_' . $unidade['cod_unidade'] ?>"><i class="fa fa-trash"></i></button></td>
+                                                <td class="table-acao"><a class="btn btn-primary btn-xs" href="<?php echo BASE_URL . '/editar/unidade/' . $unidade['cod_unidade'] ?>" title="Editar"><i class="fa fa-pencil"></i></a> <button type="button"  class="btn btn-danger btn-xs" data-toggle="modal" data-target="#modal_unidade_<?php echo $cidades['cod_cidade'] . '_' . $unidade['cod_unidade'] ?>" title="Excluir"><i class="fa fa-trash"></i></button></td>
                                             </tr>
                                         <?php endforeach; ?>
                                     </tbody>
@@ -121,9 +121,8 @@ if (isset($resultadoView)) {
                                 <p class="panel-title">Deseja remover este registro?</p>
                             </header>
                             <article class="modal-body">
-                                <p class="text-justify"><?php echo '<b>Unidade: </b>' . $unidades['nome_unidade'] . ' - <b>Código: </b>' . $unidades['cod_unidade']; ?>;</p>
-                                <p class="text-justify text-danger"><span class="font-bold">OBS¹ : </span> Se você remove a unidade:  <b class="font-bold"><?php echo $unidades['nome_unidade'] ?></b>, será removido todos os respectivos dados como, por exemplo, endereço, contato e históricos.</p>
-                                <p class="text-ri"></p>
+                                <p><?php echo '<b>Unidade: </b>' . $unidades['nome_unidade'] . ' - <b>Código: </b>' . $unidades['cod_unidade']; ?>;</p>
+                                <p class="text-danger"><span class="font-bold">OBS¹ : </span> Se você remove está unidade, será removido todos os respectivos dados como, por exemplo, endereço, contrato, contato e históricos.</p>
                             </article>
                             <footer class="modal-footer">
                                 <a class="btn btn-danger " href="<?php echo BASE_URL . '/excluir/unidade/' . $unidades['cod_unidade'] ?>"> <i class="fa fa-trash"></i> Excluir</a> | 
