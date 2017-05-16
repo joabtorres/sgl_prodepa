@@ -54,7 +54,7 @@ class editarController extends controller {
                         //update
                         $resultado = $cidadeModel->update('UPDATE sgl_cidade_area_atuacao SET cidade_area_atuacao=:cidade, cod_nucleo=:nucleo WHERE cod_area_atuacao=:cod ', $cidade);
                         if ($resultado) {
-                            $dados['erro']['msg'] = '<i class="fa fa-check" aria-hidden="true"></i> Edição realizado com sucesso!';
+                            $dados['erro']['msg'] = '<i class="fa fa-check" aria-hidden="true"></i> Edição realizada com sucesso!';
                             $dados['erro']['class'] = 'alert-success';
                             $resultado_cidade = $cidadeModel->read('SELECT * FROM sgl_cidade_area_atuacao WHERE cod_area_atuacao=:cod ;', array('cod' => addslashes($cod_cidade)));
                             if ($resultado_cidade) {
@@ -92,7 +92,41 @@ class editarController extends controller {
      * @author Joab Torres <joabtorres1508@gmail.com>
      */
     public function ap($cod_ap) {
-        
+        if ($this->checkUserPattern() && $this->checkUserAdministrator()) {
+            $dados = array();
+            $view = "ap_editar";
+            $apModel = new ap();
+            $resultado = $apModel->read("SELECT ap.*, c.cidade_area_atuacao FROM  sgl_ap AS ap INNER JOIN sgl_cidade_area_atuacao AS c ON ap.cod_area_atuacao=c.cod_area_atuacao WHERE ap.cod_ap = :cod", array('cod' => addslashes(trim($cod_ap))));
+            if ($resultado) {
+                $dados['ap'] = $resultado[0];
+            }
+
+            if (isset($_POST['nSalvar']) && !empty($_POST['nSalvar'])) {
+                if (!empty($_POST['neditNome']) || !empty($_POST['neditBanda']) || !empty($_POST['neditCCode']) || !empty($_POST['neditIP'])) {
+                    //array que armazena os dados do formulário
+                    $data = array("nome" => addslashes(strtoupper($_POST['neditNome'])), "banda" => addslashes($_POST['neditBanda']), "color_code" => addslashes($_POST['neditCCode']), "ip" => addslashes($_POST['neditIP']), 'cod' => addslashes($_POST['neditCod']));
+                    if (!isset($dados['erro']) && empty($dados['erro'])) {
+                        $resultado = $apModel->update('UPDATE sgl_ap SET nome_ap=:nome, banda_ap=:banda, color_code_ap=:color_code, ip_ap=:ip WHERE cod_ap=:cod', $data);
+                        if ($resultado) {
+                            $dados['erro']['msg'] = '<i class="fa fa-check" aria-hidden="true"></i> Alteração realizada com sucesso!';
+                            $dados['erro']['class'] = 'alert-success';
+                            $resultado = $apModel->read("SELECT ap.*, c.cidade_area_atuacao FROM  sgl_ap AS ap INNER JOIN sgl_cidade_area_atuacao AS c ON ap.cod_area_atuacao=c.cod_area_atuacao WHERE ap.cod_ap = :cod", array('cod' => addslashes(trim($cod_ap))));
+                            if ($resultado) {
+                                $dados['ap'] = $resultado[0];
+                            }
+                            $_POST = array();
+                        } else {
+                            $dados['erro']['msg'] = '<i class="fa fa-info-circle" aria-hidden="true"></i> Foi encontrado um erro na sintaxe SQL!';
+                            $dados['erro']['class'] = 'alert-warning';
+                        }
+                    }
+                } else {
+                    $dados['erro']['msg'] = '<i class="fa fa-info-circle" aria-hidden="true"></i> Preencha todos os campos.';
+                    $dados['erro']['class'] = 'alert-warning';
+                }
+            }
+            $this->loadTemplate($view, $dados);
+        }
     }
 
     /**
