@@ -136,7 +136,42 @@ class editarController extends controller {
      * @author Joab Torres <joabtorres1508@gmail.com>
      */
     public function redemetro($cod_redemetro) {
-        
+        if ($this->checkUserPattern() && $this->checkUserAdministrator()) {
+            $dados = array();
+            $view = "redemetro_editar";
+            $redeModel = new redemetro();
+
+            $result = $redeModel->read("SELECT r.*, c.cidade_area_atuacao FROM sgl_redemetro AS r INNER JOIN sgl_cidade_area_atuacao AS c ON r.cod_area_atuacao=c.cod_area_atuacao WHERE r.cod_redemetro=:cod", array('cod' => addslashes(trim($cod_redemetro))));
+            if ($result) {
+                $dados['redemetro'] = $result[0];
+            }
+            if (isset($_POST['nSalvar']) && !empty($_POST['nSalvar'])) {
+                if (!empty($_POST['neditNome']) || !empty($_POST['neditEstensao'])) {
+                    //array que armazena os dados do formulário
+                    $data = array("nome" => addslashes(strtoupper($_POST['neditNome'])), "estensao" => addslashes($_POST['neditEstensao']), 'cod' => addslashes($_POST['neditCod']));
+                    if (!isset($dados['erro']) && empty($dados['erro'])) {
+                        $result = $redeModel->update('UPDATE sgl_redemetro SET nome_redemetro=:nome, estensao_redemetro=:estensao WHERE cod_redemetro=:cod', $data);
+                        if ($result) {
+                            $dados['erro']['msg'] = '<i class="fa fa-check" aria-hidden="true"></i> Cadastro realizado com sucesso!';
+                            $dados['erro']['class'] = 'alert-success';
+                            $_POST = array();
+                            $result = $redeModel->read("SELECT r.*, c.cidade_area_atuacao FROM sgl_redemetro AS r INNER JOIN sgl_cidade_area_atuacao AS c ON r.cod_area_atuacao=c.cod_area_atuacao WHERE r.cod_redemetro=:cod", array('cod' => addslashes(trim($cod_redemetro))));
+                            if ($result) {
+                                $dados['redemetro'] = $result[0];
+                            }
+                        } else {
+                            $dados['erro']['msg'] = '<i class="fa fa-info-circle" aria-hidden="true"></i> Foi encontrado um erro na sintaxe SQL!';
+                            $dados['erro']['class'] = 'alert-warning';
+                        }
+                    }
+                } else {
+                    $dados['erro']['msg'] = '<i class="fa fa-info-circle" aria-hidden="true"></i> Preencha todos os campos.';
+                    $dados['erro']['class'] = 'alert-warning';
+                }
+            }
+
+            $this->loadTemplate($view, $dados);
+        }
     }
 
     /**

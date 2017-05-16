@@ -38,18 +38,16 @@ class redemetro extends model {
      * @author Joab Torres <joabtorres1508@gmail.com>
      */
     public function create($sql_command, $data) {
-
         try {
             $sql = $this->db->prepare($sql_command);
             foreach ($data as $indice => $valor) {
                 $sql->bindValue(":" . $indice, $valor);
             }
-            $sql->execute();
+            $resultado = $sql->execute();
             //salva novo arquivo json
             $this->save_json();
-            return TRUE;
-        } catch (Exception $ex) {
-            echo "Erro: " . $ex->getMessage();
+            return $resultado;
+        } catch (PDOException $ex) {
             return false;
         }
     }
@@ -90,7 +88,18 @@ class redemetro extends model {
      * @author Joab Torres <joabtorres1508@gmail.com>
      */
     public function update($sql_command, $data) {
-        return false;
+        try {
+            $sql = $this->db->prepare($sql_command);
+            foreach ($data as $indice => $valor) {
+                $sql->bindValue(":" . $indice, $valor);
+            }
+            $resultado = $sql->execute();
+            //salva novo arquivo json
+            $this->save_json();
+            return $resultado;
+        } catch (PDOException $ex) {
+            return false;
+        }
     }
 
     /**
