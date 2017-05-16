@@ -38,17 +38,13 @@ class cidade extends model {
      * @author Joab Torres <joabtorres1508@gmail.com>
      */
     public function create($sql_command, $data) {
-        try {
-            $sql = $this->db->prepare($sql_command);
-            foreach ($data as $indice => $valor) {
-                $sql->bindValue(":" . $indice, $valor);
-            }
-            $sql->execute();
-            return TRUE;
-        } catch (Exception $ex) {
-            echo $ex->getMessage();
-            return false;
+
+        $sql = $this->db->prepare($sql_command);
+        foreach ($data as $indice => $valor) {
+            $sql->bindValue(":" . $indice, $valor);
         }
+        $resultado = $sql->execute();
+        return $resultado;
     }
 
     /**
@@ -88,7 +84,16 @@ class cidade extends model {
      * @author Joab Torres <joabtorres1508@gmail.com>
      */
     public function update($sql_command, $data) {
-        return false;
+        try {
+            $sql = $this->db->prepare($sql_command);
+            foreach ($data as $indice => $valor) {
+                $sql->bindValue(":" . $indice, $valor);
+            }
+            $resultado = $sql->execute();
+            return $resultado;
+        } catch (PDOException $ex) {
+            return false;
+        }
     }
 
     /**
@@ -100,7 +105,16 @@ class cidade extends model {
      * @author Joab Torres <joabtorres1508@gmail.com>
      */
     public function delete($sql_command, $data) {
-        return false;
+        try {
+            $sql = $this->db->prepare($sql_command);
+            foreach ($data as $indice => $valor) {
+                $sql->bindValue(":" . $indice, $valor);
+            }
+            $resultado = $sql->execute();
+            return $resultado;
+        } catch (PDOException $ex) {
+            return false;
+        }
     }
 
 }
