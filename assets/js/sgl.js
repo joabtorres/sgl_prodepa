@@ -28,10 +28,7 @@ $(document).ready(function () {
         placeholder: "Selecione",
         allowClear: true
     });
-
-
 });
-
 /*
  * @author Joab Torres Alencar
  * @description Está função submite o forumlário de buscar rápida que está no menu principal
@@ -46,7 +43,6 @@ function submit_form_navbar() {
 $("[data-hide]").on("click", function () {
     $("#alert-msg").toggle().addClass('oculta');
 });
-
 /*
  * @author Joab Torres Alencar
  *  Alterando filtro no cadastro da cidade (núcleo ou área de atuação);
@@ -84,7 +80,6 @@ if (document.getElementById("view-mapa-unidade")) {
         map = new google.maps.Map(document.getElementById("view-mapa-unidade"), options);
     }
     initialize();
-
     function carregaPonto(latitude, longitude) {
         var marker = new google.maps.Marker({
             position: new google.maps.LatLng(latitude, longitude),
@@ -135,11 +130,9 @@ if (document.getElementById('form-unidade')) {
         if ($("#iConexao").val() === "Fibra") {
 
             $("#iAP").attr('disabled', 'true');
-
             $("#iRedeMetro").removeAttr('disabled');
         } else {
             $("#iRedeMetro").attr('disabled', 'true');
-
             $("#iAP").removeAttr('disabled');
         }
     }
@@ -157,7 +150,6 @@ if (document.getElementById('form-unidade')) {
     }
     $(document).ready(function () {
         aplicarMascara();
-
         /**
          * Quando é selecionado o tipo de conexão [rádio ou fibra]
          */
@@ -165,22 +157,18 @@ if (document.getElementById('form-unidade')) {
             if ($("#iConexao").val() === "Fibra") {
 
                 $("#iAP").attr('disabled', 'true');
-
                 $("#iRedeMetro").removeAttr('disabled');
             } else {
                 $("#iRedeMetro").attr('disabled', 'true');
-
                 $("#iAP").removeAttr('disabled');
             }
         });
         //seleciona ap da cidade
         selectCidade();
-
         //Mapa de marcação geografica
         if (document.getElementById("viewMapa")) {
             var map;
             var marker;
-
             function initialize() {
                 if (getLatitude != null && getLongitude != null) {
                     var latlng = new google.maps.LatLng(getLatitude, getLongitude);
@@ -192,16 +180,12 @@ if (document.getElementById('form-unidade')) {
                     center: latlng,
                     mapTypeId: google.maps.MapTypeId.ROADMAP
                 };
-
                 map = new google.maps.Map(document.getElementById("viewMapa"), options);
-
                 geocoder = new google.maps.Geocoder();
-
                 marker = new google.maps.Marker({
                     map: map,
                     draggable: true
                 });
-
                 marker.setPosition(latlng);
             }
 
@@ -214,7 +198,6 @@ if (document.getElementById('form-unidade')) {
                             var longitude = results[0].geometry.location.lng();
                             $('#iLatitude').val(latitude);
                             $('#iLongitude').val(longitude);
-
                             var location = new google.maps.LatLng(latitude, longitude);
                             marker.setPosition(location);
                             map.setCenter(location);
@@ -230,8 +213,6 @@ if (document.getElementById('form-unidade')) {
             $('#iCidade').change(function () {
                 carregarNoMapa($("#iCidade option:selected").text());
             });
-
-
             google.maps.event.addListener(marker, 'drag', function () {
                 geocoder.geocode({'latLng': marker.getPosition()}, function (results, status) {
                     if (status == google.maps.GeocoderStatus.OK) {
@@ -244,12 +225,10 @@ if (document.getElementById('form-unidade')) {
             });
         }
     });
-
     function add_contrato() {
         var elemento = document.getElementById("iQtdContrato");
         var qtd = elemento.value;
         elemento.value = parseInt(qtd) + 1;
-
         var viewContato = document.getElementsByClassName("container_cad_contrato");
         if (viewContato.length > 0) {
             qtd = parseInt(qtd) + 1;
@@ -259,7 +238,6 @@ if (document.getElementById('form-unidade')) {
             div.setAttribute('id', 'contrato_' + qtd);
             hr = document.createElement('hr');
             div.appendChild(hr);
-
             div_numero = document.createElement('div');
             div_numero.setAttribute('class', 'col-md-4 form-group');
             label_numero = document.createElement('label');
@@ -273,18 +251,15 @@ if (document.getElementById('form-unidade')) {
             input_numero.setAttribute('placeholder', 'Exemplo: 0001/2016');
             div_numero.appendChild(label_numero);
             div_numero.appendChild(input_numero);
-
             div_tipo = document.createElement('div');
             div_tipo.setAttribute('class', 'col-md-8 form-group');
             label_tipo = document.createElement('label');
             label_tipo.setAttribute('for', 'iTipoContratro' + qtd);
             label_tipo.appendChild(document.createTextNode("Tipo de Contrato: "));
-
             select_tipo = document.createElement('select');
             select_tipo.setAttribute('id', 'iTipoContratro' + qtd);
             select_tipo.setAttribute('name', 'nTipoContratro' + qtd);
             select_tipo.setAttribute('class', 'form-control');
-
             option_null = document.createElement('option');
             option_null.setAttribute('value', '');
             option_act = document.createElement('option');
@@ -302,7 +277,6 @@ if (document.getElementById('form-unidade')) {
             select_tipo.appendChild(option_c);
             div_tipo.appendChild(label_tipo);
             div_tipo.appendChild(select_tipo);
-
             div_data_inicial = document.createElement('div');
             div_data_inicial.setAttribute('class', 'col-md-6 form-group');
             label_data_inicial = document.createElement('label');
@@ -316,7 +290,6 @@ if (document.getElementById('form-unidade')) {
             input_data_inicial.setAttribute('placeholder', 'Exemplo: 20/05/2011');
             div_data_inicial.appendChild(label_data_inicial);
             div_data_inicial.appendChild(input_data_inicial);
-
             div_data_vigencia = document.createElement('div');
             div_data_vigencia.setAttribute('class', 'col-md-6 form-group');
             label_data_vigencia = document.createElement('label');
@@ -330,13 +303,11 @@ if (document.getElementById('form-unidade')) {
             input_data_vigencia.setAttribute('placeholder', 'Exemplo: 20/06/2014');
             div_data_vigencia.appendChild(label_data_vigencia);
             div_data_vigencia.appendChild(input_data_vigencia);
-
             div.appendChild(div_numero);
             div.appendChild(div_tipo);
             div.appendChild(div_data_inicial);
             div.appendChild(div_data_vigencia);
             container.insertBefore(div, container.firstElementChild);
-
             aplicarMascara();
         }
     }
@@ -356,7 +327,6 @@ if (document.getElementById('form-unidade')) {
         var elemento = document.getElementById("iQtdContato");
         var qtd = elemento.value;
         elemento.value = parseInt(qtd) + 1;
-
         var viewContato = document.getElementsByClassName("container_cad_contato");
         if (viewContato.length > 0) {
             qtd = parseInt(qtd) + 1;
@@ -366,7 +336,6 @@ if (document.getElementById('form-unidade')) {
             div.setAttribute('id', 'contato_' + qtd);
             hr = document.createElement('hr');
             div.appendChild(hr);
-
             div_nome = document.createElement('div');
             div_nome.setAttribute('class', 'col-md-6 form-group');
             label_nome = document.createElement('label');
@@ -380,7 +349,6 @@ if (document.getElementById('form-unidade')) {
             input_nome.setAttribute('placeholder', 'Exemplo: Joab T. Alencar');
             div_nome.appendChild(label_nome);
             div_nome.appendChild(input_nome);
-
             div_email = document.createElement('div');
             div_email.setAttribute('class', 'col-md-6 form-group');
             label_email = document.createElement('label');
@@ -394,7 +362,6 @@ if (document.getElementById('form-unidade')) {
             input_email.setAttribute('placeholder', 'Exemplo: usuario@live.com');
             div_email.appendChild(label_email);
             div_email.appendChild(input_email);
-
             div_telefone1 = document.createElement('div');
             div_telefone1.setAttribute('class', 'col-md-6 form-group');
             label_telefone1 = document.createElement('label');
@@ -408,7 +375,6 @@ if (document.getElementById('form-unidade')) {
             input_telefone1.setAttribute('placeholder', 'Exemplo: Exemplo: (93) 3518-0011');
             div_telefone1.appendChild(label_telefone1);
             div_telefone1.appendChild(input_telefone1);
-
             div_telefone2 = document.createElement('div');
             div_telefone2.setAttribute('class', 'col-md-6 form-group');
             label_telefone2 = document.createElement('label');
@@ -422,13 +388,11 @@ if (document.getElementById('form-unidade')) {
             input_telefone2.setAttribute('placeholder', 'Exemplo: Exemplo: (093) 99222-3333');
             div_telefone2.appendChild(label_telefone2);
             div_telefone2.appendChild(input_telefone2);
-
             div.appendChild(div_nome);
             div.appendChild(div_email);
             div.appendChild(div_telefone1);
             div.appendChild(div_telefone2);
             container.insertBefore(div, container.firstElementChild);
-
             aplicarMascara();
         }
     }
@@ -477,8 +441,6 @@ if (document.getElementById("container-usuario-form")) {
             $("#viewImagem-1").attr('src', '/assets/imagens/user_masculino.png');
         } else {
             $("#viewImagem-1").attr('src', '/assets/imagens/user_feminino.png');
-
         }
     };
 }
-

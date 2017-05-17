@@ -43,12 +43,11 @@ class orgao extends model {
             foreach ($data as $indice => $valor) {
                 $sql->bindValue(":" . $indice, $valor);
             }
-            $sql->execute();
-            return TRUE;
-        } catch (Exception $ex) {
-            echo $ex->getMessage();
+            $resultado = $sql->execute();
+            return $resultado;
+        } catch (PDOException $ex) {
             return false;
-        }   
+        }
     }
 
     /**
@@ -62,7 +61,7 @@ class orgao extends model {
     public function read($sql_command, $data) {
         if (!empty($data)) {
             $sql = $this->db->prepare($sql_command);
-            
+
             foreach ($data as $indice => $valor) {
                 $sql->bindValue(":" . $indice, $valor);
             }
@@ -88,7 +87,16 @@ class orgao extends model {
      * @author Joab Torres <joabtorres1508@gmail.com>
      */
     public function update($sql_command, $data) {
-        return false;
+        try {
+            $sql = $this->db->prepare($sql_command);
+            foreach ($data as $indice => $valor) {
+                $sql->bindValue(":" . $indice, $valor);
+            }
+            $resultado = $sql->execute();
+            return $resultado;
+        } catch (PDOException $ex) {
+            return false;
+        }
     }
 
     /**

@@ -82,7 +82,42 @@ class editarController extends controller {
      * @author Joab Torres <joabtorres1508@gmail.com>
      */
     public function orgao($cod_orgao) {
-        
+        if ($this->checkUserPattern() && $this->checkUserAdministrator()) {
+            $dados = array();
+            $view = "orgao_editar";
+            $orgaoModel = new orgao();
+
+            $result = $orgaoModel->read('SELECT * FROM sgl_orgao WHERE cod_orgao=:cod', array('cod' => addslashes(trim($cod_orgao))));
+            if ($result) {
+                $dados['orgao'] = $result[0];
+            }
+            if (isset($_POST['nSalvar']) && !empty($_POST['nSalvar'])) {
+                if (isset($_POST['neditOrgao']) && !empty($_POST['neditOrgao'])) {
+                    //array com os dados do formulário
+                    $orgaoModel = new orgao();
+                    $data = array("nome" => addslashes($_POST['neditOrgao']), "categoria" => addslashes($_POST['neditCategoria']), 'cod' => addslashes(trim($_POST['neditCod'])));
+                    if (!isset($dados['erro']) && empty($dados['erro'])) {
+                        $result = $orgaoModel->update("UPDATE sgl_orgao SET nome_orgao=:nome, categoria_orgao=:categoria WHERE cod_orgao=:cod", $data);
+                        if ($result) {
+                            $dados['erro']['msg'] = '<i class="fa fa-check" aria-hidden="true"></i> Alteração realizada com sucesso!';
+                            $dados['erro']['class'] = 'alert-success';
+                            $_POST = array();
+                            $result = $orgaoModel->read('SELECT * FROM sgl_orgao WHERE cod_orgao=:cod', array('cod' => addslashes(trim($cod_orgao))));
+                            if ($result) {
+                                $dados['orgao'] = $result[0];
+                            }
+                        } else {
+                            $dados['erro']['msg'] = '<i class="fa fa-info-circle" aria-hidden="true"></i> Foi encontrado um erro na sintaxe SQL!';
+                            $dados['erro']['class'] = 'alert-warning';
+                        }
+                    }
+                } else {
+                    $dados['erro']['msg'] = '<i class="fa fa-info-circle" aria-hidden="true"></i> Informe o nome do orgão!';
+                    $dados['erro']['class'] = 'alert-warning';
+                }
+            }
+            $this->loadTemplate($view, $dados);
+        }
     }
 
     /**
@@ -181,7 +216,12 @@ class editarController extends controller {
      * @author Joab Torres <joabtorres1508@gmail.com>
      */
     public function unidade($cod_unidade) {
-        
+        if ($this->checkUserPattern() && $this->checkUserAdministrator()) {
+            $dados = array();
+            $view = "unidade_editar";
+
+            $this->loadTemplate($view, $dados);
+        }
     }
 
     /**
