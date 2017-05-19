@@ -219,6 +219,226 @@ class editarController extends controller {
         if ($this->checkUserPattern() && $this->checkUserAdministrator()) {
             $dados = array();
             $view = "unidade_editar";
+            $orgaoModel = new orgao();
+            $cidadeModel = new cidade();
+            $unidadeModel = new unidade();
+            $dados['orgaos'] = $orgaoModel->read("SELECT * FROM sgl_orgao ORDER BY nome_orgao ASC", array());
+            $dados['cidades'] = $cidadeModel->read("SELECT DISTINCT(sgl_cidade_area_atuacao.cidade_area_atuacao), sgl_cidade_area_atuacao.cod_area_atuacao, sgl_cidade_area_atuacao.cod_nucleo FROM sgl_cidade_area_atuacao, sgl_ap WHERE sgl_cidade_area_atuacao.cod_area_atuacao=sgl_ap.cod_area_atuacao GROUP BY sgl_cidade_area_atuacao.cod_area_atuacao ORDER BY sgl_cidade_area_atuacao.cod_area_atuacao ASC;", array());
+            //array que vai armazena os dados recebido do formulário
+            $unidade = array();
+
+            //dados para cláusulas de restrições
+            $data = array('cod_unidade' => addslashes(trim($cod_unidade)), 'cod_nucleo' => $_SESSION['user_sgl']['nucleo']);
+            $resultado_unidade = $unidadeModel->read("SELECT sgl_unidade.*, sgl_orgao.*, sgl_cidade_area_atuacao.* FROM sgl_unidade, sgl_orgao, sgl_cidade_area_atuacao WHERE sgl_unidade.cod_orgao=sgl_orgao.cod_orgao AND sgl_unidade.cod_cidade=sgl_cidade_area_atuacao.cod_area_atuacao AND sgl_unidade.cod_unidade=:cod_unidade AND sgl_cidade_area_atuacao.cod_nucleo=:cod_nucleo", $data);
+            if ($resultado_unidade) {
+                $resultado_unidade = $resultado_unidade[0];
+                $resultado_unidade['data_ativacao_unidade'] = $this->formatDateView($resultado_unidade['data_ativacao_unidade']);
+
+                //consulta contratos
+                if ($resultado_unidade['cod_unidade']) {
+                    $data = array('cod_unidade' => $resultado_unidade['cod_unidade']);
+                    $resultado_contrato = $unidadeModel->read("SELECT sgl_unidade_contrato.* FROM sgl_unidade_contrato, sgl_unidade WHERE sgl_unidade_contrato.cod_unidade=sgl_unidade.cod_unidade AND sgl_unidade.cod_unidade=:cod_unidade ORDER BY sgl_unidade_contrato.cod_contrato DESC;", $data);
+                    if ($resultado_contrato) {
+                        foreach ($resultado_contrato as $row => $columns) {
+                            $resultado_contrato[$row]['data_inicial_contrato'] = $this->formatDateView($resultado_contrato[$row]['data_inicial_contrato']);
+                            $resultado_contrato[$row]['data_vigencia_contrato'] = $this->formatDateView($resultado_contrato[$row]['data_vigencia_contrato']);
+                        }
+                        $resultado_unidade['contratos'] = $resultado_contrato;
+                    }
+                }
+
+                //consulta endereco
+                if ($resultado_unidade['cod_unidade']) {
+                    $data = array('cod_unidade' => $resultado_unidade['cod_unidade']);
+                    $resultado_endereco = $unidadeModel->read("SELECT e.* FROM sgl_unidade_endereco AS e INNER JOIN sgl_unidade AS u ON e.cod_unidade=u.cod_unidade WHERE u.cod_unidade=:cod_unidade", $data);
+                    if ($resultado_endereco) {
+                        $resultado_unidade['endereco'] = $resultado_endereco[0];
+                    }
+                }
+
+                //consulta contatos
+                if ($resultado_unidade['cod_unidade']) {
+                    $data = array('cod_unidade' => $resultado_unidade['cod_unidade']);
+                    $resultado_contato = $unidadeModel->read("SELECT sgl_unidade_contato.* FROM sgl_unidade_contato, sgl_unidade WHERE sgl_unidade_contato.cod_unidade=sgl_unidade.cod_unidade AND sgl_unidade.cod_unidade=:cod_unidade ORDER BY sgl_unidade_contato.cod_contato DESC;", $data);
+                    if ($resultado_contato) {
+                        $resultado_unidade['contatos'] = $resultado_contato;
+                    }
+                }
+                //dados da unidade;
+                $dados['unidade'] = $resultado_unidade;
+            }
+
+            if (isset($_POST['nSalvar']) && !empty($_POST['nSalvar'])) {
+                /*
+                 * ADCIONANDO CÓDIGO DA UNIDADE
+                 */
+                $unidade['cod_unidade'] = addslashes($_POST['nCodUnidade']);
+                //orgão
+                $unidade['cod_orgao'] = addslashes($_POST['nOrgao']);
+                //cidade
+                $unidade['cod_area_atuacao'] = addslashes($_POST['nCidade']);
+
+
+                if (!empty($_POST['nUnidade']) && isset($_POST['nUnidade'])) {
+                    //nome da unidade
+                    $unidade['nome_unidade'] = addslashes($_POST['nUnidade']);
+                } else {
+                    $dados['unidade_erro']['nome']['msg'] = 'Informe a unidade';
+                    $dados['unidade_erro']['nome']['class'] = 'has-error';
+                }
+
+                if (!empty($_POST['nConexao']) && isset($_POST['nConexao'])) {
+                    //conexao
+                    $unidade['conexao_unidade'] = addslashes($_POST['nConexao']);
+                }
+
+                if (!empty($_POST['nAP']) && isset($_POST['nAP'])) {
+                    //ap
+                    $unidade['cod_ap'] = addslashes($_POST['nAP']);
+                } else {
+                    $unidade['cod_ap'] = null;
+                }
+
+                if (!empty($_POST['nRedeMetro']) && isset($_POST['nRedeMetro'])) {
+                    //redemetro
+                    $unidade['cod_redemetro'] = addslashes($_POST['nRedeMetro']);
+                } else {
+                    $unidade['cod_redemetro'] = null;
+                }
+
+                if (!empty($_POST['nIP']) && isset($_POST['nIP'])) {
+                    //ip
+                    $unidade['ip_unidade'] = addslashes($_POST['nIP']);
+                } else {
+                    $dados['unidade_erro']['ip']['msg'] = 'Informe o ip';
+                    $dados['unidade_erro']['ip']['class'] = 'has-error';
+                }
+
+                if (!empty($_POST['nVLAN']) && isset($_POST['nVLAN'])) {
+                    //vlan
+                    $unidade['nome_vlan_unidade'] = addslashes($_POST['nVLAN']);
+                } else {
+                    $dados['unidade_erro']['vlan']['msg'] = 'Informe o nome da VLAN';
+                    $dados['unidade_erro']['vlan']['class'] = 'has-error';
+                }
+
+                if (!empty($_POST['nTagVlan']) && isset($_POST['nTagVlan'])) {
+                    //tag_vlan
+                    $unidade['tag_vlan_unidade'] = addslashes($_POST['nTagVlan']);
+                } else {
+                    $dados['unidade_erro']['tag_vlan']['msg'] = 'Informe a TAG VLAN';
+                    $dados['unidade_erro']['tag_vlan']['class'] = 'has-error';
+                }
+
+                if (!empty($_POST['nBanda']) && isset($_POST['nBanda'])) {
+                    //banda
+                    $unidade['banda_unidade'] = addslashes($_POST['nBanda']);
+                } else {
+                    $dados['unidade_erro']['banda']['msg'] = 'Informe o valor da banda';
+                    $dados['unidade_erro']['banda']['class'] = 'has-error';
+                }
+
+                if (!empty($_POST['nStatus']) && isset($_POST['nStatus'])) {
+                    //statu
+                    $unidade['statu_unidade'] = addslashes($_POST['nStatus']);
+                } else {
+                    $dados['unidade_erro']['statu']['msg'] = 'Informe o status';
+                    $dados['unidade_erro']['statu']['class'] = 'has-error';
+                }
+
+                if (!empty($_POST['nDataAtivacao']) && isset($_POST['nDataAtivacao'])) {
+                    //data
+                    $unidade['data_ativacao_unidade'] = addslashes($_POST['nDataAtivacao']);
+                    if ($unidade['data_ativacao_unidade'] == false) {
+                        $dados['unidade_erro']['data']['msg'] = 'DIA/MÊS/ANO';
+                        $dados['unidade_erro']['data']['class'] = 'has-error';
+                    }
+                } else {
+                    $dados['unidade_erro']['data']['msg'] = 'Informe a data de ativação';
+                    $dados['unidade_erro']['data']['class'] = 'has-error';
+                }
+
+                //zabbix
+                $unidade['zabbix_unidade'] = addslashes($_POST['nZabbix']);
+                //url
+                $unidade['url_zabbix_unidade'] = addslashes($_POST['nUrlZabbix']);
+
+                /*
+                 * capturando contrato
+                 */
+                for ($qtd = addslashes($_POST['nQtdContrato']); $qtd >= 1; $qtd--) {
+                    if (!empty($_POST['nNumeroContrato' . $qtd]) || !empty($_POST['nTipoContratro' . $qtd]) || !empty($_POST['nDataInicial' . $qtd]) || !empty($_POST['nDataVigencia' . $qtd])) {
+                        if (isset($_POST['nCodContrato' . $qtd]) && !empty($_POST['nCodContrato' . $qtd])) {
+                            //cod contrato
+                            $unidade['contratos'][$qtd]['cod_contrato'] = addslashes(trim($_POST['nCodContrato' . $qtd]));
+                        }
+                        //cod unidade
+                        $unidade['contratos'][$qtd]['cod_unidade'] = $unidade['cod_unidade'];
+                        //numero do contrato
+                        $unidade['contratos'][$qtd]['numero_contrato'] = addslashes($_POST['nNumeroContrato' . $qtd]);
+                        //numero data inicial
+                        $unidade['contratos'][$qtd]['nome_contrato'] = addslashes($_POST['nTipoContratro' . $qtd]);
+                        //numero data inicial
+                        $unidade['contratos'][$qtd]['data_inicial_contrato'] = addslashes($_POST['nDataInicial' . $qtd]);
+                        //numero data vigencia
+                        $unidade['contratos'][$qtd]['data_vigencia_contrato'] = addslashes($_POST['nDataVigencia' . $qtd]);
+                    }
+                }
+                /*
+                 * capturando endereço da unidade
+                 */
+                $unidade['endereco']['cod_unidade'] = $unidade['cod_unidade'];
+                //logradouro
+                $unidade['endereco']['logradouro_endereco'] = addslashes($_POST['nLogradouro']);
+                //numero
+                $unidade['endereco']['numero_endereco'] = addslashes($_POST['nNumero']);
+                //bairro
+                $unidade['endereco']['bairro_endereco'] = addslashes($_POST['nBairro']);
+                //complemento
+                $unidade['endereco']['complemento_endereco'] = addslashes($_POST['nComplemento']);
+                //latitude
+                $unidade['endereco']['latitude_endereco'] = addslashes($_POST['nLatitude']);
+                //longitude
+                $unidade['endereco']['longitude_endereco'] = addslashes($_POST['nLongitude']);
+                //gps
+                $unidade['endereco']['gps_endereco'] = addslashes($_POST['nGPS']);
+
+                $unidade['endereco']['cod_endereco'] = addslashes($_POST['nCodEndereco']);
+                /*
+                 * Capturando contato da unidade
+                 */
+
+                for ($qtd = $_POST['nQtdContato']; $qtd >= 1; $qtd--) {
+                    if (!empty($_POST['nNome' . $qtd]) || !empty($_POST['nEmail' . $qtd]) || !empty($_POST['nTelefone1_' . $qtd]) || !empty($_POST['nTelefone2_' . $qtd])) {
+                        if (isset($_POST['nCodContato' . $qtd]) && !empty($_POST['nCodContato' . $qtd])) {
+                            //cod_contato
+                            $unidade['contatos'][$qtd]['cod_contato'] = addslashes(trim($_POST['nCodContato' . $qtd]));
+                        }
+                        $unidade['contatos'][$qtd]['cod_unidade'] = $unidade['cod_unidade'];
+                        //gps/
+                        $unidade['contatos'][$qtd]['nome_contato'] = addslashes($_POST['nNome' . $qtd]);
+                        //email
+                        $unidade['contatos'][$qtd]['email_contato'] = addslashes($_POST['nEmail' . $qtd]);
+                        //telefone1
+                        $unidade['contatos'][$qtd]['telefone1_contato'] = addslashes($_POST['nTelefone1_' . $qtd]);
+                        //telefone2
+                        $unidade['contatos'][$qtd]['telefone2_contato'] = addslashes($_POST['nTelefone2_' . $qtd]);
+                    }
+                }
+                $dados['unidade'] = $unidade;
+                //se todos os campos forem preenchidos
+                if (isset($dados['unidade_erro']) && !empty($dados['unidade_erro'])) {
+                    $dados['erro']['msg'] = '<i class="fa fa-info-circle" aria-hidden="true"></i> Preencha todos os campos obrigatórios (*).';
+                    $dados['erro']['class'] = 'alert-danger';
+                } else {
+                    $unidade['contratos_bd'] = $resultado_unidade['contratos'];
+                    $unidade['contatos_bd'] = $resultado_unidade['contatos'];
+                    $unidadeModel->update($unidade);
+                    $dados['erro']['msg'] = '<i class="fa fa-check" aria-hidden="true"></i> Alteração realizada com sucesso!';
+                    $dados['erro']['class'] = 'alert-success';
+                    $_POST = array();
+                }
+            }
 
             $this->loadTemplate($view, $dados);
         }

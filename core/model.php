@@ -46,7 +46,7 @@ class model {
         if (count($arrayDate) == 3) {
             return $arrayDate[2] . '-' . $arrayDate[1] . '-' . $arrayDate[0];
         } else {
-            return false;
+            return null;
         }
     }
 

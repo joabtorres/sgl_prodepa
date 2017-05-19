@@ -24,6 +24,12 @@ class usuarioController extends controller {
     public function index($page = 1) {
         $view = "usuario_listar";
         $dados = array();
+        $usuarioModel = new usuario();
+        //consulta todos os usuários pertencente ao respecito núcleo
+        $resultado_usuario = $usuarioModel->read('SELECT * FROM sgl_usuario WHERE cod_cidade_nucleo=:cod_nucleo AND statu_usuario=1;', array('cod_nucleo' => $_SESSION['user_sgl']['nucleo']));
+        if ($resultado_usuario) {
+            $dados['usuarios'] = $resultado_usuario;
+        }
         $this->loadTemplate($view, $dados);
     }
 

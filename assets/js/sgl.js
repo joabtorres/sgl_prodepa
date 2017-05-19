@@ -11,7 +11,7 @@ function mostrarConteudo() {
     if (elemento) {
         elemento.style.display = "block";
     }
-    var elemento = document.getElementById("tela_login");
+    var elemento = document.getElementById("interface_login");
     if (elemento) {
         elemento.style.display = "block";
     }

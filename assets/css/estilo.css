@@ -7,7 +7,7 @@
 /* TAGS NATIVAS */
 
 .h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6, p, a, form, label, input[type='text'], input[type='email'], input[type='number'], textarea, body {
-    font-family: "ubuntu-regular", sans-serif;
+   /*font-family: "ubuntu-regular", sans-serif;*/
 }
 form label{
     font-weight: normal!important;

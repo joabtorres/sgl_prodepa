@@ -117,6 +117,24 @@
                     </div>
                 </div>
             </div>
+            <div class="col-sm-6 col-md-4 col-lg-4">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-xs-8">
+                                <div class="text-uppercase font-bold">Manual</div>
+                                <div>Manual do Sistema</div>
+                            </div>
+                            <div class="col-xs-4">
+                                <i class="fa fa-book fa-4x pull-right"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <a href="<?php echo BASE_URL ?>/relatorio/filtro">Carregar Página<span>&raquo;</span></a>
+                    </div>
+                </div>
+            </div>
         </div>
         <!--FIM .ROW-->
 

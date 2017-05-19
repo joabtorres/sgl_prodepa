@@ -36,18 +36,29 @@
                 <!--FIM .PANEL-->
             </div>
             <!--thumbnal usuario-->
-            <div class="col-sm-6 col-md-4 col-lg-4">                            
-                <div class=" thumbnail">
-                    <img src="<?php echo BASE_URL?>/assets/imagens/user_masculino.png" alt="SGL - Usuáio" class="img-responsive"/>
-                    <p class="text-center text-uppercase">JOAB TORRES ALENCAR - COD 1</p>
-                    <p class="text-center text-uppercase">estagiário</p>
-                    <div class="caption">
-                        <button type="button" class="btn btn-block btn-success" data-toggle="modal" data-target="#modal_recupera">Recupera Senha</button>
-                        <button type="button" class="btn btn-block btn-primary" data-toggle="modal" data-target="#modal_recupera">Editar</button>
-                        <button type="button"  class="btn btn-block btn-danger" data-toggle="modal" data-target="#modal_recupera">Excluir</button>
+            <?php
+            if (isset($usuarios)) {
+                foreach ($usuarios as $usuario):
+                    ?>
+                    <div class="col-sm-6 col-md-4 col-lg-4">                            
+                        <div class=" thumbnail">
+                            <img src="<?php echo BASE_URL.'/'.$usuario['img_usuario'] ?>" alt="SGL - Usuáio" class="img-responsive img-circle"/>
+                            <p class="text-center text-uppercase font-bold"><?php echo $usuario['nome_usuario'].' '.$usuario['sobrenome_usuario'].' - Código '.$usuario['cod_usuario']?></p>
+                            <p class="text-center text-lowercase"><?php echo $usuario['email_usuario']?></p>
+                            <p class="text-center text-capitalize"><?php echo $usuario['cargo_usuario']?></p>
+                            <div class="caption">
+                                <button type="button" class="btn btn-block btn-success" data-toggle="modal" data-target="#modal_recupera">Recupera Senha</button>
+                                <button type="button" class="btn btn-block btn-primary" data-toggle="modal" data-target="#modal_recupera">Editar</button>
+                                <button type="button"  class="btn btn-block btn-danger" data-toggle="modal" data-target="#modal_recupera">Excluir</button>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
+                    <?php
+                endforeach;
+            }else {
+                
+            }
+            ?>
             <!--thumbnal usuario-->
             <!--paginação-->
             <section class="clear col-xs-12">
