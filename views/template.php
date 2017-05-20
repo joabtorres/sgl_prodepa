@@ -13,11 +13,15 @@
         <link href="<?php echo BASE_URL ?>/assets/css/bootstrap.min.css" rel="stylesheet">
         <!--Font-Awesome - icons personalizados-->
         <link rel="stylesheet" href="<?php echo BASE_URL ?>/assets/css/font-awesome.min.css">
-        <!--Select2 - select personalizados;-->
-        <link rel="stylesheet" href="<?php echo BASE_URL ?>/assets/css/select2.min.css">
-
         <!-- SGL -->
         <link rel="stylesheet" href="<?php echo BASE_URL ?>/assets/css/estilo.css">
+
+        <!-- jQuery (obrigatório para plugins JavaScript do Bootstrap) -->
+        <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>;-->
+        <script src="<?php echo BASE_URL ?>/assets/js/jquery-3.1.1.min.js"></script>
+        <!--Select2 - select personalizados;-->
+        <link rel="stylesheet" href="<?php echo BASE_URL ?>/assets/css/select2.min.css">
+        <script src="<?php echo BASE_URL ?>/assets/js/select2.min"></script>
     </head>
 
     <body onload="mostrarConteudo()">
@@ -160,13 +164,9 @@
         </div>
         <!-- /#tela_sistema -->
 
-        <!-- jQuery (obrigatório para plugins JavaScript do Bootstrap) -->
-        <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>;-->
+
+
         <!-- Inclui todos os plugins compilados (abaixo), ou inclua arquivos separadados se necessário -->
-        <script src="<?php echo BASE_URL ?>/assets/js/jquery-3.1.1.min.js"></script>
-        <!--Js do Select2-->
-        <script src="<?php echo BASE_URL ?>/assets/js/select2.min"></script>
-        
         <script src="<?php echo BASE_URL ?>/assets/js/bootstrap.min.js"></script>
 
         <!--Maskedinput-->

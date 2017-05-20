@@ -14,10 +14,10 @@
             <div class="col-sm-12 col-md-12 col-lg-12">
                 <div class="panel panel-primary">
                     <div class="panel-heading">
-                        <span class="pull-right"><a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne" class=" btn btn-primary btn-sm"><i class="fa fa-plus-square"></i></a></span>
+                        <span class="pull-right"><a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne" class=" btn btn-primary btn-xs" title="Exibir/Ocultar"><i class="fa fa-plus-square"></i></a></span>
                         <p class="panel-title">Relatório Detalhado </p>
                     </div>
-                    <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+                    <div id="collapseOne" class="panel-collapse in collapse" role="tabpanel" aria-labelledby="headingOne">
                         <div class="panel-body">
                             <form method="POST" autocomplete="off">
                                 <div class="row">
@@ -38,7 +38,8 @@
                                         <label for="iConexao">Conexão:</label>
                                         <select name="nConexao" id="iConexao" class="form-control">
                                             <option value="Todos">Todos</option>
-                                            <option value="Nome do orgão">Nome do orgão</option>
+                                            <option value="Nome do orgão">Rádio</option>
+                                            <option value="Nome do orgão">Fibra</option>
                                         </select>
                                     </div>
                                     <div class="form-group col-sm-6 col-md-6 col-lg-6">
@@ -80,7 +81,7 @@
                                     <div class="col-sm-6 col-md-6 col-lg-6 form-group">
                                         <label>Modo de Exibição:</label><br/>
                                         <label><input type="radio" name="nModoExibicao" value="Resumido" checked/> Resumido</label>
-                                        <label><input type="radio" name="nModoExibicao" value="Completo"/> Completo</label>
+                                        <!--<label><input type="radio" name="nModoExibicao" value="Completo"/> Completo</label>-->
                                     </div>
 
                                     <div class="col-sm-6 col-md-6 col-lg-6 form-group">

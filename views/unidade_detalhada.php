@@ -119,11 +119,11 @@
                                 <div class=" clear col-xs-12">
                                     <div id="view-mapa-unidade"></div>
                                     <!-- CHAMANDO GOOGLE MAPS API -->
-                                    <script src="http://maps.google.com/maps/api/js?key=AIzaSyCg1ogHawJGuDbw7nd6qBz9yYxYPoGTWQo&sensor=false"></script>
+                                    <script src="http://maps.google.com/maps/api/js?key=AIzaSyCg1ogHawJGuDbw7nd6qBz9yYxYPoGTWQo"></script>
                                     <?php echo '<script type="text/javascript"> var latitude = ' . $resultado_unidade['endereco']['latitude_endereco'] . '; var longitude =' . $resultado_unidade['endereco']['longitude_endereco'] . '</script>' ?>
                                     <script type="text/javascript">
-                                        var latitude = <?php echo isset($resultado_unidade['color_code_ap']) ? $resultado_unidade['endereco']['latitude_endereco'] : "-4.2639141"; ?>;
-                                        var longitude = <?php echo isset($resultado_unidade['color_code_ap']) ? $resultado_unidade['endereco']['longitude_endereco'] : "-55.998396"; ?>;
+                                        var latitude = <?php echo isset($resultado_unidade['endereco']) ? $resultado_unidade['endereco']['latitude_endereco'] : ""; ?>;
+                                        var longitude = <?php echo isset($resultado_unidade['endereco']) ? $resultado_unidade['endereco']['longitude_endereco'] : ""; ?>;
                                     </script>
                                 </div>
                             </div> <!-- fim row-->
@@ -198,7 +198,7 @@
                                         <td><?php echo $historicos['usuario'] ?></td>
                                         <td> <?php echo $historicos['descricao_historico'] ?></td>
                                         <?php if (!empty($_SESSION['user_sgl']['nivel']) && $_SESSION['user_sgl']['nivel']) : ?>
-                                            <td><a href="<?php echo BASE_URL . '/editar/historico/' . $historicos['cod_historico'] ?>" class="btn btn-xs btn-primary" title="Editar"><i class="fa fa-pencil"></i></a> | <button class="btn btn-xs btn-danger" data-toggle="modal" data-target="#modal_historico_<?php echo $historicos['cod_historico'] ?>" title="Excluir"><i class="fa fa-trash"></i></button></td>
+                                            <td class="table-acao"><a href="<?php echo BASE_URL . '/editar/historico/' . $historicos['cod_historico'] ?>" class="btn btn-xs btn-primary" title="Editar"><i class="fa fa-pencil"></i></a> | <button class="btn btn-xs btn-danger" data-toggle="modal" data-target="#modal_historico_<?php echo $historicos['cod_historico'] ?>" title="Excluir"><i class="fa fa-trash"></i></button></td>
                                         <?php endif; ?>
                                     </tr>
                                     <?php

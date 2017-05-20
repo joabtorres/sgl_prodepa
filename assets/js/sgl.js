@@ -15,6 +15,17 @@ function mostrarConteudo() {
     if (elemento) {
         elemento.style.display = "block";
     }
+
+    var tag = document.getElementsByTagName('select');
+    if (tag[0] !== undefined) {
+        select2();
+    }
+
+
+
+    if (document.getElementById("view-mapa-unidade")) {
+        setMapaUnidade(latitude, longitude);
+    }
 }
 
 /**
@@ -22,13 +33,21 @@ function mostrarConteudo() {
  * @author Joab Torres Alencar
  * @description Executa ações após o carreamento da página
  */
+
+//ativa estilo e js do plugin select2
+function select2() {
+    $('select').each(function () {
+        $(this).select2({
+            placeholder: "Selecione",
+            allowClear: true
+        });
+    });
+}
 $(document).ready(function () {
     //ativa estilo e js do plugin select2
-    $('select').select2({
-        placeholder: "Selecione",
-        allowClear: true
-    });
+    select2();
 });
+
 /*
  * @author Joab Torres Alencar
  * @description Está função submite o forumlário de buscar rápida que está no menu principal
@@ -58,11 +77,14 @@ if (document.getElementById("form-cidade")) {
 }
 
 /**
- * @author Joab Torres Alencar
  * Pagina: Unidade Detalhada
+ * @author Joab Torres Alencar
+ * @description A Função setMapaUnidade - serve para carrega e marca o ponto geográfico na página unidade detalhada;
+ * @param {int} latitude Latitude geográfica
+ * @param {int} longitude Longitude geográfica
  */
-//mapa
-if (document.getElementById("view-mapa-unidade")) {
+
+function setMapaUnidade(latitude, longitude) {
     var map;
     function initialize() {
         if (latitude != null && longitude != null) {
@@ -70,8 +92,6 @@ if (document.getElementById("view-mapa-unidade")) {
         } else {
             var latlng = new google.maps.LatLng(-4.2639141, -55.998396);
         }
-
-
         var options = {
             zoom: 12,
             center: latlng,
@@ -89,6 +109,7 @@ if (document.getElementById("view-mapa-unidade")) {
         });
     }
     carregaPonto(latitude, longitude);
+
 }
 
 /**
@@ -143,10 +164,7 @@ if (document.getElementById('form-unidade')) {
         $('.input-date').mask("99/99/9999", {placeholder: "mm/dd/yyyy"});
         $('.input-telefone').mask("(999) 9999-9999");
         $('.input-celular').mask("(999) 99999-9999");
-        $('select').select2({
-            placeholder: "Selecione",
-            allowClear: true
-        });
+        select2();
     }
     $(document).ready(function () {
         aplicarMascara();

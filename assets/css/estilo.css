@@ -58,7 +58,7 @@ form label{
     border-bottom: 1px solid #cecece;
 }
 .table-acao{
-    width: 70px
+    width: 80px
 }
 .table-qtd{
     width: 30px;
@@ -67,11 +67,16 @@ form label{
 /*TELA LOGIN*/
 
 #tela_login {
-    background-color: #222d32;
+    background-color: #f6f6f6;
     border-radius: 5px;
     margin-top: 10%;
     padding: 10px 30px;
-    color: white;
+    color: #333;
+    border: 1px solid #d7d7d7;
+    box-shadow: 0px 0px 2px #cecece;
+    -webkit-box-shadow: 0px 0px 3px 1px #cecece;
+    -moz-box-shadow: 0px 0px 3px 1px #cecece;
+    -o-box-shadow: 0px 0px 3px 1px #cecece;
 }
 
 #tela_login h4 {
@@ -105,14 +110,14 @@ form label{
 }
 
 #tela_login a {
-    color: rgb(199, 199, 199);
+    color: #888;
     float: right;
     cursor: pointer;
 }
 
 #tela_login a:hover, #tela_login a:focus {
     text-decoration: none;
-    color: white;
+    color: #555;
     display: inline-block;
 }
 

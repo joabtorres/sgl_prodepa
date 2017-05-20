@@ -173,11 +173,11 @@
                                             </div>
                                             <div class="col-md-6 form-group">
                                                 <label for="iDataInicial<?php echo $qtdContrato ?>">Data Inicial:</label>
-                                                <input type="date" name="nDataInicial<?php echo $qtdContrato ?>" id="iDataInicial1" class="form-control input-date" placeholder="Exemplo: 20/05/2011" value="<?php echo $contrato['data_inicial_contrato'] ?>">
+                                                <input type="text" name="nDataInicial<?php echo $qtdContrato ?>" id="iDataInicial1" class="form-control input-date" placeholder="Exemplo: 20/05/2011" value="<?php echo $contrato['data_inicial_contrato'] ?>">
                                             </div>
                                             <div class="col-md-6 form-group">
                                                 <label for="iDataVigencia<?php echo $qtdContrato ?>">Data de Vigência:</label>
-                                                <input type="date" name="nDataVigencia<?php echo $qtdContrato ?>" id="iDataVigencia<?php echo $qtdContrato ?>" class="form-control input-date" placeholder="Exemplo: 20/06/2014" value="<?php echo $contrato['data_vigencia_contrato'] ?>">
+                                                <input type="text" name="nDataVigencia<?php echo $qtdContrato ?>" id="iDataVigencia<?php echo $qtdContrato ?>" class="form-control input-date" placeholder="Exemplo: 20/06/2014" value="<?php echo $contrato['data_vigencia_contrato'] ?>">
                                             </div>
                                         </div>
                                         <?php
@@ -202,11 +202,11 @@
                                         </div>
                                         <div class="col-md-6 form-group">
                                             <label for="iDataInicial1">Data Inicial:</label>
-                                            <input type="date" name="nDataInicial1" id="iDataInicial1" class="form-control input-date" placeholder="Exemplo: 20/05/2011">
+                                            <input type="text" name="nDataInicial1" id="iDataInicial1" class="form-control input-date" placeholder="Exemplo: 20/05/2011">
                                         </div>
                                         <div class="col-md-6 form-group">
                                             <label for="iDataVigencia1">Data de Vigência:</label>
-                                            <input type="date" name="nDataVigencia1" id="iDataVigencia1" class="form-control input-date" placeholder="Exemplo: 20/06/2014" >
+                                            <input type="text" name="nDataVigencia1" id="iDataVigencia1" class="form-control input-date" placeholder="Exemplo: 20/06/2014" >
                                         </div>
                                     </div>
                                 <?php } ?>
