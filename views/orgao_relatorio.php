@@ -219,7 +219,7 @@ if (isset($resultadoView)) {
 
                                 </article>
                                 <footer class="modal-footer">
-                                    <a class="btn btn-danger " href="<?php echo BASE_URL . '/excluir/orgao/' . $orgaos['cod_orgao'] ?>"> <i class="fa fa-trash"></i> Excluir</a> | 
+                                    <a class="btn btn-danger " href="<?php echo BASE_URL . '/excluir/orgao/' . $orgaos['cod_orgao'].'/'.$cidades['cod_cidade'] ?>"> <i class="fa fa-trash"></i> Excluir</a> | 
                                     <button class="btn btn-default" type="button" data-dismiss="modal"><i class="fa fa-close"></i> Fechar</button>
                                 </footer>
                             </section>

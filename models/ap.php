@@ -111,9 +111,19 @@ class ap extends model {
      * @author Joab Torres <joabtorres1508@gmail.com>
      */
     public function delete($sql_command, $data) {
-        //salva novo arquivo json
-        $this->saveJson();
-        return false;
+        try {
+            $sql = $this->db->prepare($sql_command);
+            foreach ($data as $indice => $valor) {
+                $sql->bindValue(":" . $indice, $valor);
+            }
+            $sql->execute();
+            //salva novo arquivo json
+            $this->saveJson();
+            return TRUE;
+        } catch (PDOException $ex) {
+            echo "Erro: " . $ex->getMessage();
+            return false;
+        }
     }
 
     private function saveJson() {
@@ -130,15 +140,16 @@ class ap extends model {
         $cidadeModel = new cidade();
         $cidades = $cidadeModel->read("SELECT * FROM sgl_cidade_area_atuacao ORDER BY sgl_cidade_area_atuacao.cidade_area_atuacao ASC;", array());
         $aps = $this->read("SELECT DISTINCT(c.cidade_area_atuacao), ap.* FROM sgl_cidade_area_atuacao AS c INNER JOIN sgl_ap AS ap ON c.cod_area_atuacao=ap.cod_area_atuacao ORDER BY c.cidade_area_atuacao ASC, ap.nome_ap ASC;", array());
-
-        foreach ($cidades as $cidade) {
-            foreach ($aps as $ap) {
-                if ($cidade['cod_area_atuacao'] == $ap['cod_area_atuacao']) {
-                    $json[$cidade['cod_area_atuacao']][] = array("cod" => $ap['cod_ap'], "nome" => $ap['nome_ap']);
+        if (isset($cidades) && is_array($cidades) && isset($aps) && is_array($aps)) {
+            foreach ($cidades as $cidade) {
+                foreach ($aps as $ap) {
+                    if ($cidade['cod_area_atuacao'] == $ap['cod_area_atuacao']) {
+                        $json[$cidade['cod_area_atuacao']][] = array("cod" => $ap['cod_ap'], "nome" => $ap['nome_ap']);
+                    }
                 }
             }
+            file_put_contents($fileJson, json_encode($json));
         }
-        file_put_contents($fileJson, json_encode($json));
     }
 
 }

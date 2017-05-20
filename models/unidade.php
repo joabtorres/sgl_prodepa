@@ -277,7 +277,17 @@ class unidade extends model {
      * @author Joab Torres <joabtorres1508@gmail.com>
      */
     public function delete($sql_command, $data) {
-        return false;
+        try {
+            $sql = $this->db->prepare($sql_command);
+            foreach ($data as $indice => $valor) {
+                $sql->bindValue(":" . $indice, $valor);
+            }
+            $sql->execute();
+            return TRUE;
+        } catch (PDOException $ex) {
+            echo "Erro: " . $ex->getMessage();
+            return false;
+        }
     }
 
 }

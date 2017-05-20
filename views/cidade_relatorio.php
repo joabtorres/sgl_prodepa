@@ -14,7 +14,7 @@
             <div class="col-sm-12 col-md-12 col-lg-12">
 
                 <?php
-                if (isset($cidades)) {
+                if (isset($cidades) && is_array($cidades)) {
                     foreach ($cidades as $resultado) :
                         ?>
 
@@ -91,7 +91,7 @@
 <!-- /#conteudo_sistema -->
 
 <?php
-if (isset($cidades)) :
+if (isset($cidades)  && is_array($cidades)) :
     foreach ($cidades as $resultado) :
         ?>
 

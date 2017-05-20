@@ -29,7 +29,123 @@ class excluirController extends controller {
      * @author Joab Torres <joabtorres1508@gmail.com>
      */
     public function cidade($cod_cidade) {
-        
+        if ($this->checkUserPattern() && $this->checkUserAdministrator()) {
+            $cidadeModel = new cidade();
+            $apModel = new ap();
+            $redeModel = new redemetro();
+            $unidadeModel = new unidade();
+            $historicoModel = new historico();
+
+            $result_cidade = $cidadeModel->read('SELECT * FROM sgl_cidade_area_atuacao WHERE cod_area_atuacao=:cod_cidade AND cod_nucleo=:cod_nucleo', array('cod_cidade' => addslashes(trim($cod_cidade)), 'cod_nucleo' => $_SESSION['user_sgl']['nucleo']));
+            if (isset($result_cidade) && is_array($result_cidade)) {
+                foreach ($result_cidade as $cidade) {
+
+                    $result_ap = $apModel->read('SELECT * FROM sgl_ap WHERE cod_area_atuacao=:cod', array('cod' => $cidade['cod_area_atuacao']));
+                    if (isset($result_ap) && is_array($result_ap)) {
+                        foreach ($result_ap as $ap) {
+
+                            $result_unidade = $unidadeModel->read("SELECT * FROM sgl_unidade WHERE cod_ap=:cod AND cod_cidade=:cod_cidade", array('cod' => $ap['cod_ap'], 'cod_cidade' => $cidade['cod_area_atuacao']));
+                            if (isset($result_unidade) && is_array($result_unidade)) {
+                                foreach ($result_unidade as $unidade) {
+
+                                    //contrato
+                                    $result_contrato = $unidadeModel->read("SELECT * FROM sgl_unidade_contrato WHERE cod_unidade=:cod", array('cod' => $unidade['cod_unidade']));
+                                    if (isset($result_contrato) && is_array($result_contrato)) {
+                                        foreach ($result_contrato as $contrato) {
+                                            //remove registro contrato
+                                            $unidadeModel->delete("DELETE FROM sgl_unidade_contrato WHERE cod_contrato=:cod AND cod_unidade=:cod_unidade ;", array('cod' => $contrato['cod_contrato'], 'cod_unidade' => $unidade['cod_unidade']));
+                                        }
+                                    }
+                                    //endereco
+                                    $result_endereco = $unidadeModel->read("SELECT * FROM sgl_unidade_endereco WHERE cod_unidade=:cod", array('cod' => $unidade['cod_unidade']));
+                                    if (isset($result_endereco) && is_array($result_endereco)) {
+                                        foreach ($result_endereco as $endereco) {
+                                            //remove registro endereco
+                                            $unidadeModel->delete("DELETE FROM sgl_unidade_endereco WHERE cod_endereco=:cod AND cod_unidade=:cod_unidade ;", array('cod' => $endereco['cod_endereco'], 'cod_unidade' => $unidade['cod_unidade']));
+                                        }
+                                    }
+                                    //contato
+                                    $result_contato = $unidadeModel->read("SELECT * FROM sgl_unidade_contato WHERE cod_unidade=:cod", array('cod' => $unidade['cod_unidade']));
+                                    if (isset($result_contato) && is_array($result_contato)) {
+                                        foreach ($result_contato as $contato) {
+                                            //remove registro contato
+                                            $unidadeModel->delete("DELETE FROM sgl_unidade_contato WHERE cod_contato=:cod AND cod_unidade=:cod_unidade ;", array('cod' => $contato['cod_contato'], 'cod_unidade' => $unidade['cod_unidade']));
+                                        }
+                                    }
+                                    //historico
+                                    $result_historico = $unidadeModel->read("SELECT * FROM sgl_unidade_historico WHERE cod_unidade=:cod", array('cod' => $unidade['cod_unidade']));
+                                    if (isset($result_historico) && is_array($result_historico)) {
+                                        foreach ($result_historico as $historico) {
+                                            //remove registro historico
+                                            $historicoModel->delete("DELETE FROM sgl_unidade_historico WHERE cod_historico=:cod AND cod_unidade=:cod_unidade ;", array('cod' => $historico['cod_historico'], 'cod_unidade' => $unidade['cod_unidade']));
+                                        }
+                                    }
+                                    //removendo registro unidade
+                                    $unidadeModel->delete('DELETE FROM sgl_unidade WHERE cod_unidade=:cod', array('cod' => $unidade['cod_unidade']));
+                                }
+                            }
+                            //removendo registro ap
+                            $apModel->delete('DELETE FROM sgl_ap WHERE cod_ap=:cod', array('cod' => $ap['cod_ap']));
+                        }
+                    }
+                    $result_rede = $redeModel->read('SELECT * FROM sgl_redemetro WHERE cod_area_atuacao=:cod', array('cod' => $cidade['cod_area_atuacao']));
+                    if (isset($result_rede) && is_array($result_rede)) {
+                        foreach ($result_rede as $redemetro) {
+
+
+                            $result_unidade = $unidadeModel->read("SELECT * FROM sgl_unidade WHERE cod_redemetro=:cod AND cod_cidade=:cod_cidade", array('cod' => $redemetro['cod_redemetro'], 'cod_cidade' => $cidade['cod_area_atuacao']));
+                            if (isset($result_unidade) && is_array($result_unidade)) {
+                                foreach ($result_unidade as $unidade) {
+
+                                    //contrato
+                                    $result_contrato = $unidadeModel->read("SELECT * FROM sgl_unidade_contrato WHERE cod_unidade=:cod", array('cod' => $unidade['cod_unidade']));
+                                    if (isset($result_contrato) && is_array($result_contrato)) {
+                                        foreach ($result_contrato as $contrato) {
+                                            //remove registro contrato
+                                            $unidadeModel->delete("DELETE FROM sgl_unidade_contrato WHERE cod_contrato=:cod AND cod_unidade=:cod_unidade ;", array('cod' => $contrato['cod_contrato'], 'cod_unidade' => $unidade['cod_unidade']));
+                                        }
+                                    }
+                                    //endereco
+                                    $result_endereco = $unidadeModel->read("SELECT * FROM sgl_unidade_endereco WHERE cod_unidade=:cod", array('cod' => $unidade['cod_unidade']));
+                                    if (isset($result_endereco) && is_array($result_endereco)) {
+                                        foreach ($result_endereco as $endereco) {
+                                            //remove registro endereco
+                                            $unidadeModel->delete("DELETE FROM sgl_unidade_endereco WHERE cod_endereco=:cod AND cod_unidade=:cod_unidade ;", array('cod' => $endereco['cod_endereco'], 'cod_unidade' => $unidade['cod_unidade']));
+                                        }
+                                    }
+                                    //contato
+                                    $result_contato = $unidadeModel->read("SELECT * FROM sgl_unidade_contato WHERE cod_unidade=:cod", array('cod' => $unidade['cod_unidade']));
+                                    if (isset($result_contato) && is_array($result_contato)) {
+                                        foreach ($result_contato as $contato) {
+                                            //remove registro contato
+                                            $unidadeModel->delete("DELETE FROM sgl_unidade_contato WHERE cod_contato=:cod AND cod_unidade=:cod_unidade ;", array('cod' => $contato['cod_contato'], 'cod_unidade' => $unidade['cod_unidade']));
+                                        }
+                                    }
+                                    //historico
+                                    $result_historico = $unidadeModel->read("SELECT * FROM sgl_unidade_historico WHERE cod_unidade=:cod", array('cod' => $unidade['cod_unidade']));
+                                    if (isset($result_historico) && is_array($result_historico)) {
+                                        foreach ($result_historico as $historico) {
+                                            //remove registro historico
+                                            $historicoModel->delete("DELETE FROM sgl_unidade_historico WHERE cod_historico=:cod AND cod_unidade=:cod_unidade ;", array('cod' => $historico['cod_historico'], 'cod_unidade' => $unidade['cod_unidade']));
+                                        }
+                                    }
+                                    //removendo registro unidade
+                                    $unidadeModel->delete('DELETE FROM sgl_unidade WHERE cod_unidade=:cod', array('cod' => $unidade['cod_unidade']));
+                                }
+                            }
+                            //removendo registro rede metro
+                            $redeModel->delete('DELETE FROM sgl_redemetro WHERE cod_redemetro=:cod', array('cod' => $redemetro['cod_redemetro']));
+                        }
+                    }
+
+                    //removendo registro cidade area de atuacao;
+                    $cidadeModel->delete("DELETE FROM sgl_cidade_area_atuacao WHERE cod_area_atuacao=:cod", array('cod' => $cidade['cod_area_atuacao']));
+                }
+                header("Location: /relatorio/cidades");
+            } else {
+                header("Location: /relatorio/cidades");
+            }
+        }
     }
 
     /**
@@ -38,8 +154,56 @@ class excluirController extends controller {
      * @access public
      * @author Joab Torres <joabtorres1508@gmail.com>
      */
-    public function orgao($cod_orgao) {
-        
+    public function orgao($cod_orgao, $cod_cidade) {
+        if ($this->checkUserPattern() && $this->checkUserAdministrator()) {
+            $redeModel = new redemetro();
+            $unidadeModel = new unidade();
+            $historicoModel = new historico();
+
+            $result_unidade = $unidadeModel->read("SELECT * FROM sgl_unidade WHERE cod_orgao=:cod_orgao AND cod_cidade=:cod_cidade", array('cod_orgao' => addslashes(trim($cod_orgao)), 'cod_cidade'=> addslashes(trim($cod_cidade))));
+            if (isset($result_unidade) && is_array($result_unidade)) {
+                foreach ($result_unidade as $unidade) {
+
+                    //contrato
+                    $result_contrato = $unidadeModel->read("SELECT * FROM sgl_unidade_contrato WHERE cod_unidade=:cod", array('cod' => $unidade['cod_unidade']));
+                    if (isset($result_contrato) && is_array($result_contrato)) {
+                        foreach ($result_contrato as $contrato) {
+                            //remove registro contrato
+                            $unidadeModel->delete("DELETE FROM sgl_unidade_contrato WHERE cod_contrato=:cod AND cod_unidade=:cod_unidade ;", array('cod' => $contrato['cod_contrato'], 'cod_unidade' => $unidade['cod_unidade']));
+                        }
+                    }
+                    //endereco
+                    $result_endereco = $unidadeModel->read("SELECT * FROM sgl_unidade_endereco WHERE cod_unidade=:cod", array('cod' => $unidade['cod_unidade']));
+                    if (isset($result_endereco) && is_array($result_endereco)) {
+                        foreach ($result_endereco as $endereco) {
+                            //remove registro endereco
+                            $unidadeModel->delete("DELETE FROM sgl_unidade_endereco WHERE cod_endereco=:cod AND cod_unidade=:cod_unidade ;", array('cod' => $endereco['cod_endereco'], 'cod_unidade' => $unidade['cod_unidade']));
+                        }
+                    }
+                    //contato
+                    $result_contato = $unidadeModel->read("SELECT * FROM sgl_unidade_contato WHERE cod_unidade=:cod", array('cod' => $unidade['cod_unidade']));
+                    if (isset($result_contato) && is_array($result_contato)) {
+                        foreach ($result_contato as $contato) {
+                            //remove registro contato
+                            $unidadeModel->delete("DELETE FROM sgl_unidade_contato WHERE cod_contato=:cod AND cod_unidade=:cod_unidade ;", array('cod' => $contato['cod_contato'], 'cod_unidade' => $unidade['cod_unidade']));
+                        }
+                    }
+                    //historico
+                    $result_historico = $unidadeModel->read("SELECT * FROM sgl_unidade_historico WHERE cod_unidade=:cod", array('cod' => $unidade['cod_unidade']));
+                    if (isset($result_historico) && is_array($result_historico)) {
+                        foreach ($result_historico as $historico) {
+                            //remove registro historico
+                            $historicoModel->delete("DELETE FROM sgl_unidade_historico WHERE cod_historico=:cod AND cod_unidade=:cod_unidade ;", array('cod' => $historico['cod_historico'], 'cod_unidade' => $unidade['cod_unidade']));
+                        }
+                    }
+                    //removendo registro unidade
+                    $unidadeModel->delete('DELETE FROM sgl_unidade WHERE cod_unidade=:cod', array('cod' => $unidade['cod_unidade']));
+                }
+            }
+            header("Location: /relatorio/orgaos");
+        } else {
+            header("Location: /relatorio/orgaos");
+        }
     }
 
     /**
@@ -49,7 +213,62 @@ class excluirController extends controller {
      * @author Joab Torres <joabtorres1508@gmail.com>
      */
     public function ap($cod_ap) {
-        
+        if ($this->checkUserPattern() && $this->checkUserAdministrator()) {
+            $apModel = new ap();
+            $unidadeModel = new unidade();
+            $historicoModel = new historico();
+            $result_ap = $apModel->read('SELECT * FROM sgl_ap WHERE cod_ap=:cod', array('cod' => addslashes(trim($cod_ap))));
+            if (isset($result_ap) && is_array($result_ap)) {
+                foreach ($result_ap as $ap) {
+
+                    $result_unidade = $unidadeModel->read("SELECT * FROM sgl_unidade WHERE cod_ap=:cod AND cod_cidade=:cod_cidade", array('cod' => $ap['cod_ap'], 'cod_cidade' => $ap['cod_area_atuacao']));
+                    if (isset($result_unidade) && is_array($result_unidade)) {
+                        foreach ($result_unidade as $unidade) {
+
+                            //contrato
+                            $result_contrato = $unidadeModel->read("SELECT * FROM sgl_unidade_contrato WHERE cod_unidade=:cod", array('cod' => $unidade['cod_unidade']));
+                            if (isset($result_contrato) && is_array($result_contrato)) {
+                                foreach ($result_contrato as $contrato) {
+                                    //remove registro contrato
+                                    $unidadeModel->delete("DELETE FROM sgl_unidade_contrato WHERE cod_contrato=:cod AND cod_unidade=:cod_unidade ;", array('cod' => $contrato['cod_contrato'], 'cod_unidade' => $unidade['cod_unidade']));
+                                }
+                            }
+                            //endereco
+                            $result_endereco = $unidadeModel->read("SELECT * FROM sgl_unidade_endereco WHERE cod_unidade=:cod", array('cod' => $unidade['cod_unidade']));
+                            if (isset($result_endereco) && is_array($result_endereco)) {
+                                foreach ($result_endereco as $endereco) {
+                                    //remove registro endereco
+                                    $unidadeModel->delete("DELETE FROM sgl_unidade_endereco WHERE cod_endereco=:cod AND cod_unidade=:cod_unidade ;", array('cod' => $endereco['cod_endereco'], 'cod_unidade' => $unidade['cod_unidade']));
+                                }
+                            }
+                            //contato
+                            $result_contato = $unidadeModel->read("SELECT * FROM sgl_unidade_contato WHERE cod_unidade=:cod", array('cod' => $unidade['cod_unidade']));
+                            if (isset($result_contato) && is_array($result_contato)) {
+                                foreach ($result_contato as $contato) {
+                                    //remove registro contato
+                                    $unidadeModel->delete("DELETE FROM sgl_unidade_contato WHERE cod_contato=:cod AND cod_unidade=:cod_unidade ;", array('cod' => $contato['cod_contato'], 'cod_unidade' => $unidade['cod_unidade']));
+                                }
+                            }
+                            //historico
+                            $result_historico = $unidadeModel->read("SELECT * FROM sgl_unidade_historico WHERE cod_unidade=:cod", array('cod' => $unidade['cod_unidade']));
+                            if (isset($result_historico) && is_array($result_historico)) {
+                                foreach ($result_historico as $historico) {
+                                    //remove registro historico
+                                    $historicoModel->delete("DELETE FROM sgl_unidade_historico WHERE cod_historico=:cod AND cod_unidade=:cod_unidade ;", array('cod' => $historico['cod_historico'], 'cod_unidade' => $unidade['cod_unidade']));
+                                }
+                            }
+                            //removendo registro unidade
+                            $unidadeModel->delete('DELETE FROM sgl_unidade WHERE cod_unidade=:cod', array('cod' => $unidade['cod_unidade']));
+                        }
+                    }
+                    //removendo registro ap
+                    $apModel->delete('DELETE FROM sgl_ap WHERE cod_ap=:cod', array('cod' => $ap['cod_ap']));
+                }
+                header("Location: /relatorio/aps");
+            } else {
+                header("Location: /relatorio/aps");
+            }
+        }
     }
 
     /**
@@ -59,7 +278,63 @@ class excluirController extends controller {
      * @author Joab Torres <joabtorres1508@gmail.com>
      */
     public function redemetro($cod_redemetro) {
-        
+        if ($this->checkUserPattern() && $this->checkUserAdministrator()) {
+            $redeModel = new redemetro();
+            $unidadeModel = new unidade();
+            $historicoModel = new historico();
+            $result_rede = $redeModel->read('SELECT * FROM sgl_redemetro WHERE cod_redemetro=:cod', array('cod' => addslashes(trim($cod_redemetro))));
+            if (isset($result_rede) && is_array($result_rede)) {
+                foreach ($result_rede as $redemetro) {
+
+
+                    $result_unidade = $unidadeModel->read("SELECT * FROM sgl_unidade WHERE cod_redemetro=:cod AND cod_cidade=:cod_cidade", array('cod' => $redemetro['cod_redemetro'], 'cod_cidade' => $redemetro['cod_area_atuacao']));
+                    if (isset($result_unidade) && is_array($result_unidade)) {
+                        foreach ($result_unidade as $unidade) {
+
+                            //contrato
+                            $result_contrato = $unidadeModel->read("SELECT * FROM sgl_unidade_contrato WHERE cod_unidade=:cod", array('cod' => $unidade['cod_unidade']));
+                            if (isset($result_contrato) && is_array($result_contrato)) {
+                                foreach ($result_contrato as $contrato) {
+                                    //remove registro contrato
+                                    $unidadeModel->delete("DELETE FROM sgl_unidade_contrato WHERE cod_contrato=:cod AND cod_unidade=:cod_unidade ;", array('cod' => $contrato['cod_contrato'], 'cod_unidade' => $unidade['cod_unidade']));
+                                }
+                            }
+                            //endereco
+                            $result_endereco = $unidadeModel->read("SELECT * FROM sgl_unidade_endereco WHERE cod_unidade=:cod", array('cod' => $unidade['cod_unidade']));
+                            if (isset($result_endereco) && is_array($result_endereco)) {
+                                foreach ($result_endereco as $endereco) {
+                                    //remove registro endereco
+                                    $unidadeModel->delete("DELETE FROM sgl_unidade_endereco WHERE cod_endereco=:cod AND cod_unidade=:cod_unidade ;", array('cod' => $endereco['cod_endereco'], 'cod_unidade' => $unidade['cod_unidade']));
+                                }
+                            }
+                            //contato
+                            $result_contato = $unidadeModel->read("SELECT * FROM sgl_unidade_contato WHERE cod_unidade=:cod", array('cod' => $unidade['cod_unidade']));
+                            if (isset($result_contato) && is_array($result_contato)) {
+                                foreach ($result_contato as $contato) {
+                                    //remove registro contato
+                                    $unidadeModel->delete("DELETE FROM sgl_unidade_contato WHERE cod_contato=:cod AND cod_unidade=:cod_unidade ;", array('cod' => $contato['cod_contato'], 'cod_unidade' => $unidade['cod_unidade']));
+                                }
+                            }
+                            //historico
+                            $result_historico = $unidadeModel->read("SELECT * FROM sgl_unidade_historico WHERE cod_unidade=:cod", array('cod' => $unidade['cod_unidade']));
+                            if (isset($result_historico) && is_array($result_historico)) {
+                                foreach ($result_historico as $historico) {
+                                    //remove registro historico
+                                    $historicoModel->delete("DELETE FROM sgl_unidade_historico WHERE cod_historico=:cod AND cod_unidade=:cod_unidade ;", array('cod' => $historico['cod_historico'], 'cod_unidade' => $unidade['cod_unidade']));
+                                }
+                            }
+                            //removendo registro unidade
+                            $unidadeModel->delete('DELETE FROM sgl_unidade WHERE cod_unidade=:cod', array('cod' => $unidade['cod_unidade']));
+                        }
+                    }
+                    //removendo registro rede metro
+                    $redeModel->delete('DELETE FROM sgl_redemetro WHERE cod_redemetro=:cod', array('cod' => $redemetro['cod_redemetro']));
+                }
+                header("Location: /relatorio/redemetro");
+            } else {
+                header("Location: /relatorio/redemetro");
+            }
+        }
     }
 
     /**
@@ -69,7 +344,55 @@ class excluirController extends controller {
      * @author Joab Torres <joabtorres1508@gmail.com>
      */
     public function unidade($cod_unidade) {
-        
+        if ($this->checkUserPattern() && $this->checkUserAdministrator()) {
+            $redeModel = new redemetro();
+            $unidadeModel = new unidade();
+            $historicoModel = new historico();
+
+            $result_unidade = $unidadeModel->read("SELECT * FROM sgl_unidade WHERE cod_undiade", array('cod' => addslashes(trim($cod_unidade))));
+            if (isset($result_unidade) && is_array($result_unidade)) {
+                foreach ($result_unidade as $unidade) {
+
+                    //contrato
+                    $result_contrato = $unidadeModel->read("SELECT * FROM sgl_unidade_contrato WHERE cod_unidade=:cod", array('cod' => $unidade['cod_unidade']));
+                    if (isset($result_contrato) && is_array($result_contrato)) {
+                        foreach ($result_contrato as $contrato) {
+                            //remove registro contrato
+                            $unidadeModel->delete("DELETE FROM sgl_unidade_contrato WHERE cod_contrato=:cod AND cod_unidade=:cod_unidade ;", array('cod' => $contrato['cod_contrato'], 'cod_unidade' => $unidade['cod_unidade']));
+                        }
+                    }
+                    //endereco
+                    $result_endereco = $unidadeModel->read("SELECT * FROM sgl_unidade_endereco WHERE cod_unidade=:cod", array('cod' => $unidade['cod_unidade']));
+                    if (isset($result_endereco) && is_array($result_endereco)) {
+                        foreach ($result_endereco as $endereco) {
+                            //remove registro endereco
+                            $unidadeModel->delete("DELETE FROM sgl_unidade_endereco WHERE cod_endereco=:cod AND cod_unidade=:cod_unidade ;", array('cod' => $endereco['cod_endereco'], 'cod_unidade' => $unidade['cod_unidade']));
+                        }
+                    }
+                    //contato
+                    $result_contato = $unidadeModel->read("SELECT * FROM sgl_unidade_contato WHERE cod_unidade=:cod", array('cod' => $unidade['cod_unidade']));
+                    if (isset($result_contato) && is_array($result_contato)) {
+                        foreach ($result_contato as $contato) {
+                            //remove registro contato
+                            $unidadeModel->delete("DELETE FROM sgl_unidade_contato WHERE cod_contato=:cod AND cod_unidade=:cod_unidade ;", array('cod' => $contato['cod_contato'], 'cod_unidade' => $unidade['cod_unidade']));
+                        }
+                    }
+                    //historico
+                    $result_historico = $unidadeModel->read("SELECT * FROM sgl_unidade_historico WHERE cod_unidade=:cod", array('cod' => $unidade['cod_unidade']));
+                    if (isset($result_historico) && is_array($result_historico)) {
+                        foreach ($result_historico as $historico) {
+                            //remove registro historico
+                            $historicoModel->delete("DELETE FROM sgl_unidade_historico WHERE cod_historico=:cod AND cod_unidade=:cod_unidade ;", array('cod' => $historico['cod_historico'], 'cod_unidade' => $unidade['cod_unidade']));
+                        }
+                    }
+                    //removendo registro unidade
+                    $unidadeModel->delete('DELETE FROM sgl_unidade WHERE cod_unidade=:cod', array('cod' => $unidade['cod_unidade']));
+                }
+            }
+            header("Location: /relatorio/redemetro");
+        } else {
+            header("Location: /relatorio/redemetro");
+        }
     }
 
     /**

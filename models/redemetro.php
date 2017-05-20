@@ -111,7 +111,19 @@ class redemetro extends model {
      * @author Joab Torres <joabtorres1508@gmail.com>
      */
     public function delete($sql_command, $data) {
-        return false;
+        try {
+            $sql = $this->db->prepare($sql_command);
+            foreach ($data as $indice => $valor) {
+                $sql->bindValue(":" . $indice, $valor);
+            }
+            $sql->execute();
+            //salva novo arquivo json
+            $this->save_json();
+            return TRUE;
+        } catch (PDOException $ex) {
+            echo "Erro: " . $ex->getMessage();
+            return false;
+        }
     }
 
     /**
@@ -133,15 +145,16 @@ class redemetro extends model {
         $cidadeModel = new cidade();
         $cidades = $cidadeModel->read("SELECT * FROM sgl_cidade_area_atuacao ORDER BY sgl_cidade_area_atuacao.cidade_area_atuacao ASC;", array());
         $redemetros = $this->read("SELECT DISTINCT(c.cidade_area_atuacao), rede.* FROM sgl_cidade_area_atuacao AS c INNER JOIN sgl_redemetro AS rede ON c.cod_area_atuacao=rede.cod_area_atuacao ORDER BY c.cidade_area_atuacao ASC, rede.nome_redemetro ASC;", array());
-
-        foreach ($cidades as $cidade) {
-            foreach ($redemetros as $rede) {
-                if ($cidade['cod_area_atuacao'] == $rede['cod_area_atuacao']) {
-                    $json[$cidade['cod_area_atuacao']][] = array("cod" => $rede['cod_redemetro'], "nome" => $rede['nome_redemetro']);
+        if (isset($cidades) && is_array($cidades) && isset($redemetros) && is_array($redemetros)) {
+            foreach ($cidades as $cidade) {
+                foreach ($redemetros as $rede) {
+                    if ($cidade['cod_area_atuacao'] == $rede['cod_area_atuacao']) {
+                        $json[$cidade['cod_area_atuacao']][] = array("cod" => $rede['cod_redemetro'], "nome" => $rede['nome_redemetro']);
+                    }
                 }
             }
+            file_put_contents($fileJson, json_encode($json));
         }
-        file_put_contents($fileJson, json_encode($json));
     }
 
 }
