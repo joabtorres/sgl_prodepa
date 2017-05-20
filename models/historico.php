@@ -44,10 +44,8 @@ class historico extends model {
                 $sql->bindValue(":" . $indice, $valor);
             }
             $sql->execute();
-            //salva novo arquivo json
-            $this->save_json();
             return TRUE;
-        } catch (Exception $ex) {
+        } catch (PDOException $ex) {
             echo "Erro: " . $ex->getMessage();
             return false;
         }
@@ -89,7 +87,17 @@ class historico extends model {
      * @author Joab Torres <joabtorres1508@gmail.com>
      */
     public function update($sql_command, $data) {
-        return false;
+        try {
+            $sql = $this->db->prepare($sql_command);
+            foreach ($data as $indice => $valor) {
+                $sql->bindValue(":" . $indice, $valor);
+            }
+            $sql->execute();
+            return TRUE;
+        } catch (PDOException $ex) {
+            echo "Erro: " . $ex->getMessage();
+            return false;
+        }
     }
 
     /**
@@ -101,7 +109,17 @@ class historico extends model {
      * @author Joab Torres <joabtorres1508@gmail.com>
      */
     public function delete($sql_command, $data) {
-        return false;
+        try {
+            $sql = $this->db->prepare($sql_command);
+            foreach ($data as $indice => $valor) {
+                $sql->bindValue(":" . $indice, $valor);
+            }
+            $sql->execute();
+            return TRUE;
+        } catch (PDOException $ex) {
+            echo "Erro: " . $ex->getMessage();
+            return false;
+        }
     }
 
 }

@@ -463,7 +463,34 @@ class editarController extends controller {
      * @author Joab Torres <joabtorres1508@gmail.com>
      */
     public function historico($cod_historico) {
-        
+        if ($this->checkUserPattern()) {
+            $dados = array();
+            $view = 'historico_editar';
+            $historicoModel = new historico();
+            $result_historico = $historicoModel->read("SELECT * FROM sgl_unidade_historico WHERE cod_historico = :cod", array('cod' => addslashes($cod_historico)));
+            $result_historico = $result_historico[0];
+            if ($result_historico) {
+                $result_unidade = $historicoModel->read("SELECT * FROM sgl_unidade WHERE cod_unidade = :cod", array('cod' => $result_historico['cod_unidade']));
+                $result_usuario = $historicoModel->read("SELECT cod_usuario, usuario_usuario FROM sgl_usuario WHERE cod_usuario = :cod ", array('cod' => $result_historico['cod_usuario']));
+                $historico = array();
+                $dados['unidade'] = $result_unidade[0];
+                $dados['usuario'] = $result_usuario[0];
+                $dados['historico'] = $result_historico;
+                if (isset($_POST['nSalvar']) && !empty($_POST['nSalvar'])) {
+                    $historico['descricao_historico'] = addslashes(trim($_POST['ncadDescricao']));
+                    $historico['cod_historico'] = $result_historico['cod_historico'];
+                    if ($historicoModel->update('UPDATE sgl_unidade_historico SET descricao_historico=:descricao_historico WHERE cod_historico=:cod_historico', $historico)) {
+                        $dados['erro']['msg'] = '<i class="fa fa-check" aria-hidden="true"></i> Alteração realizada com sucesso!';
+                        $dados['erro']['class'] = 'alert-success';
+                        $_POST = array();
+                        $dados['historico'] = $historico;
+                    }
+                }
+            } else {
+                header("Location: /home");
+            }
+            $this->loadTemplate($view, $dados);
+        }
     }
 
 }

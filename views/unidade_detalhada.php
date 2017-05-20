@@ -170,23 +170,25 @@
                 </div><!--fim da col-xs-12 -->
                 <?php
             endif;
-            if (isset($resultado_unidade['historicos'])) :
-                ?>
-                <div class="clear col-xs-12">
-                    <section class="panel panel-primary">
-                        <header class="panel-heading">
-                            <p class="panel-title"><i class="fa fa-table"></i> Histórico <span class="pull-right"><a href="<?php echo BASE_URL . '/cadastrar/historico/' . $resultado_unidade['cod_unidade'] ?>" class="btn btn-sm btn-success" title="Adicionar Histórico"><i class="fa fa-plus-circle"></i> Adicionar</a></span></p>
-                        </header>
-                        <article class="table-responsive">
-                            <table class="table table-bordered table-striped">
-                                <tr>
-                                    <th>#</th>
-                                    <th>Data</th>
-                                    <th>Usuario</th>
-                                    <th>Descrição</th>
-                                    <th>Ação</th>
-                                </tr>
-                                <?php
+            ?>
+            <div class="clear col-xs-12">
+                <section class="panel panel-primary">
+                    <header class="panel-heading">
+                        <p class="panel-title"><i class="fa fa-table"></i> Histórico <span class="pull-right"><a href="<?php echo BASE_URL . '/cadastrar/historico/' . $resultado_unidade['cod_unidade'] ?>" class="btn btn-sm btn-success" title="Adicionar Histórico"><i class="fa fa-plus-circle"></i> Adicionar</a></span></p>
+                    </header>
+                    <article class="table-responsive">
+                        <table class="table table-bordered table-striped">
+                            <tr>
+                                <th>#</th>
+                                <th>Data</th>
+                                <th>Usuario</th>
+                                <th>Descrição</th>
+                                <?php if (!empty($_SESSION['user_sgl']['nivel']) && $_SESSION['user_sgl']['nivel']) : ?>
+                                <th>Ação</th>
+                                <?php endif; ?>
+                            </tr>
+                            <?php
+                            if (isset($resultado_unidade['historicos'])){
                                 $qtdHistorico = 1;
                                 foreach ($resultado_unidade['historicos'] as $historicos):
                                     ?>
@@ -202,12 +204,15 @@
                                     <?php
                                     ++$qtdHistorico;
                                 endforeach;
-                                ?>
-                            </table>
-                        </article>
-                    </section>
-                </div><!-- fim da col-xs-12 -->
-            <?php endif; ?>
+                            }else{
+                                echo '<tr><td colspan="5">Não há nenhum histórico registrado !</td></tr>';
+                            }
+                            ?>
+                        </table>
+                    </article>
+                </section>
+            </div><!-- fim da col-xs-12 -->
+
         </div> <!--FIM ROW-->
         <!--fim row-->
 

@@ -482,8 +482,31 @@ class cadastrarController extends controller {
      * @author Joab Torres <joabtorres1508@gmail.com>
      */
     public function historico($cod_unidade) {
-        if($this->checkUserPattern()){
-            
+        if ($this->checkUserPattern()) {
+            $dados = array();
+            $view = 'historico_cadastrar';
+            $historicoModel = new historico();
+            $result_unidade = $historicoModel->read("SELECT * FROM sgl_unidade WHERE cod_unidade = :cod", array('cod' => addslashes($cod_unidade)));
+            $result_usuario = $historicoModel->read("SELECT cod_usuario, usuario_usuario FROM sgl_usuario WHERE cod_usuario = :cod ", array('cod' => $_SESSION['user_sgl']['cod']));
+            $historico = array();
+            if ($result_unidade && $result_usuario) {
+                $dados['unidade'] = $result_unidade[0];
+                $dados['usuario'] = $result_usuario[0];
+                if (isset($_POST['nSalvar']) && !empty($_POST['nSalvar'])) {
+                    $historico['cod_unidade'] = addslashes(trim($_POST['ncadCodUnidade']));
+                    $historico['cod_usuario'] = addslashes(trim($_POST['ncadCodUsuario']));
+                    $historico['descricao_historico'] = addslashes(trim($_POST['ncadDescricao']));
+                    $historico['data_historico'] = date("Y-m-d H:i:s");
+                    if ($historicoModel->create('INSERT INTO sgl_unidade_historico (cod_unidade, cod_usuario, descricao_historico, data_historico) VALUES (:cod_unidade, :cod_usuario, :descricao_historico, :data_historico);', $historico)) {
+                        $dados['erro']['msg'] = '<i class="fa fa-check" aria-hidden="true"></i> Cadastro realizado com sucesso!';
+                        $dados['erro']['class'] = 'alert-success';
+                        $_POST = array();
+                    }
+                }
+            } else {
+                header("Location: /home");
+            }
+            $this->loadTemplate($view, $dados);
         }
     }
 
