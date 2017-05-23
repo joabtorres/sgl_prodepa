@@ -16,19 +16,25 @@
                     <div class="panel-heading"><p class="panel-title">Buscar</p></div>
                     <div class="panel-body">
                         <form method="POST" autocomplete="off">
-                            <div class="col-md-6 form-group">
-                                <label for="iCampo">Campo:  </label>
-                                <input type="text" class="form-control" name="nCampo" id="iCampo"/>
-                            </div>
-                            <div class="col-md-4 form-group">
-                                <label for="iSelectBuscar">Por:</label>
-                                <select class="form-control" name="nSelectBuscar" id="iSelectBuscar">
-                                    <option value="Código">Código</option>
-                                    <option value="Email">Email</option>
-                                </select>
-                            </div>
-                            <div class="col-md-2 form-group"><br/>
-                                <button type="submit" class="btn btn-primary form-control">Buscar</button>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="iSelectBuscar">Por:</label>
+                                        <select class="form-control" name="nSelectBuscar" id="iSelectBuscar">
+                                            <option value="Código">Código</option>
+                                            <option value="E-mail">E-mail</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="iCampo">Campo:  </label>
+                                        <input type="text" class="form-control" name="nCampo" id="iCampo"/>
+                                    </div>
+                                </div>
+                                <div class="col-md-2"><br/>
+                                    <button type="submit" class="btn btn-primary btn-block">Buscar</button>
+                                </div>
                             </div>
                         </form>
                     </div>

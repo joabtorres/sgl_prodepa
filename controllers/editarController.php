@@ -554,7 +554,7 @@ class editarController extends controller {
                         $dados['usuario'] = $resultado;
 
                         //SE O USUÁRIO EM EDIÇÃO E O MESMO QUE ESTÁ LOGADO NO SITEMA ELE VAI ALTERAR OS DADOS DO USUÁRIO LOGADO
-                        if ($cod_usuario == $_SESSION['user_sgl']['cod']) {
+                        if ($cod_usuario == $_SESSION['user_sgl']['cod'] && !empty($resultado)) {
                             //nome
                             $_SESSION['user_sgl']['nome'] = $resultado['nome_usuario'];
                             //sobrenome

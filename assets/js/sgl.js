@@ -45,6 +45,7 @@ function select2() {
 }
 $(document).ready(function () {
     //ativa estilo e js do plugin select2
+    
     select2();
 });
 

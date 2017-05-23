@@ -80,10 +80,10 @@
                                             <div class="form-group">
                                                 <div class="input-group">
                                                     <span class="input-group-addon"> <i class="fa fa-envelope-o fa-fw"></i></span>
-                                                    <input type="email" class="form-control" id="searchEmail" placeholder="Endereço de email">
+                                                    <input type="email" name="nEmail" class="form-control" id="searchEmail" placeholder="Endereço de email">
                                                 </div>
                                             </div>
-                                            <div class="form-group"><button type="submit" class="btn btn-success" name="nVerificar"><i class="fa fa-check-circle" aria-hidden="true"></i> Enviar email de verificação</button</div>
+                                            <div class="form-group"><button type="submit" value="Enviar" name="nEnviar" class="btn btn-success"><i class="fa fa-check-circle" aria-hidden="true"></i> Enviar email de verificação</button</div>
                                         </form>
                                     </div>
                                 </div>

@@ -118,52 +118,55 @@ class usuario extends model {
 
     /**
      * Está função é responsável para altera um registro específico;
-     * @param String $sql_command  - Comando SQL;
      * @param Array $data - Dados salvo em array para seres setados por um foreach;
      * @access public
      * @return bollean TRUE ou FALSE
      * @author Joab Torres <joabtorres1508@gmail.com>
      */
     public function update($data) {
-        if (isset($data['senha_usuario']) && !empty($data['senha_usuario'])) {
-            $sql = "UPDATE sgl_usuario SET nome_usuario=:nome_usuario, sobrenome_usuario=:sobrenome_usuario, usuario_usuario=:usuario_usuario, senha_usuario=:senha_usuario, cod_cidade_nucleo=:cod_cidade_nucleo, cargo_usuario=:cargo_usuario, sexo_usuario=:sexo_usuario, statu_admin_usuario=:statu_admin_usuario, img_usuario=:img_usuario, statu_usuario=:statu_usuario WHERE cod_usuario=:cod_usuario";
-        } else {
-            $sql = "UPDATE sgl_usuario SET nome_usuario=:nome_usuario, sobrenome_usuario=:sobrenome_usuario, usuario_usuario=:usuario_usuario, cod_cidade_nucleo=:cod_cidade_nucleo, cargo_usuario=:cargo_usuario, sexo_usuario=:sexo_usuario, statu_admin_usuario=:statu_admin_usuario, img_usuario=:img_usuario, statu_usuario=:statu_usuario WHERE cod_usuario=:cod_usuario";
-        }
-        $sql = $this->db->prepare($sql);
-        $sql->bindValue(':nome_usuario', $data['nome_usuario']);
-        $sql->bindValue(':sobrenome_usuario', $data['sobrenome_usuario']);
-        $sql->bindValue(':usuario_usuario', $data['usuario_usuario']);
-        //verifica se foi setado a nova senha
-        if (isset($data['senha_usuario']) && !empty($data['senha_usuario'])) {
-            $sql->bindValue(':senha_usuario', md5(sha1($data['senha_usuario'])));
-        }
-        $sql->bindValue(':cod_cidade_nucleo', $data['cod_cidade_nucleo']);
-        $sql->bindValue(':cargo_usuario', $data['cargo_usuario']);
-        $sql->bindValue(':sexo_usuario', $data['sexo_usuario']);
-        $sql->bindValue(':statu_admin_usuario', $data['statu_admin_usuario']);
-        
-        //selecionando imagem
-        //se ela é um array $_FILE
-        if (is_array($data['img_usuario'])) {
-            $sql->bindValue(':img_usuario', $this->save_image($data['img_usuario']));
-            //se não mudou de foto
-        } else if (!isset($data['delete_img']) && !is_array($data['img_usuario'])) {
-            $sql->bindValue(':img_usuario', $data['img_usuario']);
-            //se mudou para foto padrão
-        } else if (isset($data['delete_img'])) {
-            $this->delete_image($data['img_usuario']);
-            if ($data['sexo_usuario'] == 'M') {
-                $sql->bindValue(':img_usuario', 'uploads/usuarios/user_masculino.png');
+        try {
+            if (isset($data['senha_usuario']) && !empty($data['senha_usuario'])) {
+                $sql = "UPDATE sgl_usuario SET nome_usuario=:nome_usuario, sobrenome_usuario=:sobrenome_usuario, usuario_usuario=:usuario_usuario, senha_usuario=:senha_usuario, cod_cidade_nucleo=:cod_cidade_nucleo, cargo_usuario=:cargo_usuario, sexo_usuario=:sexo_usuario, statu_admin_usuario=:statu_admin_usuario, img_usuario=:img_usuario, statu_usuario=:statu_usuario WHERE cod_usuario=:cod_usuario";
             } else {
-                $sql->bindValue(':img_usuario', 'uploads/usuarios/user_feminino.png');
+                $sql = "UPDATE sgl_usuario SET nome_usuario=:nome_usuario, sobrenome_usuario=:sobrenome_usuario, usuario_usuario=:usuario_usuario, cod_cidade_nucleo=:cod_cidade_nucleo, cargo_usuario=:cargo_usuario, sexo_usuario=:sexo_usuario, statu_admin_usuario=:statu_admin_usuario, img_usuario=:img_usuario, statu_usuario=:statu_usuario WHERE cod_usuario=:cod_usuario";
             }
+            $sql = $this->db->prepare($sql);
+            $sql->bindValue(':nome_usuario', $data['nome_usuario']);
+            $sql->bindValue(':sobrenome_usuario', $data['sobrenome_usuario']);
+            $sql->bindValue(':usuario_usuario', $data['usuario_usuario']);
+            //verifica se foi setado a nova senha
+            if (isset($data['senha_usuario']) && !empty($data['senha_usuario'])) {
+                $sql->bindValue(':senha_usuario', md5(sha1($data['senha_usuario'])));
+            }
+            $sql->bindValue(':cod_cidade_nucleo', $data['cod_cidade_nucleo']);
+            $sql->bindValue(':cargo_usuario', $data['cargo_usuario']);
+            $sql->bindValue(':sexo_usuario', $data['sexo_usuario']);
+            $sql->bindValue(':statu_admin_usuario', $data['statu_admin_usuario']);
+
+            //selecionando imagem
+            //se ela é um array $_FILE
+            if (is_array($data['img_usuario'])) {
+                $sql->bindValue(':img_usuario', $this->save_image($data['img_usuario']));
+                //se não mudou de foto
+            } else if (!isset($data['delete_img']) && !is_array($data['img_usuario'])) {
+                $sql->bindValue(':img_usuario', $data['img_usuario']);
+                //se mudou para foto padrão
+            } else if (isset($data['delete_img'])) {
+                $this->delete_image($data['img_usuario']);
+                if ($data['sexo_usuario'] == 'M') {
+                    $sql->bindValue(':img_usuario', 'uploads/usuarios/user_masculino.png');
+                } else {
+                    $sql->bindValue(':img_usuario', 'uploads/usuarios/user_feminino.png');
+                }
+            }
+            $sql->bindValue(':statu_usuario', $data['statu_usuario']);
+            $sql->bindValue(':cod_usuario', $data['cod_usuario']);
+            $sql->execute();
+
+            return $this->read_specific("SELECT * FROM sgl_usuario WHERE cod_usuario=:cod", array('cod' => $data['cod_usuario']));
+        } catch (PDOException $ex) {
+            return null;
         }
-        $sql->bindValue(':statu_usuario', $data['statu_usuario']);
-        $sql->bindValue(':cod_usuario', $data['cod_usuario']);
-        $sql->execute();
-        
-        return $this->read_specific("SELECT * FROM sgl_usuario WHERE cod_usuario=:cod", array('cod' => $data['cod_usuario']));
     }
 
     /**
@@ -175,7 +178,53 @@ class usuario extends model {
      * @author Joab Torres <joabtorres1508@gmail.com>
      */
     public function delete($sql_command, $data) {
-        return false;
+        
+    }
+
+    public function newpassword($email) {
+        //verifica se este usuário está registrado
+        $result = $this->read_specific('SELECT * FROM sgl_usuario WHERE email_usuario=:email_usuario', array('email_usuario' => $email));
+        if ($result) {
+            try {
+                $nova_senha = $this->password_generato();
+                echo $nova_senha;
+                $sql = $this->db->prepare('UPDATE sgl_usuario SET senha_usuario = ? WHERE cod_usuario = ? AND email_usuario = ?');
+                $sql->bindValue(1, md5(sha1($nova_senha)));
+                $sql->bindValue(2, $result['cod_usuario']);
+                $sql->bindValue(3, $result['email_usuario']);
+                $sql->execute();
+                return true;
+            } catch (PDOException $ex) {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
+    private function password_generato($tamanho = 8, $numero = true, $maiusculo = true, $caractere_especial = false) {
+        $car_minusculo = 'q w e r t y u i o p a s d f g h j k l z x c v b n m';
+        $car_numero = ' 0 1 2 3 4 5 6 7 8 9';
+        $car_maiusculo = " Q W E R T Y U I O P A S D F G H J K L Z X C V B N M";
+        $car_especial = " ! @ # $ % & Ç ç";
+
+        $retorno = "";
+        $caracteres = $car_minusculo;
+
+        if ($numero) {
+            $caracteres = $caracteres . $car_numero;
+        }
+        if ($maiusculo) {
+            $caracteres = $caracteres . $car_maiusculo;
+        }
+        if ($caractere_especial) {
+            $caracteres = $caracteres . $car_especial;
+        }
+        $caracteres = explode(" ", $caracteres);
+        for ($i = 1; $i <= $tamanho; $i++) {
+            $retorno = $retorno . $caracteres[mt_rand(1, count($caracteres) - 1)];
+        }
+        return $retorno;
     }
 
     /**
