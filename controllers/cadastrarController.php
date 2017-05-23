@@ -447,8 +447,8 @@ class cadastrarController extends controller {
                 if (!empty($_POST['nCargo'])) {
                     $usuario['cargo'] = addslashes($_POST['nCargo']);
                 } else {
-                    $dados['usuario_erro']['cargo']['msg'] = 'Informe o cargo, senão não será exibido o cargo';
-                    $dados['usuario_erro']['cargo']['class'] = 'has-warning';
+                    $dados['usuario_info']['cargo']['msg'] = 'Informe o cargo, senão não será exibido o cargo';
+                    $dados['usuario_info']['cargo']['class'] = 'has-warning';
                 }
                 //sexo
                 $usuario['sexo'] = addslashes($_POST['nSexo']);

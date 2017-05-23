@@ -460,5 +460,8 @@ if (document.getElementById("container-usuario-form")) {
         } else {
             $("#viewImagem-1").attr('src', '/assets/imagens/user_feminino.png');
         }
+        if($("#iImagem-user").val() !== null){
+            $("#iImagem-user").val(null)
+        }
     };
 }

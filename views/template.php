@@ -141,7 +141,7 @@
                                             <a href="<?php echo BASE_URL ?>/cadastrar/usuario"><i class="fa fa-user-plus"></i> Novo Usuário</a>
                                         </li>
                                         <li>
-                                            <a href="<?php echo BASE_URL ?>/editar/usuario"><i class="fa fa-user"></i> Editar Perfil</a>
+                                            <a href="<?php echo BASE_URL ?>/editar/usuario/<?php echo $_SESSION['user_sgl']['cod'] ?>"><i class="fa fa-user"></i> Editar Perfil</a>
                                         </li>
                                         <li>
                                             <a href="<?php echo BASE_URL ?>/usuario/index"><i class="fa fa-users"></i> Lista Usuários</a>
@@ -149,6 +149,9 @@
                                     </ul>
                                 </li>
                             <?php endif; ?>
+                            <li>
+                                <a href="<?php echo BASE_URL ?>/home"><i class="fa fa-book"></i> Manual</a>
+                            </li>
                             <li>
                                 <a href="<?php echo BASE_URL ?>/usuario/sair"><i class="fa fa-sign-out"></i> Sair</a>
                             </li>

@@ -50,9 +50,9 @@ class usuario extends model {
         if (!empty($data['imagem'])) {
             $sql->bindValue(':imagem', $this->save_image($data['imagem']));
         } else {
-            if ($data['sexo'] = 'M') {
+            if ($data['sexo'] == 'M') {
                 $sql->bindValue(':imagem', 'uploads/usuarios/user_masculino.png');
-            }else{
+            } else {
                 $sql->bindValue(':imagem', 'uploads/usuarios/user_feminino.png');
             }
         }
@@ -124,8 +124,46 @@ class usuario extends model {
      * @return bollean TRUE ou FALSE
      * @author Joab Torres <joabtorres1508@gmail.com>
      */
-    public function update($sql_command, $data) {
-        return false;
+    public function update($data) {
+        if (isset($data['senha_usuario']) && !empty($data['senha_usuario'])) {
+            $sql = "UPDATE sgl_usuario SET nome_usuario=:nome_usuario, sobrenome_usuario=:sobrenome_usuario, usuario_usuario=:usuario_usuario, senha_usuario=:senha_usuario, cod_cidade_nucleo=:cod_cidade_nucleo, cargo_usuario=:cargo_usuario, sexo_usuario=:sexo_usuario, statu_admin_usuario=:statu_admin_usuario, img_usuario=:img_usuario, statu_usuario=:statu_usuario WHERE cod_usuario=:cod_usuario";
+        } else {
+            $sql = "UPDATE sgl_usuario SET nome_usuario=:nome_usuario, sobrenome_usuario=:sobrenome_usuario, usuario_usuario=:usuario_usuario, cod_cidade_nucleo=:cod_cidade_nucleo, cargo_usuario=:cargo_usuario, sexo_usuario=:sexo_usuario, statu_admin_usuario=:statu_admin_usuario, img_usuario=:img_usuario, statu_usuario=:statu_usuario WHERE cod_usuario=:cod_usuario";
+        }
+        $sql = $this->db->prepare($sql);
+        $sql->bindValue(':nome_usuario', $data['nome_usuario']);
+        $sql->bindValue(':sobrenome_usuario', $data['sobrenome_usuario']);
+        $sql->bindValue(':usuario_usuario', $data['usuario_usuario']);
+        //verifica se foi setado a nova senha
+        if (isset($data['senha_usuario']) && !empty($data['senha_usuario'])) {
+            $sql->bindValue(':senha_usuario', md5(sha1($data['senha_usuario'])));
+        }
+        $sql->bindValue(':cod_cidade_nucleo', $data['cod_cidade_nucleo']);
+        $sql->bindValue(':cargo_usuario', $data['cargo_usuario']);
+        $sql->bindValue(':sexo_usuario', $data['sexo_usuario']);
+        $sql->bindValue(':statu_admin_usuario', $data['statu_admin_usuario']);
+        
+        //selecionando imagem
+        //se ela é um array $_FILE
+        if (is_array($data['img_usuario'])) {
+            $sql->bindValue(':img_usuario', $this->save_image($data['img_usuario']));
+            //se não mudou de foto
+        } else if (!isset($data['delete_img']) && !is_array($data['img_usuario'])) {
+            $sql->bindValue(':img_usuario', $data['img_usuario']);
+            //se mudou para foto padrão
+        } else if (isset($data['delete_img'])) {
+            $this->delete_image($data['img_usuario']);
+            if ($data['sexo_usuario'] == 'M') {
+                $sql->bindValue(':img_usuario', 'uploads/usuarios/user_masculino.png');
+            } else {
+                $sql->bindValue(':img_usuario', 'uploads/usuarios/user_feminino.png');
+            }
+        }
+        $sql->bindValue(':statu_usuario', $data['statu_usuario']);
+        $sql->bindValue(':cod_usuario', $data['cod_usuario']);
+        $sql->execute();
+        
+        return $this->read_specific("SELECT * FROM sgl_usuario WHERE cod_usuario=:cod", array('cod' => $data['cod_usuario']));
     }
 
     /**
@@ -190,7 +228,7 @@ class usuario extends model {
      * @author Joab Torres <joabtorres1508@gmail.com>
      */
     private function delete_image($url_image) {
-        if (file_exists($url_image)) {
+        if (!($url_image == 'uploads/usuarios/user_masculino.png' || $url_image == "uploads/usuarios/user_feminino.png") && file_exists($url_image)) {
             unlink($url_image);
         }
     }

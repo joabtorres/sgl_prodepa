@@ -58,8 +58,8 @@
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <div class="form-group <?php echo (isset($usuario_erro['cargo']['class'])) ? $usuario_erro['cargo']['class'] : ''; ?>">
-                                <label for="iCargo" class="control-label">Cargo: <?php echo (isset($usuario_erro['cargo']['msg'])) ? '<small><span class="fa fa-info-circle"></span> ' . $usuario_erro['cargo']['msg'] . ' </small>' : ''; ?></label>
+                            <div class="form-group <?php echo (isset($usuario_info['cargo']['class'])) ? $usuario_info['cargo']['class'] : ''; ?>">
+                                <label for="iCargo" class="control-label">Cargo: <?php echo (isset($usuario_info['cargo']['msg'])) ? '<small><span class="fa fa-info-circle"></span> ' . $usuario_info['cargo']['msg'] . ' </small>' : ''; ?></label>
                                 <input type="text" name="nCargo" id="iCargo" class="form-control"  placeholder="Exemplo: Estagiário"/>
                             </div>
                             <div class="form-group">
@@ -85,7 +85,7 @@
                             
                             <div class="form-group">
                                 <span>Nível de Acesso:</span><br/>
-                                <label><input type="radio" name="tNivelDeAcesso" value="0" checked/> Usuário Padrão</label>
+                                <label><input type="radio" name="tNivelDeAcesso" value="0" checked/> Usuário</label>
                                 <label><input type="radio" name="tNivelDeAcesso" value="1"/> Administrador</label>
                             </div>
 

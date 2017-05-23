@@ -338,6 +338,9 @@ form label{
     padding: 0px;
     padding-top: 10px;
 }
+#container-usuario .thumbnail img{
+    border: 4px solid white;
+}
 .thumbnail>p{
     margin: 5px;
     color: white;

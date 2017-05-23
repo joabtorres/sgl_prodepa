@@ -451,9 +451,136 @@ class editarController extends controller {
      * @author Joab Torres <joabtorres1508@gmail.com>
      */
     public function usuario($cod_usuario = array()) {
-        $view = "usuario_editar";
-        $dados = array();
-        $this->loadTemplate($view, $dados);
+
+        if (($this->checkUserPattern() && $cod_usuario == $_SESSION['user_sgl']['cod']) || ($this->checkUserPattern() && $this->checkUserAdministrator())) {
+            $view = "usuario_editar";
+            $dados = array();
+            $cidadeModel = new cidade();
+            $usuarioModel = new usuario();
+            $result_cidade = $cidadeModel->read("SELECT * FROM sgl_cidade_nucleo ORDER BY cidade_nucleo ", array());
+            if ($result_cidade) {
+                $dados['cidades_nucleo'] = $result_cidade;
+            }
+            //pesquisa usuário
+            $result_usuario = $usuarioModel->read_specific("SELECT * FROM sgl_usuario WHERE cod_usuario=:cod AND cod_cidade_nucleo=:cod_nucleo", array('cod' => addslashes(trim($cod_usuario)), 'cod_nucleo' => $_SESSION['user_sgl']['nucleo']));
+            if ($result_usuario) {
+
+                $dados['usuario'] = $result_usuario;
+
+                if (isset($_POST['nSalvar'])) {
+                    //codigo
+                    $usuario = array('cod_usuario' => addslashes(trim($_POST['nCodUsuario'])));
+                    //nome
+                    if (!empty($_POST['nNome'])) {
+                        $usuario['nome_usuario'] = addslashes($_POST['nNome']);
+                    } else {
+                        $dados['usuario_erro']['nome']['msg'] = 'Informe o nome';
+                        $dados['usuario_erro']['nome']['class'] = 'has-error';
+                    }
+                    //sobrenome
+                    if (!empty($_POST['nSobrenome'])) {
+                        $usuario['sobrenome_usuario'] = addslashes($_POST['nSobrenome']);
+                    } else {
+                        $dados['usuario_erro']['sobrenome']['msg'] = 'Informe o sobrenome';
+                        $dados['usuario_erro']['sobrenome']['class'] = 'has-error';
+                    }
+                    //sobrenome
+                    if (!empty($_POST['nUsuario'])) {
+                        $usuario['usuario_usuario'] = addslashes($_POST['nUsuario']);
+                        if ($usuarioModel->read_specific('SELECT * FROM sgl_usuario WHERE usuario_usuario=:usuario AND cod_usuario != :cod ', array('usuario' => $usuario['usuario_usuario'], 'cod' => $usuario['cod_usuario']))) {
+                            $dados['usuario_erro']['usuario']['msg'] = 'usuário já cadastrado';
+                            $dados['usuario_erro']['usuario']['class'] = 'has-error';
+                            $dados['erro']['msg'] = '<i class="fa fa-info-circle" aria-hidden="true"></i> Não é possível alterar um usuario para um nome de usuário já cadastrado, por favor informe outro nome de usuário';
+                            $dados['erro']['class'] = 'alert-danger';
+                            $usuario['usuario'] = null;
+                        }
+                    } else {
+                        $dados['usuario_erro']['usuario']['msg'] = 'Informe o usuário';
+                        $dados['usuario_erro']['usuario']['class'] = 'has-error';
+                    }
+                    //senha
+                    if (!empty($_POST['nSenha']) && !empty($_POST['nRepetirSenha'])) {
+                        //senha
+                        if ($_POST['nSenha'] == $_POST['nRepetirSenha']) {
+                            $usuario['senha_usuario'] = addslashes($_POST['nSenha']);
+                        } else {
+                            $dados['usuario_erro']['senha']['msg'] = "Os campos 'Nova Senha' e 'Repetir Nova Senha' não estão iguais! ";
+                            $dados['usuario_erro']['senha']['class'] = 'has-error';
+                        }
+                    }
+                    //nucleo
+                    $usuario['cod_cidade_nucleo'] = addslashes($_POST['nNucleo']);
+                    //cargo
+                    if (!empty($_POST['nCargo'])) {
+                        $usuario['cargo_usuario'] = addslashes($_POST['nCargo']);
+                    } else {
+                        $dados['usuario_info']['cargo']['msg'] = 'Informe o cargo, senão não será exibido o cargo';
+                        $dados['usuario_info']['cargo']['class'] = 'has-warning';
+                    }
+                    //sexo
+                    $usuario['sexo_usuario'] = addslashes($_POST['nSexo']);
+
+                    //nivel de acesso
+                    if (!empty($_POST['tNivelDeAcesso'])) {
+                        $usuario['statu_admin_usuario'] = addslashes($_POST['tNivelDeAcesso']);
+                    } else {
+                        $usuario['statu_admin_usuario'] = 0;
+                    }
+
+
+                    //status
+                    if (!empty($_POST['nStatus'])) {
+                        $usuario['statu_usuario'] = addslashes($_POST['nStatus']);
+                    } else {
+                        $usuario['statu_usuario'] = 1;
+                    }
+
+
+                    //imagem
+                    if (isset($_FILES['tImagem-1']) && $_FILES['tImagem-1']['error'] == 0) {
+                        $usuario['img_usuario'] = $_FILES['tImagem-1'];
+                    } else if (!empty($_POST['nImagem-user'])) {
+                        $usuario['img_usuario'] = addslashes($_POST['nImagem-user']);
+                    } else {
+                        $usuario['img_usuario'] = $result_usuario['img_usuario'];
+                        $usuario['delete_img'] = true;
+                    }
+
+                    if (isset($dados['usuario_erro']) && !empty($dados['usuario_erro'])) {
+                        $dados['erro']['msg'] = '<i class="fa fa-info-circle" aria-hidden="true"></i> Preencha todos os campos obrigatórios (*).';
+                        $dados['erro']['class'] = 'alert-danger';
+                    } else {
+                        $resultado = $usuarioModel->update($usuario);
+                        $dados['usuario'] = $resultado;
+
+                        //SE O USUÁRIO EM EDIÇÃO E O MESMO QUE ESTÁ LOGADO NO SITEMA ELE VAI ALTERAR OS DADOS DO USUÁRIO LOGADO
+                        if ($cod_usuario == $_SESSION['user_sgl']['cod']) {
+                            //nome
+                            $_SESSION['user_sgl']['nome'] = $resultado['nome_usuario'];
+                            //sobrenome
+                            $_SESSION['user_sgl']['sobrenome'] = $resultado['sobrenome_usuario'];
+                            //cod nucleo
+                            $_SESSION['user_sgl']['nucleo'] = $resultado['cod_cidade_nucleo'];
+                            //cargo
+                            $_SESSION['user_sgl']['cargo'] = $resultado['cargo_usuario'];
+                            //img
+                            $_SESSION['user_sgl']['imagem'] = $resultado['img_usuario'];
+                            //nivel
+                            $_SESSION['user_sgl']['nivel'] = $resultado['statu_admin_usuario'];
+                            //statu
+                            $_SESSION['user_sgl']['statu'] = $resultado['statu_usuario'];
+                        }
+
+                        $dados['erro']['msg'] = '<i class="fa fa-check" aria-hidden="true"></i> Alteração realizada com sucesso!';
+                        $dados['erro']['class'] = 'alert-success';
+                        $_POST = array();
+                    }
+                }
+                $this->loadTemplate($view, $dados);
+            } else {
+                header('Location: /home');
+            }
+        }
     }
 
     /**
