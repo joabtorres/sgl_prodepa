@@ -27,9 +27,20 @@ class usuarioController extends controller {
             $dados = array();
             $usuarioModel = new usuario();
             //consulta todos os usuários pertencente ao respecito núcleo
-            $resultado_usuario = $usuarioModel->read('SELECT * FROM sgl_usuario WHERE cod_cidade_nucleo=:cod_nucleo AND statu_usuario=1;', array('cod_nucleo' => $_SESSION['user_sgl']['nucleo']));
+            $resultado_usuario = $usuarioModel->read('SELECT * FROM sgl_usuario WHERE cod_cidade_nucleo=:cod_nucleo;', array('cod_nucleo' => $_SESSION['user_sgl']['nucleo']));
             if ($resultado_usuario) {
                 $dados['usuarios'] = $resultado_usuario;
+            }
+            //PESQUISAR USUÁRIO
+            if (isset($_POST['nBuscar'])) {
+                $filtra_por = addslashes($_POST['nSelectBuscar']);
+                $campo = addslashes($_POST['nCampo']);
+                if ($filtra_por == "Código") {
+                    $dados['usuarios'] = $usuarioModel->read('SELECT * FROM sgl_usuario WHERE cod_cidade_nucleo=:cod_nucleo AND cod_usuario LIKE :cod', array('cod_nucleo' => $_SESSION['user_sgl']['nucleo'], 'cod' => "%" . $campo . "%"));
+                } else {
+                    $dados['usuarios'] = $usuarioModel->read('SELECT * FROM sgl_usuario WHERE cod_cidade_nucleo=:cod_nucleo AND email_usuario LIKE :campo', array('cod_nucleo' => $_SESSION['user_sgl']['nucleo'], 'campo' => "%" . $campo . "%"));
+                }
+                $_POST = array();
             }
             //criando nova senha
             if (isset($_POST['nEnviar'])) {
@@ -51,13 +62,14 @@ class usuarioController extends controller {
      * @author Joab Torres <joabtorres1508@gmail.com> 
      */
     private function recuperar($email) {
-        $usuarioModel = new usuario();
-        $senha = $usuarioModel->newpassword($email);
-        if ($senha) {
-            // envia email ao usuário
-            $assunto = 'Sistema de Gerenciamento de Link&lsquo;s - Nova Senha';
-            $destinatario = $email;
-            $mensagem = '<!DOCTYPE html>
+        if ($this->checkUserPattern() && $this->checkUserAdministrator()) {
+            $usuarioModel = new usuario();
+            $senha = $usuarioModel->newpassword($email);
+            if ($senha) {
+                // envia email ao usuário
+                $assunto = "Sistema de Gerenciamento de Link's - Nova Senha";
+                $destinatario = $email;
+                $mensagem = '<!DOCTYPE html>
 			<html lang="pt-br">
 			<head>
 				<meta charset="UTF-8">
@@ -75,11 +87,12 @@ class usuarioController extends controller {
 				</div>
 			</body>
 			</html>';
-            $headers = 'MIME-Version: 1.0' . "\r\n";
-            $headers .= 'Content-Type: text/html; charset=UTF-8' . "\r\n";
-            $headers .= 'From: Sistema de Gerenciamento de Link&lsquo;s <contato@kananda.imb.br>' . "\r\n";
-            $headers .= 'X-Mailer: PHP/' . phpversion();
-            mail($destinatario, $assunto, $mensagem, $headers);
+                $headers = 'MIME-Version: 1.0' . "\r\n";
+                $headers .= 'Content-Type: text/html; charset=UTF-8' . "\r\n";
+                $headers .= "From: Sistema de Gerenciamento de Link's <joab.alencar@prodepa.pa.gov.br>" . "\r\n";
+                $headers .= 'X-Mailer: PHP/' . phpversion();
+                mail($destinatario, $assunto, $mensagem, $headers);
+            }
         }
     }
 

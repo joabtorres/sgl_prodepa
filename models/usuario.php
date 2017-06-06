@@ -89,11 +89,11 @@ class usuario extends model {
     }
 
     /**
-     * Está função é responsável para consultas no banco e retorna os resultados de um unico registro;
+     * Está função é responsável para consultas no banco e retorna os resultados obtidos;
      * @param String $sql_command  - Comando SQL;
      * @param Array $data - Dados salvo em array para seres setados por um foreach;
      * @access public
-     * @return array $sql->fetchAll() [caso encontre] | bollean FALSE [caso contrário] 
+     * @return array $sql->fetch() [caso encontre] | bollean FALSE [caso contrário] 
      * @author Joab Torres <joabtorres1508@gmail.com>
      */
     public function read_specific($sql_command, $data) {
@@ -171,29 +171,34 @@ class usuario extends model {
 
     /**
      * Está é responsável excluir um registro específico
-     * @param String $sql_command  - Comando SQL;
      * @param Array $data - Dados salvo em array para seres setados por um foreach;
      * @access public
      * @return boolean TRUE or FALSE
      * @author Joab Torres <joabtorres1508@gmail.com>
      */
-    public function delete($sql_command, $data) {
+    public function delete($data) {
         
     }
 
+    /**
+     * Está é responsável adiciona uma nova senha ao usuário
+     * @param String $email - E-mail cadastrado no banco de dados;
+     * @access public
+     * @return boolean char
+     * @author Joab Torres <joabtorres1508@gmail.com>
+     */
     public function newpassword($email) {
         //verifica se este usuário está registrado
         $result = $this->read_specific('SELECT * FROM sgl_usuario WHERE email_usuario=:email_usuario', array('email_usuario' => $email));
         if ($result) {
             try {
-                $nova_senha = $this->password_generato();
-                echo $nova_senha;
+                $nova_senha = trim($this->password_generato());
                 $sql = $this->db->prepare('UPDATE sgl_usuario SET senha_usuario = ? WHERE cod_usuario = ? AND email_usuario = ?');
                 $sql->bindValue(1, md5(sha1($nova_senha)));
                 $sql->bindValue(2, $result['cod_usuario']);
                 $sql->bindValue(3, $result['email_usuario']);
                 $sql->execute();
-                return true;
+                return $nova_senha;
             } catch (PDOException $ex) {
                 return false;
             }
@@ -202,6 +207,16 @@ class usuario extends model {
         }
     }
 
+    /**
+     * Este método é responsável para criar uma nova senha aleatória. 
+     * @param int $tamanho - tamanho de caracteres da senha;
+     * @param boolean $numero - incluir numero na senha;
+     * @param boolean $maiusculo - incluir letra em caixa alta na senha
+     * @param boolean $caractere_especial - incluir caracteres especiais na senha
+     * @access private
+     * @return boolean true or false
+     * @author Joab Torres <joabtorres1508@gmail.com>
+     */
     private function password_generato($tamanho = 8, $numero = true, $maiusculo = true, $caractere_especial = false) {
         $car_minusculo = 'q w e r t y u i o p a s d f g h j k l z x c v b n m';
         $car_numero = ' 0 1 2 3 4 5 6 7 8 9';

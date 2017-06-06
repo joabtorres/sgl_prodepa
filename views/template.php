@@ -129,7 +129,7 @@
                                         <a href="<?php echo BASE_URL ?>/relatorio/unidades"><i class="fa fa-th-list"></i> Unidades</a>
                                     </li>
                                     <li>
-                                        <a href="<?php echo BASE_URL ?>/relatorio/filtro"><i class="fa fa-th-list"></i> Detalhado</a>
+                                        <a href="<?php echo BASE_URL ?>/relatorio/filtro"><i class="fa fa-th-list"></i> Avançado</a>
                                     </li>
                                 </ul>
                             </li>
@@ -150,7 +150,7 @@
                                 </li>
                             <?php endif; ?>
                             <li>
-                                <a href="<?php echo BASE_URL ?>/home"><i class="fa fa-book"></i> Manual</a>
+                                <a href="<?php echo BASE_URL ?>/manual"><i class="fa fa-book"></i> Manual</a>
                             </li>
                             <li>
                                 <a href="<?php echo BASE_URL ?>/usuario/sair"><i class="fa fa-sign-out"></i> Sair</a>

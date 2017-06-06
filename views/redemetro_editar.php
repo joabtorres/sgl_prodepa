@@ -39,7 +39,7 @@
                                     <input type="text" name="neditNome" id="ieditNome" class="form-control" placeholder="Exemplo: Rede Metro Itaituba" value="<?php echo isset($redemetro) ? $redemetro['nome_redemetro'] : ""; ?>"/>
                                 </div>
                                 <div class="form-group col-sm-6 col-md-4 col-lg-4">
-                                    <label for="ieditEstensao">Estensão: </label>
+                                    <label for="ieditEstensao">Extensão: </label>
                                     <input type="text" name="neditEstensao" id="ieditEstensao" class="form-control" placeholder="Exemplo: 5.4 Km" value="<?php echo isset($redemetro) ? $redemetro['estensao_redemetro'] : ""; ?>"/>
                                 </div>
                             </div>

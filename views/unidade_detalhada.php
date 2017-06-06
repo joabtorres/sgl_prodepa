@@ -81,26 +81,28 @@
                         <p class="panel-title"><i class="fa fa-list-ul"></i> Conexao</p>
                     </header>
                     <article class="panel-body">
-                        <ul class="list-unstyled">
-                            <li><p><span class="text-primary">IP: </span> <?php echo isset($resultado_unidade['ip_unidade']) ? $resultado_unidade['ip_unidade'] : ""; ?></p></li>
-                            <li><p><span class="text-primary">VLAN: </span> <?php echo isset($resultado_unidade['nome_vlan_unidade']) ? $resultado_unidade['nome_vlan_unidade'] : ""; ?> </p> </li>
-                            <li><p><span class="text-primary">TAG VLAN: </span> <?php echo isset($resultado_unidade['tag_vlan_unidade']) ? $resultado_unidade['tag_vlan_unidade'] : ""; ?></p></li>
-                            <li><p><span class="text-primary">Banda: </span> <?php echo isset($resultado_unidade['banda_unidade']) ? $resultado_unidade['banda_unidade'] : ""; ?></p></li>
-                            <li><p><span class="text-primary">Conexão: </span> <?php echo isset($resultado_unidade['conexao_unidade']) ? $resultado_unidade['conexao_unidade'] : ""; ?></p></li>
-                            <?php if (isset($resultado_unidade['cod_ap']) && !empty($resultado_unidade['cod_ap'])) { ?>
-                                <li><p><span class="text-primary">Nome do AP: </span> <?php echo isset($resultado_unidade['nome_ap']) ? $resultado_unidade['nome_ap'] : ""; ?></p></li>
-                                <li><p><span class="text-primary">IP do AP: </span> <?php echo isset($resultado_unidade['ip_ap']) ? $resultado_unidade['ip_ap'] : ""; ?></p></li>
-                                <li><p><span class="text-primary">Color Code do AP: </span> <?php echo isset($resultado_unidade['color_code_ap']) ? $resultado_unidade['color_code_ap'] : ""; ?></p></li>
-                            <?php } else { ?>
-                                <li><p><span class="text-primary">Nome da Rede Metro: </span> <?php echo isset($resultado_unidade['nome_redemetro']) ? $resultado_unidade['nome_redemetro'] : ""; ?></p></li>
-                            <?php } ?>
-                        </ul>
                         <div class="row">
-                            <div class="clear col-xs-12">
+                            <div class="col-md-4"><p><span class="text-primary">IP: </span> <?php echo isset($resultado_unidade['ip_unidade']) ? $resultado_unidade['ip_unidade'] : ""; ?></p></div>
+                            <div class="col-md-4"><p><span class="text-primary">VLAN: </span> <?php echo isset($resultado_unidade['nome_vlan_unidade']) ? $resultado_unidade['nome_vlan_unidade'] : ""; ?> </p> </div>
+                            <div class="col-md-4"><p><span class="text-primary">TAG VLAN: </span> <?php echo isset($resultado_unidade['tag_vlan_unidade']) ? $resultado_unidade['tag_vlan_unidade'] : ""; ?></p></div>
+                            <div class="col-md-4"><p><span class="text-primary">Banda: </span> <?php echo isset($resultado_unidade['banda_unidade']) ? $resultado_unidade['banda_unidade'] : ""; ?></p></div>
+                            <div class="col-md-4"><p><span class="text-primary">Conexão: </span> <?php echo isset($resultado_unidade['conexao_unidade']) ? $resultado_unidade['conexao_unidade'] : ""; ?></p></div>
+                            <?php if (isset($resultado_unidade['cod_ap']) && !empty($resultado_unidade['cod_ap'])) { ?>
+                                <div class="col-md-4"><p><span class="text-primary">Nome do AP: </span> <?php echo isset($resultado_unidade['nome_ap']) ? $resultado_unidade['nome_ap'] : ""; ?></p></div>
+                                <div class="col-md-4"><p><span class="text-primary">IP do AP: </span> <?php echo isset($resultado_unidade['ip_ap']) ? $resultado_unidade['ip_ap'] : ""; ?></p></div>
+                                <div class="col-md-4"><p><span class="text-primary">Color Code do AP: </span> <?php echo isset($resultado_unidade['color_code_ap']) ? $resultado_unidade['color_code_ap'] : ""; ?></p></div >
+                            <?php } else { ?>
+                                <div class="col-md-4"><p><span class="text-primary">Nome da Rede Metro: </span> <?php echo isset($resultado_unidade['nome_redemetro']) ? $resultado_unidade['nome_redemetro'] : ""; ?></p></div >
+                            <?php } ?>
+                        </div>
+                        <div class="row">
+                            <div class="clear col-md-12">
                                 <hr class="no-margin">
                                 <p class="font-stronge text-primary">Acesso Rápido</p>
                                 <p>Gráfico no Zabbix: <a href="<?php echo isset($resultado_unidade['url_zabbix_unidade']) ? $resultado_unidade['url_zabbix_unidade'] : ""; ?>" target="_blank">Clique aqui!</a></p>
-                                <p>Rádio: <a href="http://<?php echo isset($resultado_unidade['ip_unidade']) ? $resultado_unidade['ip_unidade'] : ""; ?>" target="_blank">Clique aqui!</a></p>
+                                <?php if (isset($resultado_unidade['cod_ap']) && !empty($resultado_unidade['cod_ap'])) : ?>
+                                    <p>Rádio: <a href="http://<?php echo isset($resultado_unidade['ip_unidade']) ? $resultado_unidade['ip_unidade'] : ""; ?>" target="_blank">Clique aqui!</a></p>
+                                <?php endif; ?>
                             </div>
                         </div>
                     </article>
@@ -182,13 +184,13 @@
                                 <th>#</th>
                                 <th>Data</th>
                                 <th>Usuario</th>
-                                <th>Descrição</th>
+                                <th>TDESK / Descrição</th>
                                 <?php if (!empty($_SESSION['user_sgl']['nivel']) && $_SESSION['user_sgl']['nivel']) : ?>
-                                <th>Ação</th>
+                                    <th>Ação</th>
                                 <?php endif; ?>
                             </tr>
                             <?php
-                            if (isset($resultado_unidade['historicos'])){
+                            if (isset($resultado_unidade['historicos'])) {
                                 $qtdHistorico = 1;
                                 foreach ($resultado_unidade['historicos'] as $historicos):
                                     ?>
@@ -204,8 +206,8 @@
                                     <?php
                                     ++$qtdHistorico;
                                 endforeach;
-                            }else{
-                                echo '<tr><td colspan="5">Não há nenhum histórico registrado !</td></tr>';
+                            }else {
+                                echo '<tr><td colspan="5">Não há nenhum histórico registrado!</td></tr>';
                             }
                             ?>
                         </table>
@@ -225,36 +227,38 @@
 <!-- /#conteudo_sistema -->
 
 <?php
-if (isset($resultado_unidade['historicos'])) :
-    foreach ($resultado_unidade['historicos'] as $historicos):
-        ?>
-        <!--MODAL - ESTRUTURA BÁSICA-->
-        <section class="modal fade" id="modal_historico_<?php echo $historicos['cod_historico'] ?>" tabindex="-1" role="dialog">
-            <article class="modal-dialog modal-md" role="document">
-                <section class="modal-content">
-                    <header class="modal-header bg-primary">
-                        <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <p class="panel-title">Deseja remover este registro?</p>
-                    </header>
-                    <article class="modal-body">
-                        <ul class="list-unstyled">
-                            <li><b>Código do Histórico: </b><?php echo $historicos['cod_historico'] ?>;</li>
-                            <li><b>Data do Histórico: </b><?php echo $historicos['data_historico'] ?>;</li>
-                            <li><b>Descrição do Histórico: </b> <?php echo $historicos['descricao_historico'] ?>;</li>
-                            <li><b>Usuário do Histórico: </b><?php echo $historicos['usuario'] ?>.</li>
-                        </ul>
+if (!empty($_SESSION['user_sgl']['nivel']) && $_SESSION['user_sgl']['nivel']) :
+    if (isset($resultado_unidade['historicos'])) :
+        foreach ($resultado_unidade['historicos'] as $historicos):
+            ?>
+            <!--MODAL - ESTRUTURA BÁSICA-->
+            <section class="modal fade" id="modal_historico_<?php echo $historicos['cod_historico'] ?>" tabindex="-1" role="dialog">
+                <article class="modal-dialog modal-md" role="document">
+                    <section class="modal-content">
+                        <header class="modal-header bg-primary">
+                            <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <p class="panel-title">Deseja remover este registro?</p>
+                        </header>
+                        <article class="modal-body">
+                            <ul class="list-unstyled">
+                                <li><b>Código do Histórico: </b><?php echo $historicos['cod_historico'] ?>;</li>
+                                <li><b>Data do Histórico: </b><?php echo $historicos['data_historico'] ?>;</li>
+                                <li><b>Descrição do Histórico: </b> <?php echo $historicos['descricao_historico'] ?>;</li>
+                                <li><b>Usuário do Histórico: </b><?php echo $historicos['usuario'] ?>.</li>
+                            </ul>
 
-                        <p class="text-justify text-danger"><span class="font-bold">OBS¹ : </span> Se remove este registro, o mesmo deixará de existe no sistema.</p>
-                        <p class="text-ri"></p>
-                    </article>
-                    <footer class="modal-footer">
-                        <a class="btn btn-danger " href="<?php echo BASE_URL . '/excluir/historico/' . $historicos['cod_historico'] ?>" title="Excluir"> <i class="fa fa-trash"></i> Excluir</a> | 
-                        <button class="btn btn-default" type="button" data-dismiss="modal"><i class="fa fa-close"></i> Fechar</button>
-                    </footer>
-                </section>
-            </article>
-        </section>
-        <?php
-    endforeach;
+                            <p class="text-justify text-danger"><span class="font-bold">OBS¹ : </span> Se remove este registro, o mesmo deixará de existe no sistema.</p>
+                            <p class="text-ri"></p>
+                        </article>
+                        <footer class="modal-footer">
+                            <a class="btn btn-danger " href="<?php echo BASE_URL . '/excluir/historico/' . $historicos['cod_historico'] ?>" title="Excluir"> <i class="fa fa-trash"></i> Excluir</a> | 
+                            <button class="btn btn-default" type="button" data-dismiss="modal"><i class="fa fa-close"></i> Fechar</button>
+                        </footer>
+                    </section>
+                </article>
+            </section>
+            <?php
+        endforeach;
+    endif;
 endif;
 ?>

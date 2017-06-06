@@ -431,8 +431,12 @@ class editarController extends controller {
                     $dados['erro']['msg'] = '<i class="fa fa-info-circle" aria-hidden="true"></i> Preencha todos os campos obrigatórios (*).';
                     $dados['erro']['class'] = 'alert-danger';
                 } else {
-                    $unidade['contratos_bd'] = $resultado_unidade['contratos'];
-                    $unidade['contatos_bd'] = $resultado_unidade['contatos'];
+                    if (isset($resultado_unidade['contratos'])) {
+                        $unidade['contratos_bd'] = $resultado_unidade['contratos'];
+                    }
+                    if (isset($resultado_unidade['contatos'])) {
+                        $unidade['contatos_bd'] = $resultado_unidade['contatos'];
+                    }
                     $unidadeModel->update($unidade);
                     $dados['erro']['msg'] = '<i class="fa fa-check" aria-hidden="true"></i> Alteração realizada com sucesso!';
                     $dados['erro']['class'] = 'alert-success';
@@ -526,13 +530,11 @@ class editarController extends controller {
                     } else {
                         $usuario['statu_admin_usuario'] = 0;
                     }
-
-
                     //status
-                    if (!empty($_POST['nStatus'])) {
-                        $usuario['statu_usuario'] = addslashes($_POST['nStatus']);
+                    if (isset($_POST['nStatuUsuario']) && !empty($_POST['nStatuUsuario'])) {
+                        $usuario['statu_usuario'] = addslashes($_POST['nStatuUsuario']);
                     } else {
-                        $usuario['statu_usuario'] = 1;
+                        $usuario['statu_usuario'] = 0;
                     }
 
 
@@ -590,7 +592,7 @@ class editarController extends controller {
      * @author Joab Torres <joabtorres1508@gmail.com>
      */
     public function historico($cod_historico) {
-        if ($this->checkUserPattern()) {
+        if ($this->checkUserPattern() && $this->checkUserAdministrator()) {
             $dados = array();
             $view = 'historico_editar';
             $historicoModel = new historico();

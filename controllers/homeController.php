@@ -20,7 +20,7 @@ class homeController extends controller {
     public function index() {
         if ($this->checkUserPattern()) {
             $view = "home";
-            $dados = array("nome" => "Joab Torres Alencar");
+            $dados = array();
             $this->loadTemplate($view, $dados);
         }
     }

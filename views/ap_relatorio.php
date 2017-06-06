@@ -34,7 +34,9 @@
                                                     <tr>
                                                         <th class="text-center">#</th>
                                                         <th>Unidade </span></th>
-                                                        <th>Ação</th>
+                                                        <?php if (isset($_SESSION['user_sgl']['nivel']) && !empty($_SESSION['user_sgl']['nivel'])): ?>
+                                                            <th>Ação</th>
+                                                        <?php endif; ?>
                                                     </tr>
                                                 </thead>
                                                 <tbody >
@@ -50,8 +52,9 @@
                                                                 ?>
                                                             </td>
                                                             <td><a href="<?php echo BASE_URL . '/unidade/ap/' . $unidades['cod_unidade'] ?>"><?php echo $unidades['nome_unidade'] ?></a></td>
-
-                                                            <td class="table-acao"><a class="btn btn-primary btn-xs" href="<?php echo BASE_URL . '/editar/unidade/' . $unidades['cod_unidade'] ?>" title="Editar"><i class="fa fa-pencil"></i></a> <button type="button"  class="btn btn-danger btn-xs" data-toggle="modal" data-target="#modal_unidade_<?php echo $cidades['cod_cidade'] . '_' . $aps['cod_ap'] . '_' . $unidades['cod_unidade'] ?>" title="excluir"><i class="fa fa-trash"></i></button></td>
+                                                            <?php if (isset($_SESSION['user_sgl']['nivel']) && !empty($_SESSION['user_sgl']['nivel'])): ?>
+                                                                <td class="table-acao"><a class="btn btn-primary btn-xs" href="<?php echo BASE_URL . '/editar/unidade/' . $unidades['cod_unidade'] ?>" title="Editar"><i class="fa fa-pencil"></i></a> <button type="button"  class="btn btn-danger btn-xs" data-toggle="modal" data-target="#modal_unidade_<?php echo $cidades['cod_cidade'] . '_' . $aps['cod_ap'] . '_' . $unidades['cod_unidade'] ?>" title="excluir"><i class="fa fa-trash"></i></button></td>
+                                                            <?php endif; ?>
                                                         </tr>
                                                         <?php
                                                     endforeach;
@@ -83,7 +86,9 @@
                                                 <th>Banda </th>
                                                 <th>IP </th>
                                                 <th>Unidade(s)<span></th>
-                                                <th>Ação</th>
+                                                <?php if (isset($_SESSION['user_sgl']['nivel']) && !empty($_SESSION['user_sgl']['nivel'])): ?>
+                                                    <th>Ação</th>
+                                                <?php endif; ?>
                                             </tr>
                                         </thead>
                                         <tbody >
@@ -103,7 +108,9 @@
                                                         <td><?php echo $aps['banda_ap'] ?></td>
                                                         <td><?php echo $aps['ip_ap'] ?></td>
                                                         <td class="text-center table-acao"><?php echo count($aps['unidades']) ?></td>
-                                                        <td class="table-acao"><a class="btn btn-primary btn-xs" href="<?php echo BASE_URL . '/editar/ap/' . $aps['cod_ap'] ?>" title="editar"><i class="fa fa-pencil"></i></a> <button type="button"  class="btn btn-danger btn-xs" data-toggle="modal" data-target="#modal_aps_<?php echo $cidades['cod_cidade'] . '_' . $aps['cod_ap'] ?>" title="excluir"><i class="fa fa-trash"></i></button></td>
+                                                        <?php if (isset($_SESSION['user_sgl']['nivel']) && !empty($_SESSION['user_sgl']['nivel'])): ?>
+                                                            <td class="table-acao"><a class="btn btn-primary btn-xs" href="<?php echo BASE_URL . '/editar/ap/' . $aps['cod_ap'] ?>" title="editar"><i class="fa fa-pencil"></i></a> <button type="button"  class="btn btn-danger btn-xs" data-toggle="modal" data-target="#modal_aps_<?php echo $cidades['cod_cidade'] . '_' . $aps['cod_ap'] ?>" title="excluir"><i class="fa fa-trash"></i></button></td>
+                                                        <?php endif; ?>
                                                     </tr>
                                                     <?php
                                                 endif;

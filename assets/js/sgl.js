@@ -45,7 +45,7 @@ function select2() {
 }
 $(document).ready(function () {
     //ativa estilo e js do plugin select2
-    
+
     select2();
 });
 
@@ -261,7 +261,7 @@ if (document.getElementById('form-unidade')) {
             div_numero.setAttribute('class', 'col-md-4 form-group');
             label_numero = document.createElement('label');
             label_numero.setAttribute('for', 'iNumeroContrato' + qtd);
-            label_numero.appendChild(document.createTextNode("Número do Contrato: "));
+            label_numero.appendChild(document.createTextNode("Número do Instrumento: "));
             input_numero = document.createElement('input');
             input_numero.setAttribute('type', 'text');
             input_numero.setAttribute('name', 'nNumeroContrato' + qtd);
@@ -274,7 +274,7 @@ if (document.getElementById('form-unidade')) {
             div_tipo.setAttribute('class', 'col-md-8 form-group');
             label_tipo = document.createElement('label');
             label_tipo.setAttribute('for', 'iTipoContratro' + qtd);
-            label_tipo.appendChild(document.createTextNode("Tipo de Contrato: "));
+            label_tipo.appendChild(document.createTextNode("Tipo de Instrumento: "));
             select_tipo = document.createElement('select');
             select_tipo.setAttribute('id', 'iTipoContratro' + qtd);
             select_tipo.setAttribute('name', 'nTipoContratro' + qtd);
@@ -461,8 +461,84 @@ if (document.getElementById("container-usuario-form")) {
         } else {
             $("#viewImagem-1").attr('src', '/assets/imagens/user_feminino.png');
         }
-        if($("#iImagem-user").val() !== null){
+        if ($("#iImagem-user").val() !== null) {
             $("#iImagem-user").val(null)
         }
     };
 }
+/**
+ * @author Joab Torres <joabtorres1508@gmail.com>
+ * @description Este codigo abaixo é responsável para fazer o carregamento da imagem setada pelo usuário ao muda a foto do perfil
+ */
+if (document.getElementById('relatorio-detalhado')) {
+    function selectCidade() {
+        var valor = $("#iCidade").val();
+
+        $.getJSON(BASE_URL + '/assets/json/ap.json', function (ap) {
+            var resultado = '<option value="Todos">Todos</option>';
+            for (var x  in ap[valor]) {
+                resultado += '<option value="' + ap[valor][x]['cod'] + '" class="text-uppercase">' + ap[valor][x]['nome'] + '</option>';
+            }
+            $("#iAP").html(resultado);
+        });
+        $.getJSON(BASE_URL + '/assets/json/redemetro.json', function (redemetro) {
+            var resultado = '<option value="Todos">Todos</option>';
+            for (var x  in redemetro[valor]) {
+                resultado += '<option value="' + redemetro[valor][x]['cod'] + '" class="text-uppercase">' + redemetro[valor][x]['nome'] + '</option>';
+            }
+            $("#iRedeMetro").html(resultado);
+        });
+        selectConexao();
+        selectOrgao();
+        selectCategoria();
+    }
+
+    function selectConexao() {
+        //tipo de conexao
+        if ($("#iConexao").val() === "Todas") {
+            $("#iAP").attr('disabled', 'true');
+            $("#iRedeMetro").attr('disabled', 'true');
+        } else if ($("#iConexao").val() === "Fibra") {
+            $("#iAP").attr('disabled', 'true');
+            $("#iRedeMetro").removeAttr('disabled');
+        } else {
+            $("#iRedeMetro").attr('disabled', 'true');
+            $("#iAP").removeAttr('disabled');
+        }
+    }
+    function selectOrgao() {
+        if ($('#iOrgao').val() === "Todos") {
+            $("#iCategoria").removeAttr('disabled');
+        } else {
+            $("#iCategoria").attr('disabled', 'true');
+        }
+    }
+    function selectCategoria() {
+        if ($('#iCategoria').val() === "Todas") {
+            $("#iOrgao").removeAttr('disabled');
+        } else {
+            $("#iOrgao").attr('disabled', 'true');
+        }
+    }
+    $(document).ready(function () {
+        selectCidade();
+        //seleciona cidade(){
+        $("#iCidade").change(function () {
+            selectCidade();
+        });
+        //seleciona conexao
+        $("#iConexao").change(function () {
+            selectConexao();
+        });
+        //seleciona orgao
+        $("#iOrgao").change(function () {
+            selectOrgao();
+        });
+        //seleciona esfera
+        $("#iCategoria").change(function(){
+            selectCategoria();
+        })
+    });
+}
+
+

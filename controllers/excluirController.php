@@ -19,7 +19,7 @@ class excluirController extends controller {
      * @author Joab Torres <joabtorres1508@gmail.com>
      */
     public function index($cod) {
-        
+        $this->cidade($cod_cidade);
     }
 
     /**
@@ -402,7 +402,9 @@ class excluirController extends controller {
      * @author Joab Torres <joabtorres1508@gmail.com>
      */
     public function usuario($cod_usuario) {
-        
+         if ($this->checkUserPattern() && $this->checkUserAdministrator()) {
+             
+         }
     }
 
     /**
@@ -412,7 +414,7 @@ class excluirController extends controller {
      * @author Joab Torres <joabtorres1508@gmail.com>
      */
     public function historico($cod_historico) {
-        if ($this->checkUserPattern()) {
+         if ($this->checkUserPattern() && $this->checkUserAdministrator()) {
             $historicoModel = new historico();
             $result = $historicoModel->read("SELECT * FROM sgl_unidade_historico WHERE cod_historico=:cod", array('cod' => addslashes(trim($cod_historico))));
             $result = $result[0];

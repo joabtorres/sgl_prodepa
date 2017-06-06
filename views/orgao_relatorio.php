@@ -34,7 +34,9 @@
                                                     <tr>
                                                         <th class="text-center">#</th>
                                                         <th>Unidade </th>
-                                                        <th>Ação</th>
+                                                        <?php if (isset($_SESSION['user_sgl']['nivel']) && !empty($_SESSION['user_sgl']['nivel'])): ?>
+                                                            <th>Ação</th>
+                                                        <?php endif; ?>
                                                     </tr>
                                                 </thead>
                                                 <tbody >
@@ -50,8 +52,9 @@
                                                                 ?>
                                                             </td>
                                                             <td><a href="<?php echo BASE_URL . '/unidade/orgao/' . $unidades['cod_unidade'] ?>"><?php echo $unidades['nome_unidade'] ?></a></td>
-
-                                                            <td class="table-acao"><a class="btn btn-primary btn-xs" href="<?php echo BASE_URL . '/editar/unidade/' . $unidades['cod_unidade'] ?>" title="Editar"><i class="fa fa-pencil"></i></a> <button type="button"  class="btn btn-danger btn-xs" data-toggle="modal" data-target="#modal_unidade_<?php echo $cidades['cod_cidade'] . '_' . $orgaos['cod_orgao'] . '_' . $unidades['cod_unidade'] ?>" title="excluir"><i class="fa fa-trash"></i></button></td>
+                                                            <?php if (isset($_SESSION['user_sgl']['nivel']) && !empty($_SESSION['user_sgl']['nivel'])): ?>
+                                                                <td class="table-acao"><a class="btn btn-primary btn-xs" href="<?php echo BASE_URL . '/editar/unidade/' . $unidades['cod_unidade'] ?>" title="Editar"><i class="fa fa-pencil"></i></a> <button type="button"  class="btn btn-danger btn-xs" data-toggle="modal" data-target="#modal_unidade_<?php echo $cidades['cod_cidade'] . '_' . $orgaos['cod_orgao'] . '_' . $unidades['cod_unidade'] ?>" title="excluir"><i class="fa fa-trash"></i></button></td>
+                                                            <?php endif; ?>
                                                         </tr>
                                                         <?php
                                                     endforeach;
@@ -82,7 +85,9 @@
                                                 <th> Orgão </th>
                                                 <th>Esfera </th>
                                                 <th>Unidade(s)</th>
-                                                <th>Ação</th>
+                                                <?php if (isset($_SESSION['user_sgl']['nivel']) && !empty($_SESSION['user_sgl']['nivel'])): ?>
+                                                    <th>Ação</th>
+                                                <?php endif; ?>
                                             </tr>
                                         </thead>
                                         <tbody >
@@ -101,7 +106,9 @@
                                                         <td><a href="<?php echo BASE_URL . '/relatorio/orgaos/' . $pagina_atual . '/' . $cidades['cod_cidade'] . '/' . $orgaos['cod_orgao'] ?>"><?php echo $orgaos['nome_orgao'] ?></a></td>
                                                         <td><?php echo $orgaos['categoria_orgao'] ?></td>
                                                         <td class="text-center "><?php echo count($orgaos['unidades']) ?></td>
-                                                        <td class="table-acao"><a class="btn btn-primary btn-xs" href="<?php echo BASE_URL . '/editar/orgao/' . $orgaos['cod_orgao'] ?>" title="Editar"><i class="fa fa-pencil"></i></a> <button type="button"  class="btn btn-danger btn-xs" data-toggle="modal" data-target="#modal_orgao_<?php echo $cidades['cod_cidade'] . '_' . $orgaos['cod_orgao'] ?>" title="Excluir"><i class="fa fa-trash"></i></button></td>
+                                                        <?php if (isset($_SESSION['user_sgl']['nivel']) && !empty($_SESSION['user_sgl']['nivel'])): ?>
+                                                            <td class="table-acao"><a class="btn btn-primary btn-xs" href="<?php echo BASE_URL . '/editar/orgao/' . $orgaos['cod_orgao'] ?>" title="Editar"><i class="fa fa-pencil"></i></a> <button type="button"  class="btn btn-danger btn-xs" data-toggle="modal" data-target="#modal_orgao_<?php echo $cidades['cod_cidade'] . '_' . $orgaos['cod_orgao'] ?>" title="Excluir"><i class="fa fa-trash"></i></button></td>
+                                                        <?php endif; ?>
                                                     </tr>
                                                     <?php
                                                 endif;
@@ -167,15 +174,46 @@
 <!-- /#conteudo_sistema -->
 
 <?php
-if (isset($resultadoView)) {
-    if (isset($orgao)) {
-        foreach ($resultadoView as $cidades):
-            foreach ($cidades['orgaos'] as $orgaos) :
-                if (!empty($orgaos['unidades'])):
-                    foreach ($orgaos['unidades'] as $unidades):
+if (isset($_SESSION['user_sgl']['nivel']) && !empty($_SESSION['user_sgl']['nivel'])):
+    if (isset($resultadoView)) {
+        if (isset($orgao)) {
+            foreach ($resultadoView as $cidades):
+                foreach ($cidades['orgaos'] as $orgaos) :
+                    if (!empty($orgaos['unidades'])):
+                        foreach ($orgaos['unidades'] as $unidades):
+                            ?>
+                            <!--MODAL - ESTRUTURA BÁSICA-->
+                            <section class="modal fade" id="modal_unidade_<?php echo $cidades['cod_cidade'] . '_' . $orgaos['cod_orgao'] . '_' . $unidades['cod_unidade'] ?>" tabindex="-1" role="dialog">
+                                <article class="modal-dialog modal-md" role="document">
+                                    <section class="modal-content">
+                                        <header class="modal-header bg-primary">
+                                            <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                            <p class="panel-title">Deseja remover este registro?</p>
+                                        </header>
+                                        <article class="modal-body">
+                                            <p ><?php echo '<b>Unidade: </b>' . $unidades['nome_unidade'] . ' - <b>Código: </b>' . $unidades['cod_unidade']; ?>;</p>
+                                            <p class="text-justify text-danger"><span class="font-bold">OBS¹ : </span> Se você remove a unidade, será removido todos os respectivos dados como, por exemplo, endereço, contrato, contato e históricos.</p>
+                                        </article>
+                                        <footer class="modal-footer">
+                                            <a class="btn btn-danger " href="<?php echo BASE_URL . '/excluir/unidade/' . $unidades['cod_unidade'] ?>"> <i class="fa fa-trash"></i> Excluir</a> | 
+                                            <button class="btn btn-default" type="button" data-dismiss="modal"><i class="fa fa-close"></i> Fechar</button>
+                                        </footer>
+                                    </section>
+                                </article>
+                            </section>
+
+                            <?php
+                        endforeach;
+                    endif;
+                endforeach;
+            endforeach;
+        }else {
+            foreach ($resultadoView as $cidades):
+                foreach ($cidades['orgaos'] as $orgaos) :
+                    if (!empty($orgaos['unidades'])):
                         ?>
                         <!--MODAL - ESTRUTURA BÁSICA-->
-                        <section class="modal fade" id="modal_unidade_<?php echo $cidades['cod_cidade'] . '_' . $orgaos['cod_orgao'] . '_' . $unidades['cod_unidade'] ?>" tabindex="-1" role="dialog">
+                        <section class="modal fade" id="modal_orgao_<?php echo $cidades['cod_cidade'] . '_' . $orgaos['cod_orgao'] ?>" tabindex="-1" role="dialog">
                             <article class="modal-dialog modal-md" role="document">
                                 <section class="modal-content">
                                     <header class="modal-header bg-primary">
@@ -183,51 +221,22 @@ if (isset($resultadoView)) {
                                         <p class="panel-title">Deseja remover este registro?</p>
                                     </header>
                                     <article class="modal-body">
-                                        <p ><?php echo '<b>Unidade: </b>' . $unidades['nome_unidade'] . ' - <b>Código: </b>' . $unidades['cod_unidade']; ?>;</p>
-                                        <p class="text-justify text-danger"><span class="font-bold">OBS¹ : </span> Se você remove a unidade, será removido todos os respectivos dados como, por exemplo, endereço, contrato, contato e históricos.</p>
+                                        <p ><?php echo '<b>Orgão: </b>' . $orgaos['nome_orgao'] . ' - <b>Código: </b>' . $orgaos['cod_orgao'] . ' - <b> Unidade(s): </b> ' . count($orgaos['unidades']) ?>;</p>
+                                        <p class="text-justify text-danger"><span class="font-bold">OBS¹ : </span> Se você remove este orgão, será removido todas as unidades cadastradas e seus respectivos históricos.</p>
+
                                     </article>
                                     <footer class="modal-footer">
-                                        <a class="btn btn-danger " href="<?php echo BASE_URL . '/excluir/unidade/' . $unidades['cod_unidade'] ?>"> <i class="fa fa-trash"></i> Excluir</a> | 
+                                        <a class="btn btn-danger " href="<?php echo BASE_URL . '/excluir/orgao/' . $orgaos['cod_orgao'] . '/' . $cidades['cod_cidade'] ?>"> <i class="fa fa-trash"></i> Excluir</a> | 
                                         <button class="btn btn-default" type="button" data-dismiss="modal"><i class="fa fa-close"></i> Fechar</button>
                                     </footer>
                                 </section>
                             </article>
                         </section>
-
                         <?php
-                    endforeach;
-                endif;
+                    endif;
+                endforeach;
             endforeach;
-        endforeach;
-    }else {
-        foreach ($resultadoView as $cidades):
-            foreach ($cidades['orgaos'] as $orgaos) :
-                if (!empty($orgaos['unidades'])):
-                    ?>
-                    <!--MODAL - ESTRUTURA BÁSICA-->
-                    <section class="modal fade" id="modal_orgao_<?php echo $cidades['cod_cidade'] . '_' . $orgaos['cod_orgao'] ?>" tabindex="-1" role="dialog">
-                        <article class="modal-dialog modal-md" role="document">
-                            <section class="modal-content">
-                                <header class="modal-header bg-primary">
-                                    <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                    <p class="panel-title">Deseja remover este registro?</p>
-                                </header>
-                                <article class="modal-body">
-                                    <p ><?php echo '<b>Orgão: </b>' . $orgaos['nome_orgao'] . ' - <b>Código: </b>' . $orgaos['cod_orgao'] . ' - <b> Unidade(s): </b> ' . count($orgaos['unidades']) ?>;</p>
-                                    <p class="text-justify text-danger"><span class="font-bold">OBS¹ : </span> Se você remove este orgão, será removido todas as unidades cadastradas e seus respectivos históricos.</p>
-
-                                </article>
-                                <footer class="modal-footer">
-                                    <a class="btn btn-danger " href="<?php echo BASE_URL . '/excluir/orgao/' . $orgaos['cod_orgao'].'/'.$cidades['cod_cidade'] ?>"> <i class="fa fa-trash"></i> Excluir</a> | 
-                                    <button class="btn btn-default" type="button" data-dismiss="modal"><i class="fa fa-close"></i> Fechar</button>
-                                </footer>
-                            </section>
-                        </article>
-                    </section>
-                    <?php
-                endif;
-            endforeach;
-        endforeach;
+        }
     }
-}
+endif;
 ?>

@@ -113,7 +113,7 @@
                                 </div>
                                 <?php
                             endif;
-                            if (isset($_SESSION['user_sgl']['nivel']) && !empty($_SESSION['user_sgl']['nivel'])) :
+                            if (isset($_SESSION['user_sgl']['nivel']) && !empty($_SESSION['user_sgl']['nivel'])) {
                                 ?>
                                 <div class="form-group">
                                     <span>Status:</span><br/>
@@ -122,21 +122,25 @@
                                         $status = array(array('nome' => 'Ativo', 'valor' => '1'), array('nome' => 'Inativo', 'valor' => '0'));
                                         foreach ($status as $statu) {
                                             if ($usuario['statu_usuario'] == $statu['valor']) {
-                                                echo ' <label><input type="radio" name="nStatus" value="'.$statu['valor'].'" checked /> '.$statu['nome'].'</label> ';
+                                                echo ' <label><input type="radio" name="nStatuUsuario" value="' . $statu['valor'] . '" checked /> ' . $statu['nome'] . '</label> ';
                                             } else {
-                                                echo ' <label><input type="radio" name="nStatus" value="'.$statu['valor'].'" /> '.$statu['nome'].'</label> ';
+                                                echo ' <label><input type="radio" name="nStatuUsuario" value="' . $statu['valor'] . '" /> ' . $statu['nome'] . '</label> ';
                                             }
                                         }
                                     } else {
-                                        echo ' <label><input type="radio" name="nStatus" value="1" checked/> Ativa</label> ';
-                                        echo ' <label><input type="radio" name="nStatus" value="0"/> Inativo </label> ';
+                                        echo ' <label><input type="radio" name="nStatuUsuario" value="1"/> Ativa</label> ';
+                                        echo ' <label><input type="radio" name="nStatuUsuario" value="0" checked/> Inativo </label> ';
                                     }
                                     ?>                                  
 
                                 </div>
-                            <?php endif; ?>
+                                <?php
+                            } else {
+                                echo '<input type="hidden" name="nStatuUsuario" value="1"/>';
+                            }
+                            ?>
                             <p class="text-center" style="margin-top: 10%;" id="fotos">
-                                <img src="<?php echo BASE_URL.'/'.$usuario['img_usuario'] ?>" class="img-center" alt="Usuario" id="viewImagem-1"/>
+                                <img src="<?php echo BASE_URL . '/' . $usuario['img_usuario'] ?>" class="img-center" alt="Usuario" id="viewImagem-1"/>
                                 <input type="hidden" name="qtd_fotos" value="1">
                                 <label class="btn btn-primary" onclick="readDefaultURL()">Padrão</label>
                                 <label class="btn btn-danger" for="cFileImagem">Escolher Imagem</label>

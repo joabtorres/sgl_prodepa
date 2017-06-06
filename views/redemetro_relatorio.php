@@ -1,6 +1,6 @@
 <div id="conteudo_sistema">
     <div class="container-fluid">
-        
+
         <div class="row" >
             <div class="col-sm-12 col-md-12 col-lg-12" id="pagina-header">
                 <h2><?php echo (isset($redemetro)) ? $redemetro['nome'] : "Rede Metro" ?></h2>
@@ -13,7 +13,7 @@
                 </ol>
             </div>
         </div>
-        
+
         <!--FIM pagina-header-->
         <div class="row">
             <?php
@@ -36,7 +36,9 @@
                                                     <tr>
                                                         <th class="text-center">#</th>
                                                         <th>Unidade </span></th>
-                                                        <th>Ação</th>
+                                                        <?php if (isset($_SESSION['user_sgl']['nivel']) && !empty($_SESSION['user_sgl']['nivel'])): ?>
+                                                            <th>Ação</th>
+                                                        <?php endif; ?>
                                                     </tr>
                                                 </thead>
                                                 <tbody >
@@ -52,8 +54,9 @@
                                                                 ?>
                                                             </td>
                                                             <td><a href="<?php echo BASE_URL . '/unidade/redemetro/' . $unidades['cod_unidade'] ?>"><?php echo $unidades['nome_unidade'] ?></a></td>
-
-                                                            <td class="table-acao"><a class="btn btn-primary btn-xs" href="<?php echo BASE_URL . '/editar/unidade/' . $unidades['cod_unidade'] ?>" title="Editar"><i class="fa fa-pencil"></i></a> <button type="button"  class="btn btn-danger btn-xs" data-toggle="modal" data-target="#modal_unidade_<?php echo $cidades['cod_cidade'] . '_' . $redemetros['cod_redemetro'] . '_' . $unidades['cod_unidade'] ?>" title="excluir"><i class="fa fa-trash"></i></button></td>
+                                                            <?php if (isset($_SESSION['user_sgl']['nivel']) && !empty($_SESSION['user_sgl']['nivel'])): ?>
+                                                                <td class="table-acao"><a class="btn btn-primary btn-xs" href="<?php echo BASE_URL . '/editar/unidade/' . $unidades['cod_unidade'] ?>" title="Editar"><i class="fa fa-pencil"></i></a> <button type="button"  class="btn btn-danger btn-xs" data-toggle="modal" data-target="#modal_unidade_<?php echo $cidades['cod_cidade'] . '_' . $redemetros['cod_redemetro'] . '_' . $unidades['cod_unidade'] ?>" title="excluir"><i class="fa fa-trash"></i></button></td>
+                                                            <?php endif; ?>
                                                         </tr>
                                                         <?php
                                                     endforeach;
@@ -83,7 +86,9 @@
                                                 <th class="text-center">#</th>
                                                 <th>Rede Metro </th>
                                                 <th>Unidade(s)<span></th>
-                                                <th>Ação</th>
+                                                <?php if (isset($_SESSION['user_sgl']['nivel']) && !empty($_SESSION['user_sgl']['nivel'])): ?>
+                                                    <th>Ação</th>
+                                                <?php endif; ?>
                                             </tr>
                                         </thead>
                                         <tbody >
@@ -102,7 +107,9 @@
                                                         <td><a href="<?php echo BASE_URL . '/relatorio/redemetro/' . $pagina_atual . '/' . $cidades['cod_cidade'] . '/' . $redemetros['cod_redemetro'] ?>"><?php echo $redemetros['nome_redemetro'] ?></a></td>
 
                                                         <td class="text-center table-acao"><?php echo count($redemetros['unidades']) ?></td>
-                                                        <td class="table-acao"><a class="btn btn-primary btn-xs" href="<?php echo BASE_URL . '/editar/redemetro/' . $redemetros['cod_redemetro'] ?>"><i class="fa fa-pencil" title="Editar"></i></a> <button type="button"  class="btn btn-danger btn-xs" data-toggle="modal" data-target="#modal_redemetro_<?php echo $cidades['cod_cidade'] . '_' . $redemetros['cod_redemetro'] ?>" title="Excluir"><i class="fa fa-trash"></i></button></td>
+                                                        <?php if (isset($_SESSION['user_sgl']['nivel']) && !empty($_SESSION['user_sgl']['nivel'])): ?>
+                                                            <td class="table-acao"><a class="btn btn-primary btn-xs" href="<?php echo BASE_URL . '/editar/redemetro/' . $redemetros['cod_redemetro'] ?>"><i class="fa fa-pencil" title="Editar"></i></a> <button type="button"  class="btn btn-danger btn-xs" data-toggle="modal" data-target="#modal_redemetro_<?php echo $cidades['cod_cidade'] . '_' . $redemetros['cod_redemetro'] ?>" title="Excluir"><i class="fa fa-trash"></i></button></td>
+                                                        <?php endif; ?>
                                                     </tr>
                                                     <?php
                                                 endif;
@@ -169,15 +176,47 @@
 
 
 <?php
-if (isset($resultadoView)) {
-    if (isset($redemetro)) {
-        foreach ($resultadoView as $cidades):
-            foreach ($cidades['redemetro'] as $redemetros) :
-                if (!empty($redemetros['unidades'])):
-                    foreach ($redemetros['unidades'] as $unidades):
+if (isset($_SESSION['user_sgl']['nivel']) && !empty($_SESSION['user_sgl']['nivel'])):
+    if (isset($resultadoView)) {
+        if (isset($redemetro)) {
+            foreach ($resultadoView as $cidades):
+                foreach ($cidades['redemetro'] as $redemetros) :
+                    if (!empty($redemetros['unidades'])):
+                        foreach ($redemetros['unidades'] as $unidades):
+                            ?>
+                            <!--MODAL - ESTRUTURA BÁSICA-->
+                            <section class="modal fade" id="modal_unidade_<?php echo $cidades['cod_cidade'] . '_' . $redemetros['cod_redemetro'] . '_' . $unidades['cod_unidade'] ?>" tabindex="-1" role="dialog">
+                                <article class="modal-dialog modal-md" role="document">
+                                    <section class="modal-content">
+                                        <header class="modal-header bg-primary">
+                                            <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                            <p class="panel-title">Deseja remover este registro?</p>
+                                        </header>
+                                        <article class="modal-body">
+                                            <p ><?php echo '<b>Unidade: </b>' . $unidades['nome_unidade'] . ' - <b>Código: </b>' . $unidades['cod_unidade']; ?>;</p>
+                                            <p class=" text-danger"><span class="font-bold">OBS¹ : </span> Se você remove a unidade:  <b class="font-bold"><?php echo $unidades['nome_unidade'] ?></b>, será removido todos os respectivos dados como, por exemplo, endereço, contato e históricos.</p>
+                                            <p class="text-ri"></p>
+                                        </article>
+                                        <footer class="modal-footer">
+                                            <a class="btn btn-danger " href="<?php echo BASE_URL . '/excluir/unidade/' . $unidades['cod_unidade'] ?>"> <i class="fa fa-trash"></i> Excluir</a> | 
+                                            <button class="btn btn-default" type="button" data-dismiss="modal"><i class="fa fa-close"></i> Fechar</button>
+                                        </footer>
+                                    </section>
+                                </article>
+                            </section>
+
+                            <?php
+                        endforeach;
+                    endif;
+                endforeach;
+            endforeach;
+        }else {
+            foreach ($resultadoView as $cidades):
+                foreach ($cidades['redemetro'] as $redemetros) :
+                    if (!empty($redemetros['unidades'])):
                         ?>
                         <!--MODAL - ESTRUTURA BÁSICA-->
-                        <section class="modal fade" id="modal_unidade_<?php echo $cidades['cod_cidade'] . '_' . $redemetros['cod_redemetro'] . '_' . $unidades['cod_unidade'] ?>" tabindex="-1" role="dialog">
+                        <section class="modal fade" id="modal_redemetro_<?php echo $cidades['cod_cidade'] . '_' . $redemetros['cod_redemetro'] ?>" tabindex="-1" role="dialog">
                             <article class="modal-dialog modal-md" role="document">
                                 <section class="modal-content">
                                     <header class="modal-header bg-primary">
@@ -185,52 +224,22 @@ if (isset($resultadoView)) {
                                         <p class="panel-title">Deseja remover este registro?</p>
                                     </header>
                                     <article class="modal-body">
-                                        <p ><?php echo '<b>Unidade: </b>' . $unidades['nome_unidade'] . ' - <b>Código: </b>' . $unidades['cod_unidade']; ?>;</p>
-                                        <p class=" text-danger"><span class="font-bold">OBS¹ : </span> Se você remove a unidade:  <b class="font-bold"><?php echo $unidades['nome_unidade'] ?></b>, será removido todos os respectivos dados como, por exemplo, endereço, contato e históricos.</p>
+                                        <p class="text-justify"><?php echo '<b>AP: </b>' . $redemetros['nome_redemetro'] . ' - <b>Código: </b>' . $redemetros['cod_redemetro'] . ' - <b> Unidade(s): </b> ' . count($redemetros['unidades']) ?>;</p>
+                                        <p class="text-justify text-danger"><span class="font-bold">OBS¹ : </span> Se você remove a Rede Metro:  <b class="font-bold"><?php echo $redemetros['nome_redemetro'] ?></b>, será removido todas as unidades cadastradas e seus respectivos históricos.</p>
                                         <p class="text-ri"></p>
                                     </article>
                                     <footer class="modal-footer">
-                                        <a class="btn btn-danger " href="<?php echo BASE_URL . '/excluir/unidade/' . $unidades['cod_unidade'] ?>"> <i class="fa fa-trash"></i> Excluir</a> | 
+                                        <a class="btn btn-danger " href="<?php echo BASE_URL . '/excluir/redemetro/' . $redemetros['cod_redemetro'] ?>"> <i class="fa fa-trash"></i> Excluir</a> | 
                                         <button class="btn btn-default" type="button" data-dismiss="modal"><i class="fa fa-close"></i> Fechar</button>
                                     </footer>
                                 </section>
                             </article>
                         </section>
-
                         <?php
-                    endforeach;
-                endif;
+                    endif;
+                endforeach;
             endforeach;
-        endforeach;
-    }else {
-        foreach ($resultadoView as $cidades):
-            foreach ($cidades['redemetro'] as $redemetros) :
-                if (!empty($redemetros['unidades'])):
-                    ?>
-                    <!--MODAL - ESTRUTURA BÁSICA-->
-                    <section class="modal fade" id="modal_redemetro_<?php echo $cidades['cod_cidade'] . '_' . $redemetros['cod_redemetro'] ?>" tabindex="-1" role="dialog">
-                        <article class="modal-dialog modal-md" role="document">
-                            <section class="modal-content">
-                                <header class="modal-header bg-primary">
-                                    <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                    <p class="panel-title">Deseja remover este registro?</p>
-                                </header>
-                                <article class="modal-body">
-                                    <p class="text-justify"><?php echo '<b>AP: </b>' . $redemetros['nome_redemetro'] . ' - <b>Código: </b>' . $redemetros['cod_redemetro'] . ' - <b> Unidade(s): </b> ' . count($redemetros['unidades']) ?>;</p>
-                                    <p class="text-justify text-danger"><span class="font-bold">OBS¹ : </span> Se você remove a Rede Metro:  <b class="font-bold"><?php echo $redemetros['nome_redemetro'] ?></b>, será removido todas as unidades cadastradas e seus respectivos históricos.</p>
-                                    <p class="text-ri"></p>
-                                </article>
-                                <footer class="modal-footer">
-                                    <a class="btn btn-danger " href="<?php echo BASE_URL . '/excluir/redemetro/' . $redemetros['cod_redemetro'] ?>"> <i class="fa fa-trash"></i> Excluir</a> | 
-                                    <button class="btn btn-default" type="button" data-dismiss="modal"><i class="fa fa-close"></i> Fechar</button>
-                                </footer>
-                            </section>
-                        </article>
-                    </section>
-                    <?php
-                endif;
-            endforeach;
-        endforeach;
+        }
     }
-}
+endif;
 ?>

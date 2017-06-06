@@ -7,7 +7,7 @@
 /* TAGS NATIVAS */
 
 .h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6, p, a, form, label, input[type='text'], input[type='email'], input[type='number'], textarea, body {
-   /*font-family: "ubuntu-regular", sans-serif;*/
+    /*font-family: "ubuntu-regular", sans-serif;*/
 }
 form label{
     font-weight: normal!important;
@@ -63,9 +63,13 @@ form label{
 .table-qtd{
     width: 30px;
 }
-
+.video-480p{
+    width: 480px; display: block; margin: 10px auto;
+}
 /*TELA LOGIN*/
-
+#interface_login{
+    display: none;    
+}
 #tela_login {
     background-color: #f6f6f6;
     border-radius: 5px;
@@ -292,6 +296,9 @@ form label{
     border-bottom: 1px solid #cecece;
 }
 /* panel*/
+.panel-heading a:active, .panel-heading a:hover,.panel-heading a:focus{text-decoration: none;}
+.panel> .panel-heading *{color: white;}
+.panel-default > .panel-heading *{color: #333;};
 .panel>.panel-body>a{display: block;}
 .panel>.panel-body>a:focus,.panel>.panel-body>a:hover{text-decoration: none;}
 .panel>.panel-body>a>span{float: right; background-color: #337AB7; color: white; padding: 3px 10px; border-radius: 50%}

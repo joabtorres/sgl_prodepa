@@ -4,8 +4,8 @@
             <div class="col-sm-12 col-md-12 col-lg-12" id="pagina-header">
                 <h2>Lista Usuário</h2>
                 <ol class="breadcrumb">
-                    <li><a href="index.html"><i class="glyphicon glyphicon-dashboard"></i> Inicial</a></li>
-                    <li class="active"><i class="glyphicon glyphicon-th-list"></i> Lista Usuário</li>
+                    <li><a href="<?php echo BASE_URL ?>/home"><i class="fa fa-tachometer"></i> Inicial</a></li>
+                    <li class="active"><i class="fa fa-list "></i> Lista Usuário</li>
                 </ol>
             </div>
         </div>
@@ -21,8 +21,8 @@
                                     <div class="form-group">
                                         <label for="iSelectBuscar">Por:</label>
                                         <select class="form-control" name="nSelectBuscar" id="iSelectBuscar">
-                                            <option value="Código">Código</option>
                                             <option value="E-mail">E-mail</option>
+                                            <option value="Código">Código</option>
                                         </select>
                                     </div>
                                 </div>
@@ -33,7 +33,7 @@
                                     </div>
                                 </div>
                                 <div class="col-md-2"><br/>
-                                    <button type="submit" class="btn btn-primary btn-block">Buscar</button>
+                                    <button type="submit" class="btn btn-primary" name="nBuscar" value="Buscar">Buscar</button>
                                 </div>
                             </div>
                         </form>
@@ -80,65 +80,67 @@
 </div>
 <!-- /#conteudo_sistema -->
 <?php
-if (isset($usuarios)) :
-    foreach ($usuarios as $usuario):
-        ?>
-        <!--MODAL - ESTRUTURA BÁSICA-->
-        <section class="modal fade" id="modal_recupera_senha_<?php echo $usuario['cod_usuario'] ?>" tabindex="-1" role="dialog">
-            <article class="modal-dialog modal-md" role="document">
-                <section class="modal-content">
-                    <header class="modal-header bg-primary">
-                        <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h3>Esqueceu a senha?</h3>
-                    </header>
-                    <article class="modal-body">
-                        <ul class="list-unstyled">
-                            <li><b class="font-bold">Código: </b> <?php echo $usuario['cod_usuario']; ?>;</li>
-                            <li><b class="font-bold">Nome: </b> <?php echo $usuario['nome_usuario'] . ' ' . $usuario['sobrenome_usuario'] ?>;</li>
-                            <li><b class="font-bold">E-mail: </b> <?php echo $usuario['email_usuario'] ?>;</li>
-                            <?php if (isset($usuario['cargo_usuario'])) : ?>
-                                <li><b class="font-bold">Cargo: </b> <?php echo $usuario['cargo_usuario'] ?>.</li>
-                            <?php endif; ?>
-                        </ul>
-                        <form method="POST">
-                            <input type="hidden" name="nEmail" value="<?php echo $usuario['email_usuario'] ?>"/>
-                            <button type="submit" value="Enviar" name="nEnviar" class=" btn btn-success"><i class="fa fa-check-circle" aria-hidden="true"></i> Enviar email de verificação</button>
-                        </form>
-                    </article>
-                    <footer class="modal-footer">
-                        <button class="btn btn-default" type="button" data-dismiss="modal"><i class="fa fa-close"></i> Fechar</button>
-                    </footer>
-                </section>
-            </article>
-        </section>
+if (isset($_SESSION['user_sgl']['nivel']) && !empty($_SESSION['user_sgl']['nivel'])):
+    if (isset($usuarios)) :
+        foreach ($usuarios as $usuario):
+            ?>
+            <!--MODAL - ESTRUTURA BÁSICA-->
+            <section class="modal fade" id="modal_recupera_senha_<?php echo $usuario['cod_usuario'] ?>" tabindex="-1" role="dialog">
+                <article class="modal-dialog modal-md" role="document">
+                    <section class="modal-content">
+                        <header class="modal-header bg-primary">
+                            <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h3>Esqueceu a senha?</h3>
+                        </header>
+                        <article class="modal-body">
+                            <ul class="list-unstyled">
+                                <li><b class="font-bold">Código: </b> <?php echo $usuario['cod_usuario']; ?>;</li>
+                                <li><b class="font-bold">Nome: </b> <?php echo $usuario['nome_usuario'] . ' ' . $usuario['sobrenome_usuario'] ?>;</li>
+                                <li><b class="font-bold">E-mail: </b> <?php echo $usuario['email_usuario'] ?>;</li>
+                                <?php if (isset($usuario['cargo_usuario'])) : ?>
+                                    <li><b class="font-bold">Cargo: </b> <?php echo $usuario['cargo_usuario'] ?>.</li>
+                                <?php endif; ?>
+                            </ul>
+                            <form method="POST">
+                                <input type="hidden" name="nEmail" value="<?php echo $usuario['email_usuario'] ?>"/>
+                                <button type="submit" value="Enviar" name="nEnviar" class=" btn btn-success"><i class="fa fa-check-circle" aria-hidden="true"></i> Enviar email de verificação</button>
+                            </form>
+                        </article>
+                        <footer class="modal-footer">
+                            <button class="btn btn-default" type="button" data-dismiss="modal"><i class="fa fa-close"></i> Fechar</button>
+                        </footer>
+                    </section>
+                </article>
+            </section>
 
-        <section class="modal fade" id="modal_excluir_<?php echo $usuario['cod_usuario'] ?>" tabindex="-1" role="dialog">
-            <article class="modal-dialog modal-md" role="document">
-                <section class="modal-content">
-                    <header class="modal-header bg-primary">
-                        <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h3>Deseja remover este registro?</h3>
-                    </header>
-                    <article class="modal-body">
-                        <ul class="list-unstyled">
-                            <li><b class="font-bold">Código: </b> <?php echo $usuario['cod_usuario']; ?>;</li>
-                            <li><b class="font-bold">Nome: </b> <?php echo $usuario['nome_usuario'] . ' ' . $usuario['sobrenome_usuario'] ?>;</li>
-                            <li><b class="font-bold">E-mail: </b> <?php echo $usuario['email_usuario'] ?>;</li>
-                            <?php if (isset($usuario['cargo_usuario'])) : ?>
-                                <li><b class="font-bold">Cargo: </b> <?php echo $usuario['cargo_usuario'] ?>.</li>
-                            <?php endif; ?>
-                        </ul>
-                        <p class="text-justify text-danger"><span class="font-bold">OBS¹ : </span> Se você remove este usuário, será removido não só o usuário, como também todos históricos registrados por este usuário.</p>
+            <section class="modal fade" id="modal_excluir_<?php echo $usuario['cod_usuario'] ?>" tabindex="-1" role="dialog">
+                <article class="modal-dialog modal-md" role="document">
+                    <section class="modal-content">
+                        <header class="modal-header bg-primary">
+                            <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h3>Deseja remover este registro?</h3>
+                        </header>
+                        <article class="modal-body">
+                            <ul class="list-unstyled">
+                                <li><b class="font-bold">Código: </b> <?php echo $usuario['cod_usuario']; ?>;</li>
+                                <li><b class="font-bold">Nome: </b> <?php echo $usuario['nome_usuario'] . ' ' . $usuario['sobrenome_usuario'] ?>;</li>
+                                <li><b class="font-bold">E-mail: </b> <?php echo $usuario['email_usuario'] ?>;</li>
+                                <?php if (isset($usuario['cargo_usuario'])) : ?>
+                                    <li><b class="font-bold">Cargo: </b> <?php echo $usuario['cargo_usuario'] ?>.</li>
+                                <?php endif; ?>
+                            </ul>
+                            <p class="text-justify text-danger"><span class="font-bold">OBS¹ : </span> Se você remove este usuário, será removido não só o usuário, como também todos históricos registrados por este usuário.</p>
 
-                    </article>
-                    <footer class="modal-footer">
-                        <a class="btn btn-danger " href="<?php echo BASE_URL . '/excluir/usuario/' . $usuario['cod_usuario'] ?>"> <i class="fa fa-trash"></i> Excluir</a> | 
-                        <button class="btn btn-default" type="button" data-dismiss="modal"><i class="fa fa-close"></i> Fechar</button>
-                    </footer>
-                </section>
-            </article>
-        </section>
-        <?php
-    endforeach;
+                        </article>
+                        <footer class="modal-footer">
+                            <a class="btn btn-danger " href="<?php echo BASE_URL . '/excluir/usuario/' . $usuario['cod_usuario'] ?>"> <i class="fa fa-trash"></i> Excluir</a> | 
+                            <button class="btn btn-default" type="button" data-dismiss="modal"><i class="fa fa-close"></i> Fechar</button>
+                        </footer>
+                    </section>
+                </article>
+            </section>
+            <?php
+        endforeach;
+    endif;
 endif;
 ?>

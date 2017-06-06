@@ -133,7 +133,7 @@
 
                     <section class="panel panel-primary">
                         <header class="panel-heading">
-                            <p class="panel-title">Contrato</p>
+                            <p class="panel-title">Instrumento</p>
                         </header>
                         <article class="panel-body">
                             <span class="btn btn-success" onclick="add_contrato()"><i class="fa fa-plus" aria-hidden="true"></i> Novo</span>
@@ -152,11 +152,11 @@
                                             <input type="hidden" name="nCodContrato<?php echo $qtdContrato ?>"  value="<?php echo $contrato['cod_contrato'] ?>">
                                             <?php endif; ?>
                                             <div class="col-md-4 form-group">
-                                                <label for="iNumeroContrato<?php echo $qtdContrato ?>">Número do Contrato:</label>
+                                                <label for="iNumeroContrato<?php echo $qtdContrato ?>">Número do Instrumento:</label>
                                                 <input type="text" name="nNumeroContrato<?php echo $qtdContrato ?>" id="iNumeroContrato<?php echo $qtdContrato ?>" class="form-control" placeholder="Exemplo: 0001/2016" value="<?php echo $contrato['numero_contrato'] ?>">
                                             </div>
                                             <div class="col-md-8 form-group">
-                                                <label for="iTipoContratro<?php echo $qtdContrato ?>">Tipo de Contrato: </label>
+                                                <label for="iTipoContratro<?php echo $qtdContrato ?>">Tipo de Instrumento: </label>
 
                                                 <select id="iTipoContratro<?php echo $qtdContrato ?>" name="nTipoContratro<?php echo $qtdContrato ?>" class="form-control">
                                                     <?php
@@ -188,11 +188,11 @@
                                     <div class="row container_cad_contrato">
                                         <hr/>
                                         <div class="col-md-4 form-group">
-                                            <label for="iNumeroContrato1">Número do Contrato:</label>
+                                            <label for="iNumeroContrato1">Número do Instrumento:</label>
                                             <input type="text" name="nNumeroContrato1" id="iNumeroContrato1" class="form-control" placeholder="Exemplo: 0001/2016" >
                                         </div>
                                         <div class="col-md-8 form-group">
-                                            <label for="iTipoContratro1">Tipo de Contrato:</label>
+                                            <label for="iTipoContratro1">Tipo de Instrumento:</label>
                                             <select id="iTipoContratro1" name="nTipoContratro1" class="form-control">
                                                 <option value=""></option>
                                                 <option value="ACT - Acordo de Cooperação Técnica">ACT - Acordo de Cooperação Técnica</option>
@@ -269,7 +269,7 @@
                             <input type="hidden" id="iQtdContato" name="nQtdContato" value="<?php echo (!empty($unidade['contatos'])) ? count($unidade['contatos']) : 1; ?>"/>
                             <div id="iCadContato">
                                 <?php
-                                if (!empty($unidade['contatos'])) {
+                                if (isset($unidade['contatos']) && !empty($unidade['contatos'])) {
                                     $qtdContato = count($unidade['contatos']) ;
                                     foreach ($unidade['contatos'] as $contato) :
                                         ?>
@@ -302,7 +302,6 @@
                                     ?>
                                     <div id="contato_1" class="row container_cad_contato">
                                         <hr/>
-                                        <input type="text" name="nNome1" id="iNome1" class="form-control" placeholder="Exemplo: Joab Alencar" value="<?php echo (!empty($_POST["nNome"])) ? $_POST["nNome"] : ""; ?>">
                                         <div class="col-md-6 form-group">
                                             <label for="iNome1">Nome:</label>
                                             <input type="text" name="nNome1" id="iNome1" class="form-control" placeholder="Exemplo: Joab Alencar" value="<?php echo (!empty($_POST["nNome"])) ? $_POST["nNome"] : ""; ?>">

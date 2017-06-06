@@ -14,7 +14,7 @@
             <div class="col-sm-12 col-md-12 col-lg-12">
                 <div class="alert <?php echo (isset($erro['class'])) ? $erro['class'] : 'alert-warning'; ?> " role="alert" id="alert-msg">
                     <button class="close" data-hide="alert">&times;</button>
-                    <div id="resposta"><?php echo (isset($erro['msg'])) ? $erro['msg'] : '<i class="fa fa-info-circle" aria-hidden="true"></i>  Não é possível cadastrar um ap já cadastrado.'; ?></div>
+                    <div id="resposta"><?php echo (isset($erro['msg'])) ? $erro['msg'] : '<i class="fa fa-info-circle" aria-hidden="true"></i>  Não é possível cadastrar uma rede metro já cadastrada.'; ?></div>
                 </div>
             </div>
             <div class="col-sm-12 col-md-12 col-lg-12">
@@ -40,7 +40,7 @@
                                     <input type="text" name="ncadNome" id="icadNome" class="form-control" placeholder="Exemplo: Rede Metro Itaituba"/>
                                 </div>
                                 <div class="form-group col-sm-6 col-md-4 col-lg-4">
-                                    <label for="icadEstensao">Estensão: </label>
+                                    <label for="icadEstensao">Extensão: </label>
                                     <input type="text" name="ncadEstensao" id="icadEstensao" class="form-control" placeholder="Exemplo: 5.4 Km"/>
                                 </div>
                             </div>

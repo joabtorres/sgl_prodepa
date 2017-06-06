@@ -428,6 +428,124 @@ class relatorioController extends controller {
         if ($this->checkUserPattern()) {
             $view = "buscar_avancada_relatorio";
             $dados = array();
+            $cidadeModel = new cidade();
+            $orgaoModel = new orgao();
+            $unidadeModel = new unidade();
+            //seleciona cidade
+            $cidade = $cidadeModel->read('SELECT * FROM sgl_cidade_area_atuacao ORDER BY cidade_area_atuacao ASC', array());
+            if ($cidade) {
+                $dados['cidades'] = $cidade;
+            }
+            //seleciona orgao
+            $orgao = $orgaoModel->read('SELECT * FROM sgl_orgao ORDER BY nome_orgao ASC', array());
+            if ($orgao) {
+                $dados['orgaos'] = $orgao;
+            }
+            //seleciona esferas
+            $result_esfera = $orgaoModel->read('SELECT DISTINCT(categoria_orgao) FROM sgl_orgao ORDER BY categoria_orgao ASC', array());
+            if ($result_esfera) {
+                $dados['esferas'] = $result_esfera;
+            }
+
+
+            //ação de consulta
+            if (isset($_POST['nBuscar']) && !empty($_POST['nBuscar'])) {
+                //seleciona cidade
+                if (isset($_POST['nCidade']) && !empty($_POST['nCidade']) && $_POST['nCidade'] != "Todas") {
+                    $result_cidade = $cidadeModel->read("SELECT * FROM sgl_cidade_area_atuacao WHERE cod_area_atuacao=:cod_cidade ORDER BY cidade_area_atuacao ASC", array('cod_cidade' => addslashes(trim($_POST['nCidade']))));
+                } else {
+                    $result_cidade = $cidadeModel->read("SELECT DISTINCT(cidade.cidade_area_atuacao), cidade.cod_area_atuacao FROM sgl_cidade_area_atuacao AS cidade INNER JOIN sgl_unidade AS unidade ON cidade.cod_area_atuacao=unidade.cod_cidade ORDER BY cidade_area_atuacao ASC", array());
+                }
+                //seleciona por codigo do orgao
+                if (isset($_POST['nOrgao']) && !empty($_POST['nOrgao'])) {
+                    if ($_POST['nOrgao'] == "Todos") {
+                        $result_orgao = $orgaoModel->read('SELECT * FROM sgl_orgao ORDER BY categoria_orgao ASC, nome_orgao ASC;', array());
+                    } else {
+                        $result_orgao = $orgaoModel->read('SELECT * FROM sgl_orgao WHERE cod_orgao=:cod_orgao ORDER BY categoria_orgao ASC, nome_orgao ASC;', array('cod_orgao' => addslashes(trim($_POST['nOrgao']))));
+                    }
+                    //seleciona por esfera do orgao
+                } else {
+                    if ($_POST['nCategoria'] == "Todas") {
+                        $result_orgao = $orgaoModel->read('SELECT * FROM sgl_orgao ORDER BY categoria_orgao ASC, nome_orgao ASC;', array());
+                    } else {
+                        $result_orgao = $orgaoModel->read('SELECT * FROM sgl_orgao WHERE categoria_orgao=:categoria ORDER BY categoria_orgao ASC, nome_orgao ASC;', array('categoria' => addslashes($_POST['nCategoria'])));
+                    }
+                }
+
+                //array que vai armazena o resultado_final
+                $resultado_final = array();
+                //cidade
+                $qtd_cidade = 0;
+                if (is_array($result_cidade) && is_array($result_orgao)) {
+                    foreach ($result_cidade as $cidade) {
+                        $resultado_final[$qtd_cidade] = array('cidade' => $cidade['cidade_area_atuacao'], 'cod_cidade' => $cidade['cod_area_atuacao'], 'orgaos' => array());
+                        //orgao
+                        $qtd_orgao = 0;
+                        foreach ($result_orgao as $orgao) {
+                            //setando os orgãos
+                            $resultado_final[$qtd_cidade]['orgaos'][$qtd_orgao] = array('orgao' => $orgao['nome_orgao'], 'cod_orgao' => $orgao['cod_orgao'], 'categoria' => $orgao['categoria_orgao'], 'unidades' => array());
+
+                            switch ($_POST['nConexao']) {
+                                case "Rádio":
+                                    if (isset($_POST['nAP']) && !empty($_POST['nAP']) && $_POST['nAP'] != "Todos") {
+                                        $result_unidade_ap = $unidadeModel->read("SELECT cidade.cidade_area_atuacao, orgao.categoria_orgao, orgao.nome_orgao, ap.ip_ap, ap.nome_ap, unidade.* FROM sgl_cidade_area_atuacao AS cidade, sgl_orgao AS orgao, sgl_ap AS ap, sgl_unidade AS unidade WHERE cidade.cod_area_atuacao=unidade.cod_cidade AND orgao.cod_orgao=unidade.cod_orgao AND ap.cod_ap=unidade.cod_ap AND unidade.cod_cidade=:cod_cidade AND unidade.cod_orgao=:cod_orgao AND unidade.cod_ap=:cod_ap ORDER BY cidade.cidade_area_atuacao ASC, orgao.categoria_orgao ASC, orgao.nome_orgao ASC, ap.ip_ap ASC, unidade.nome_unidade ASC", array('cod_cidade' => $cidade['cod_area_atuacao'], 'cod_orgao' => $orgao['cod_orgao'], 'cod_ap' => addslashes(trim($_POST['nAP']))));
+                                    } else {
+                                        $result_unidade_ap = $unidadeModel->read("SELECT cidade.cidade_area_atuacao, orgao.categoria_orgao, orgao.nome_orgao, ap.ip_ap, ap.nome_ap, unidade.* FROM sgl_cidade_area_atuacao AS cidade, sgl_orgao AS orgao, sgl_ap AS ap, sgl_unidade AS unidade WHERE cidade.cod_area_atuacao=unidade.cod_cidade AND orgao.cod_orgao=unidade.cod_orgao AND ap.cod_ap=unidade.cod_ap AND unidade.cod_cidade=:cod_cidade AND unidade.cod_orgao=:cod_orgao ORDER BY cidade.cidade_area_atuacao ASC, orgao.categoria_orgao ASC, orgao.nome_orgao ASC, ap.ip_ap ASC, unidade.nome_unidade ASC", array('cod_cidade' => $cidade['cod_area_atuacao'], 'cod_orgao' => $orgao['cod_orgao']));
+                                    }
+                                    if (is_array($result_unidade_ap)) {
+                                        $result_unidade = $result_unidade_ap;
+                                    }
+                                    break;
+                                case "Fibra":
+                                    if (isset($_POST['nRedeMetro']) && !empty($_POST['nRedeMetro']) && $_POST['nRedeMetro'] != "Todos") {
+                                        $result_unidade_redemetro = $unidadeModel->read("SELECT cidade.cidade_area_atuacao, orgao.categoria_orgao, orgao.nome_orgao, rede.nome_redemetro, unidade.* FROM sgl_cidade_area_atuacao AS cidade, sgl_orgao AS orgao, sgl_redemetro AS rede, sgl_unidade AS unidade WHERE cidade.cod_area_atuacao=unidade.cod_cidade AND orgao.cod_orgao=unidade.cod_orgao AND rede.cod_redemetro=unidade.cod_redemetro AND unidade.cod_cidade=:cod_cidade AND unidade.cod_orgao=:cod_orgao AND unidade.cod_redemetro=:cod_redemetro ORDER BY cidade.cidade_area_atuacao ASC, orgao.categoria_orgao ASC, orgao.nome_orgao ASC, rede.nome_redemetro ASC, unidade.nome_unidade ASC", array('cod_cidade' => $cidade['cod_area_atuacao'], 'cod_orgao' => $orgao['cod_orgao'], 'cod_redemetro' => $_POST['nRedeMetro']));
+                                    } else {
+                                        $result_unidade_redemetro = $unidadeModel->read("SELECT cidade.cidade_area_atuacao, orgao.categoria_orgao, orgao.nome_orgao, rede.nome_redemetro, unidade.* FROM sgl_cidade_area_atuacao AS cidade, sgl_orgao AS orgao, sgl_redemetro AS rede, sgl_unidade AS unidade WHERE cidade.cod_area_atuacao=unidade.cod_cidade AND orgao.cod_orgao=unidade.cod_orgao AND rede.cod_redemetro=unidade.cod_redemetro AND unidade.cod_cidade=:cod_cidade AND unidade.cod_orgao=:cod_orgao ORDER BY cidade.cidade_area_atuacao ASC, orgao.categoria_orgao ASC, orgao.nome_orgao ASC, rede.nome_redemetro ASC, unidade.nome_unidade ASC", array('cod_cidade' => $cidade['cod_area_atuacao'], 'cod_orgao' => $orgao['cod_orgao']));
+                                    }
+                                    if (is_array($result_unidade_redemetro)) {
+                                        $result_unidade = $result_unidade_redemetro;
+                                    }
+                                    break;
+                                default :
+                                    $result_unidade_ap = $unidadeModel->read("SELECT cidade.cidade_area_atuacao, orgao.categoria_orgao, orgao.nome_orgao, ap.ip_ap, ap.nome_ap, unidade.* FROM sgl_cidade_area_atuacao AS cidade, sgl_orgao AS orgao, sgl_ap AS ap, sgl_unidade AS unidade WHERE cidade.cod_area_atuacao=unidade.cod_cidade AND orgao.cod_orgao=unidade.cod_orgao AND ap.cod_ap=unidade.cod_ap AND unidade.cod_cidade=:cod_cidade AND unidade.cod_orgao=:cod_orgao ORDER BY cidade.cidade_area_atuacao ASC, orgao.categoria_orgao ASC, orgao.nome_orgao ASC, ap.ip_ap ASC, unidade.nome_unidade ASC", array('cod_cidade' => $cidade['cod_area_atuacao'], 'cod_orgao' => $orgao['cod_orgao']));
+                                    $result_unidade_redemetro = $unidadeModel->read("SELECT cidade.cidade_area_atuacao, orgao.categoria_orgao, orgao.nome_orgao, rede.nome_redemetro, unidade.* FROM sgl_cidade_area_atuacao AS cidade, sgl_orgao AS orgao, sgl_redemetro AS rede, sgl_unidade AS unidade WHERE cidade.cod_area_atuacao=unidade.cod_cidade AND orgao.cod_orgao=unidade.cod_orgao AND rede.cod_redemetro=unidade.cod_redemetro AND unidade.cod_cidade=:cod_cidade AND unidade.cod_orgao=:cod_orgao ORDER BY cidade.cidade_area_atuacao ASC, orgao.categoria_orgao ASC, orgao.nome_orgao ASC, rede.nome_redemetro ASC, unidade.nome_unidade ASC", array('cod_cidade' => $cidade['cod_area_atuacao'], 'cod_orgao' => $orgao['cod_orgao']));
+
+                                    if (is_array($result_unidade_ap)) {
+                                        $result_unidade = $result_unidade_ap;
+                                    }
+                                    if (is_array($result_unidade_redemetro)) {
+                                        $result_unidade = $result_unidade_redemetro;
+                                    }
+                                    break;
+                            }
+
+
+                            if (isset($result_unidade) && is_array($result_unidade)) {
+
+                                $qtd_unidade = 0;
+                                foreach ($result_unidade as $unidade) {
+                                    if ($cidade['cod_area_atuacao'] == $unidade['cod_cidade'] && $orgao['cod_orgao'] == $unidade['cod_orgao']) {
+                                        $resultado_final[$qtd_cidade]['orgaos'][$qtd_orgao]['unidades'][$qtd_unidade] = array('cod_unidade' => $unidade['cod_unidade'], 'unidade' => $unidade['nome_unidade'], 'ip' => $unidade['ip_unidade'], 'banda' => $unidade['banda_unidade'], 'conexao' => $unidade['conexao_unidade']);
+
+                                        if (!empty($unidade['cod_ap'])) {
+                                            $resultado_final[$qtd_cidade]['orgaos'][$qtd_orgao]['unidades'][$qtd_unidade]['cod_ap'] = $unidade['cod_ap'];
+                                            $resultado_final[$qtd_cidade]['orgaos'][$qtd_orgao]['unidades'][$qtd_unidade]['nome_ap'] = $unidade['nome_ap'];
+                                        } else {
+                                            $resultado_final[$qtd_cidade]['orgaos'][$qtd_orgao]['unidades'][$qtd_unidade]['cod_redemetro'] = $unidade['cod_redemetro'];
+                                            $resultado_final[$qtd_cidade]['orgaos'][$qtd_orgao]['unidades'][$qtd_unidade]['nome_redemetro'] = $unidade['nome_redemetro'];
+                                        }
+                                        ++$qtd_unidade;
+                                    }
+                                }
+                                $dados['resultadoView'] = $resultado_final;
+                            }
+                            ++$qtd_orgao;
+                        }
+                        ++$qtd_cidade;
+                    }
+                }
+            }
+
             $this->loadTemplate($view, $dados);
         }
     }
@@ -519,10 +637,6 @@ class relatorioController extends controller {
                     $resultado_orgao = $orgaoModel->read("SELECT DISTINCT(sgl_orgao.nome_orgao), sgl_orgao.cod_orgao, sgl_orgao.categoria_orgao FROM sgl_orgao, sgl_unidade, sgl_cidade_area_atuacao, sgl_cidade_nucleo WHERE sgl_orgao.cod_orgao=sgl_unidade.cod_orgao AND sgl_unidade.cod_cidade=sgl_cidade_area_atuacao.cod_area_atuacao AND sgl_cidade_area_atuacao.cod_nucleo=sgl_cidade_nucleo.cod_nucleo AND sgl_cidade_nucleo.cod_nucleo=:cod_nucleo AND sgl_orgao.nome_orgao LIKE :nome_orgao ORDER BY sgl_orgao.categoria_orgao ASC, sgl_orgao.nome_orgao ASC;", $data);
                     $resultado_unidade = $unidadeModel->read("SELECT sgl_orgao.nome_orgao,sgl_orgao.cod_orgao, sgl_orgao.categoria_orgao, sgl_cidade_area_atuacao.cidade_area_atuacao, sgl_unidade.cod_unidade, sgl_unidade.nome_unidade FROM sgl_orgao, sgl_unidade, sgl_cidade_area_atuacao, sgl_cidade_nucleo WHERE sgl_orgao.cod_orgao=sgl_unidade.cod_orgao AND sgl_unidade.cod_cidade=sgl_cidade_area_atuacao.cod_area_atuacao AND sgl_cidade_area_atuacao.cod_nucleo=sgl_cidade_nucleo.cod_nucleo AND sgl_cidade_nucleo.cod_nucleo=:cod_nucleo AND sgl_orgao.nome_orgao LIKE :nome_orgao ORDER BY sgl_cidade_area_atuacao.cidade_area_atuacao ASC, sgl_orgao.categoria_orgao ASC, sgl_orgao.nome_orgao ASC,  sgl_unidade.nome_unidade;", $data);
 
-                    //lista todos os orgãos que tem unidade cadastrada de todas as cidades
-                    //$resultado_cidade = $cidadeModel->read("SELECT DISTINCT(sgl_cidade_area_atuacao.cidade_area_atuacao), sgl_cidade_area_atuacao.cod_area_atuacao, sgl_orgao.nome_orgao FROM sgl_unidade, sgl_orgao, sgl_cidade_area_atuacao, sgl_cidade_nucleo WHERE sgl_unidade.cod_orgao=sgl_orgao.cod_orgao AND sgl_unidade.cod_cidade=sgl_cidade_area_atuacao.cod_area_atuacao AND sgl_cidade_area_atuacao.cod_nucleo=sgl_cidade_nucleo.cod_nucleo AND sgl_cidade_nucleo.cod_nucleo=:cod_nucleo AND sgl_orgao.nome_orgao LIKE :nome_orgao ORDER BY sgl_cidade_area_atuacao.cidade_area_atuacao ASC, sgl_orgao.nome_orgao ASC LIMIT " . $indice . ',' . $limite, $data);
-                    //$resultado_orgao = $orgaoModel->read("SELECT DISTINCT(sgl_orgao.nome_orgao), sgl_orgao.cod_orgao, sgl_orgao.categoria_orgao FROM sgl_orgao, sgl_unidade, sgl_cidade_area_atuacao, sgl_cidade_nucleo WHERE sgl_orgao.cod_orgao=sgl_unidade.cod_orgao AND sgl_unidade.cod_cidade=sgl_cidade_area_atuacao.cod_area_atuacao AND sgl_cidade_area_atuacao.cod_nucleo=sgl_cidade_nucleo.cod_nucleo AND sgl_cidade_nucleo.cod_nucleo=:cod_nucleo AND sgl_orgao.nome_orgao LIKE :nome_orgao  ORDER BY sgl_orgao.nome_orgao ASC", $data);
-                    //$resultado_unidade = $unidadeModel->read("SELECT sgl_orgao.nome_orgao,sgl_orgao.cod_orgao, sgl_cidade_area_atuacao.cidade_area_atuacao, sgl_unidade.cod_unidade, sgl_unidade.nome_unidade FROM sgl_orgao, sgl_unidade, sgl_cidade_area_atuacao, sgl_cidade_nucleo WHERE sgl_orgao.cod_orgao=sgl_unidade.cod_orgao AND sgl_unidade.cod_cidade=sgl_cidade_area_atuacao.cod_area_atuacao AND sgl_cidade_area_atuacao.cod_nucleo=sgl_cidade_nucleo.cod_nucleo AND sgl_cidade_nucleo.cod_nucleo=:cod_nucleo AND sgl_orgao.nome_orgao LIKE :nome_orgao ORDER BY sgl_cidade_area_atuacao.cidade_area_atuacao ASC, sgl_orgao.nome_orgao ASC, sgl_unidade.nome_unidade;", $data);
                     //total de cidades
                     $cidadeModel->read("SELECT DISTINCT(sgl_cidade_area_atuacao.cidade_area_atuacao), sgl_cidade_area_atuacao.cod_area_atuacao, sgl_orgao.nome_orgao  FROM sgl_unidade, sgl_orgao, sgl_cidade_area_atuacao, sgl_cidade_nucleo WHERE sgl_unidade.cod_orgao=sgl_orgao.cod_orgao AND sgl_unidade.cod_cidade=sgl_cidade_area_atuacao.cod_area_atuacao AND sgl_cidade_area_atuacao.cod_nucleo=sgl_cidade_nucleo.cod_nucleo AND sgl_cidade_nucleo.cod_nucleo=:cod_nucleo AND sgl_orgao.nome_orgao LIKE :nome_orgao ORDER BY sgl_cidade_area_atuacao.cidade_area_atuacao ASC ", $data);
                     $total_registro = $cidadeModel->getNumRows();
@@ -558,6 +672,116 @@ class relatorioController extends controller {
                 }
             } else {
                 header("location: /home");
+            }
+        }
+    }
+
+    public function avancado() {
+        $cidadeModel = new cidade();
+        $orgaoModel = new orgao();
+        $unidadeModel = new unidade();
+
+        $_POST['nBuscar'] = "Salvar";
+        $_POST['nCidade'] = 2;
+        $_POST['nOrgao'] = 2;
+        //$_POST['nCategoria'] = "Estadual";
+        $_POST['nConexao'] = "Fibra";
+
+        $_POST['nAP'] = "Todos";
+
+        $_POST['nRedeMetro'] = 1;
+
+        if (isset($_POST['nBuscar']) && !empty($_POST['nBuscar'])) {
+            //seleciona cidade
+            if (isset($_POST['nCidade']) && !empty($_POST['nCidade']) && $_POST['nCidade'] != "Todas") {
+                $result_cidade = $cidadeModel->read("SELECT * FROM sgl_cidade_area_atuacao WHERE cod_area_atuacao=:cod_cidade ORDER BY cidade_area_atuacao ASC", array('cod_cidade' => addslashes(trim($_POST['nCidade']))));
+            } else {
+                $result_cidade = $cidadeModel->read("SELECT * FROM sgl_cidade_area_atuacao ORDER BY cidade_area_atuacao ASC", array());
+            }
+            //seleciona por codigo do orgao
+            if (isset($_POST['nOrgao']) && !empty($_POST['nOrgao'])) {
+                if ($_POST['nOrgao'] == "Todos") {
+                    $result_orgao = $orgaoModel->read('SELECT * FROM sgl_orgao ORDER BY categoria_orgao ASC, nome_orgao ASC;', array());
+                } else {
+                    $result_orgao = $orgaoModel->read('SELECT * FROM sgl_orgao WHERE cod_orgao=:cod_orgao ORDER BY categoria_orgao ASC, nome_orgao ASC;', array('cod_orgao' => addslashes(trim($_POST['nOrgao']))));
+                }
+                //seleciona por esfera do orgao
+            } else {
+                if ($_POST['nCategoria'] == "Todas") {
+                    $result_orgao = $orgaoModel->read('SELECT * FROM sgl_orgao ORDER BY categoria_orgao ASC, nome_orgao ASC;', array());
+                } else {
+                    $result_orgao = $orgaoModel->read('SELECT * FROM sgl_orgao WHERE categoria_orgao=:categoria ORDER BY categoria_orgao ASC, nome_orgao ASC;', array('categoria' => addslashes($_POST['nCategoria'])));
+                }
+            }
+            //array que vai armazena o resultado_final
+            $resultado_final = array();
+            //cidade
+            $qtd_cidade = 0;
+            if (is_array($result_cidade) && is_array($result_orgao)) {
+                foreach ($result_cidade as $cidade) {
+                    $resultado_final[$qtd_cidade] = array('cidade' => $cidade['cidade_area_atuacao'], 'cod_cidade' => $cidade['cod_area_atuacao'], 'orgaos' => array());
+
+                    //orgao
+                    $qtd_orgao = 0;
+                    foreach ($result_orgao as $orgao) {
+                        //setando os orgãos
+                        $resultado_final[$qtd_cidade]['orgaos'][$qtd_orgao] = array('orgao' => $orgao['nome_orgao'], 'cod_orgao' => $orgao['cod_orgao'], 'categoria' => $orgao['categoria_orgao'], 'unidades' => array());
+
+
+                        switch ($_POST['nConexao']) {
+                            case "Rádio":
+                                if (isset($_POST['nAP']) && !empty($_POST['nAP']) && $_POST['nAP'] != "Todos") {
+                                    $result_unidade_ap = $unidadeModel->read("SELECT cidade.cidade_area_atuacao, orgao.categoria_orgao, orgao.nome_orgao, ap.ip_ap, ap.nome_ap, unidade.* FROM sgl_cidade_area_atuacao AS cidade, sgl_orgao AS orgao, sgl_ap AS ap, sgl_unidade AS unidade WHERE cidade.cod_area_atuacao=unidade.cod_cidade AND orgao.cod_orgao=unidade.cod_orgao AND ap.cod_ap=unidade.cod_ap AND unidade.cod_cidade=:cod_cidade AND unidade.cod_orgao=:cod_orgao AND unidade.cod_ap=:cod_ap ORDER BY cidade.cidade_area_atuacao ASC, orgao.categoria_orgao ASC, orgao.nome_orgao ASC, ap.ip_ap ASC, unidade.nome_unidade ASC", array('cod_cidade' => $cidade['cod_area_atuacao'], 'cod_orgao' => $orgao['cod_orgao'], 'cod_ap' => addslashes(trim($_POST['nAP']))));
+                                } else {
+                                    $result_unidade_ap = $unidadeModel->read("SELECT cidade.cidade_area_atuacao, orgao.categoria_orgao, orgao.nome_orgao, ap.ip_ap, ap.nome_ap, unidade.* FROM sgl_cidade_area_atuacao AS cidade, sgl_orgao AS orgao, sgl_ap AS ap, sgl_unidade AS unidade WHERE cidade.cod_area_atuacao=unidade.cod_cidade AND orgao.cod_orgao=unidade.cod_orgao AND ap.cod_ap=unidade.cod_ap AND unidade.cod_cidade=:cod_cidade AND unidade.cod_orgao=:cod_orgao ORDER BY cidade.cidade_area_atuacao ASC, orgao.categoria_orgao ASC, orgao.nome_orgao ASC, ap.ip_ap ASC, unidade.nome_unidade ASC", array('cod_cidade' => $cidade['cod_area_atuacao'], 'cod_orgao' => $orgao['cod_orgao']));
+                                }
+                                if (is_array($result_unidade_ap)) {
+                                    $result_unidade = $result_unidade_ap;
+                                }
+                                break;
+                            case "Fibra":
+                                if (isset($_POST['nRedeMetro']) && !empty($_POST['nRedeMetro']) && $_POST['nRedeMetro'] != "Todos") {
+                                    $result_unidade_redemetro = $unidadeModel->read("SELECT cidade.cidade_area_atuacao, orgao.categoria_orgao, orgao.nome_orgao, rede.nome_redemetro, unidade.* FROM sgl_cidade_area_atuacao AS cidade, sgl_orgao AS orgao, sgl_redemetro AS rede, sgl_unidade AS unidade WHERE cidade.cod_area_atuacao=unidade.cod_cidade AND orgao.cod_orgao=unidade.cod_orgao AND rede.cod_redemetro=unidade.cod_redemetro AND unidade.cod_cidade=:cod_cidade AND unidade.cod_orgao=:cod_orgao AND unidade.cod_redemetro=:cod_redemetro ORDER BY cidade.cidade_area_atuacao ASC, orgao.categoria_orgao ASC, orgao.nome_orgao ASC, rede.nome_redemetro ASC, unidade.nome_unidade ASC", array('cod_cidade' => $cidade['cod_area_atuacao'], 'cod_orgao' => $orgao['cod_orgao'], 'cod_redemetro' => $_POST['nRedeMetro']));
+                                } else {
+                                    $result_unidade_redemetro = $unidadeModel->read("SELECT cidade.cidade_area_atuacao, orgao.categoria_orgao, orgao.nome_orgao, rede.nome_redemetro, unidade.* FROM sgl_cidade_area_atuacao AS cidade, sgl_orgao AS orgao, sgl_redemetro AS rede, sgl_unidade AS unidade WHERE cidade.cod_area_atuacao=unidade.cod_cidade AND orgao.cod_orgao=unidade.cod_orgao AND rede.cod_redemetro=unidade.cod_redemetro AND unidade.cod_cidade=:cod_cidade AND unidade.cod_orgao=:cod_orgao ORDER BY cidade.cidade_area_atuacao ASC, orgao.categoria_orgao ASC, orgao.nome_orgao ASC, rede.nome_redemetro ASC, unidade.nome_unidade ASC", array('cod_cidade' => $cidade['cod_area_atuacao'], 'cod_orgao' => $orgao['cod_orgao']));
+                                }
+                                if (is_array($result_unidade_redemetro)) {
+                                    $result_unidade = $result_unidade_redemetro;
+                                }
+                                break;
+                            default :
+                                $result_unidade_ap = $unidadeModel->read("SELECT cidade.cidade_area_atuacao, orgao.categoria_orgao, orgao.nome_orgao, ap.ip_ap, ap.nome_ap, unidade.* FROM sgl_cidade_area_atuacao AS cidade, sgl_orgao AS orgao, sgl_ap AS ap, sgl_unidade AS unidade WHERE cidade.cod_area_atuacao=unidade.cod_cidade AND orgao.cod_orgao=unidade.cod_orgao AND ap.cod_ap=unidade.cod_ap AND unidade.cod_cidade=:cod_cidade AND unidade.cod_orgao=:cod_orgao ORDER BY cidade.cidade_area_atuacao ASC, orgao.categoria_orgao ASC, orgao.nome_orgao ASC, ap.ip_ap ASC, unidade.nome_unidade ASC", array('cod_cidade' => $cidade['cod_area_atuacao'], 'cod_orgao' => $orgao['cod_orgao']));
+                                $result_unidade_redemetro = $unidadeModel->read("SELECT cidade.cidade_area_atuacao, orgao.categoria_orgao, orgao.nome_orgao, rede.nome_redemetro, unidade.* FROM sgl_cidade_area_atuacao AS cidade, sgl_orgao AS orgao, sgl_redemetro AS rede, sgl_unidade AS unidade WHERE cidade.cod_area_atuacao=unidade.cod_cidade AND orgao.cod_orgao=unidade.cod_orgao AND rede.cod_redemetro=unidade.cod_redemetro AND unidade.cod_cidade=:cod_cidade AND unidade.cod_orgao=:cod_orgao ORDER BY cidade.cidade_area_atuacao ASC, orgao.categoria_orgao ASC, orgao.nome_orgao ASC, rede.nome_redemetro ASC, unidade.nome_unidade ASC", array('cod_cidade' => $cidade['cod_area_atuacao'], 'cod_orgao' => $orgao['cod_orgao']));
+
+                                if (is_array($result_unidade_ap)) {
+                                    $result_unidade = $result_unidade_ap;
+                                }
+                                if (is_array($result_unidade_redemetro)) {
+                                    $result_unidade = $result_unidade_redemetro;
+                                }
+                                break;
+                        }
+
+
+                        if (isset($result_unidade) && is_array($result_unidade)) {
+                            $qtd_unidade = 0;
+                            foreach ($result_unidade as $unidade) {
+                                $resultado_final[$qtd_cidade]['orgaos'][$qtd_orgao]['unidades'][$qtd_unidade] = array('cod_unidade' => $unidade['cod_unidade'], 'unidade' => $unidade['nome_unidade'], 'ip' => $unidade['ip_unidade'], 'banda' => $unidade['banda_unidade'], 'conexao' => $unidade['conexao_unidade']);
+
+                                if (!empty($unidade['cod_ap'])) {
+                                    $resultado_final[$qtd_cidade]['orgaos'][$qtd_orgao]['unidades'][$qtd_unidade]['cod_ap'] = $unidade['cod_ap'];
+                                    $resultado_final[$qtd_cidade]['orgaos'][$qtd_orgao]['unidades'][$qtd_unidade]['nome_ap'] = $unidade['nome_ap'];
+                                } else {
+                                    $resultado_final[$qtd_cidade]['orgaos'][$qtd_orgao]['unidades'][$qtd_unidade]['cod_redemetro'] = $unidade['cod_redemetro'];
+                                    $resultado_final[$qtd_cidade]['orgaos'][$qtd_orgao]['unidades'][$qtd_unidade]['nome_redemetro'] = $unidade['nome_redemetro'];
+                                }
+                                ++$qtd_unidade;
+                            }
+                        }
+                        ++$qtd_orgao;
+                    }
+                    ++$qtd_cidade;
+                }
             }
         }
     }

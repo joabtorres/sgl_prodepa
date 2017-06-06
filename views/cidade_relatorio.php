@@ -20,7 +20,7 @@
 
                         <div class="panel panel-primary">
                             <div class="panel-heading">
-                                <p class="panel-title"><span class="font-bold">Cidade: </span> <?php echo $resultado['cidade_area_atuacao'] ?>  <small class="pull-right"><a href="<?php echo BASE_URL . '/editar/cidade/' . $resultado['cod_area_atuacao'] ?>"><i class="fa fa-pencil"></i></a> / <span data-toggle="modal"  data-target="#modal_cidade<?php echo $resultado['cod_area_atuacao'] ?>" class="cursor-pointer"><i class="fa fa-trash"></i></span></small> </p>
+                                <p class="panel-title"><span class="font-bold">Cidade: </span> <?php echo $resultado['cidade_area_atuacao'] ?> <?php if (isset($_SESSION['user_sgl']['nivel']) && !empty($_SESSION['user_sgl']['nivel'])): ?> <small class="pull-right"><a href="<?php echo BASE_URL . '/editar/cidade/' . $resultado['cod_area_atuacao'] ?>"><i class="fa fa-pencil"></i></a> / <span data-toggle="modal"  data-target="#modal_cidade<?php echo $resultado['cod_area_atuacao'] ?>" class="cursor-pointer"><i class="fa fa-trash"></i></span></small> <?php endif; ?></p>
                             </div>
                             <table class="table table-striped table-bordered table-hover table-condensed">
                                 <tr>
@@ -91,31 +91,33 @@
 <!-- /#conteudo_sistema -->
 
 <?php
-if (isset($cidades)  && is_array($cidades)) :
-    foreach ($cidades as $resultado) :
-        ?>
+if (isset($_SESSION['user_sgl']['nivel']) && !empty($_SESSION['user_sgl']['nivel'])):
+    if (isset($cidades) && is_array($cidades)) :
+        foreach ($cidades as $resultado) :
+            ?>
 
-        <!--MODAL - ESTRUTURA BÁSICA-->
-        <section class="modal fade" id="modal_cidade<?php echo $resultado['cod_area_atuacao'] ?>" tabindex="-1" role="dialog">
-            <article class="modal-dialog modal-md" role="document">
-                <section class="modal-content">
-                    <header class="modal-header bg-primary">
-                        <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <p class="panel-title">Deseja remover este registro?</p>
-                    </header>
-                    <article class="modal-body">
-                        <p class="text-justify"><?php echo '<b>Cidade: </b>'.$resultado['cidade_area_atuacao']. ' - <b>Código: </b>'.$resultado['cod_area_atuacao'] ?></p>
-                        <p class="text-justify text-danger"><span class="font-bold">OBS¹ : </span> Se você remove o registro <b class="font-bold"><?php echo $resultado['cidade_area_atuacao'] ?></b>, será removido todos os dados relacionados a este registro, por exemplo, unidades e tipos de conexões (Ap e Rede Metro). </p>
-                        <p class="text-ri"></p>
-                    </article>
-                    <footer class="modal-footer">
-                        <a class="btn btn-danger " href="<?php echo BASE_URL . '/excluir/cidade/' . $resultado['cod_area_atuacao'] ?>"> <i class="fa fa-trash"></i> Excluir</a> | 
-                        <button class="btn btn-default" type="button" data-dismiss="modal"><i class="fa fa-close"></i> Fechar</button>
-                    </footer>
-                </section>
-            </article>
-        </section>
-        <?php
-    endforeach;
+            <!--MODAL - ESTRUTURA BÁSICA-->
+            <section class="modal fade" id="modal_cidade<?php echo $resultado['cod_area_atuacao'] ?>" tabindex="-1" role="dialog">
+                <article class="modal-dialog modal-md" role="document">
+                    <section class="modal-content">
+                        <header class="modal-header bg-primary">
+                            <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <p class="panel-title">Deseja remover este registro?</p>
+                        </header>
+                        <article class="modal-body">
+                            <p class="text-justify"><?php echo '<b>Cidade: </b>' . $resultado['cidade_area_atuacao'] . ' - <b>Código: </b>' . $resultado['cod_area_atuacao'] ?></p>
+                            <p class="text-justify text-danger"><span class="font-bold">OBS¹ : </span> Se você remove o registro <b class="font-bold"><?php echo $resultado['cidade_area_atuacao'] ?></b>, será removido todos os dados relacionados a este registro, por exemplo, unidades e tipos de conexões (Ap e Rede Metro). </p>
+                            <p class="text-ri"></p>
+                        </article>
+                        <footer class="modal-footer">
+                            <a class="btn btn-danger " href="<?php echo BASE_URL . '/excluir/cidade/' . $resultado['cod_area_atuacao'] ?>"> <i class="fa fa-trash"></i> Excluir</a> | 
+                            <button class="btn btn-default" type="button" data-dismiss="modal"><i class="fa fa-close"></i> Fechar</button>
+                        </footer>
+                    </section>
+                </article>
+            </section>
+            <?php
+        endforeach;
+    endif;
 endif;
 ?>
