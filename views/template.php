@@ -20,8 +20,8 @@
         <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>;-->
         <script src="<?php echo BASE_URL ?>/assets/js/jquery-3.1.1.min.js"></script>
         <!--Select2 - select personalizados;-->
-        <link rel="stylesheet" href="<?php echo BASE_URL ?>/assets/css/select2.min.css">
-        <script src="<?php echo BASE_URL ?>/assets/js/select2.min"></script>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
     </head>
 
     <body onload="mostrarConteudo()">
@@ -76,7 +76,7 @@
                 <div class="collapse navbar-collapse navbar-ex1-collapse">
                     <nav class="side-nav">
                         <figure>
-                            <img src="<?php echo BASE_URL . '/' . $_SESSION['user_sgl']['imagem']; ?>" class="img-center img-responsive img-circle">
+                            <img src="<?php echo BASE_URL . '/' . $_SESSION['user_sgl']['imagem']; ?>" class="img-center img-circle">
                             <figcaption>
                                 <p class="text-center text-uppercase"><?php echo $_SESSION['user_sgl']['nome'] . ' ' . $_SESSION['user_sgl']['sobrenome'] ?></p>
                                 <p class="text-center"><?php echo $_SESSION['user_sgl']['cargo'] ?></p>

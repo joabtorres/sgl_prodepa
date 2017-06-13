@@ -102,16 +102,20 @@ if (isset($_SESSION['user_sgl']['nivel']) && !empty($_SESSION['user_sgl']['nivel
                     <section class="modal-content">
                         <header class="modal-header bg-primary">
                             <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                            <p class="panel-title">Deseja remover este registro?</p>
+                            <h4>Deseja remover este registro?</h4>
                         </header>
                         <article class="modal-body">
-                            <p class="text-justify"><?php echo '<b>Cidade: </b>' . $resultado['cidade_area_atuacao'] . ' - <b>Código: </b>' . $resultado['cod_area_atuacao'] ?></p>
-                            <p class="text-justify text-danger"><span class="font-bold">OBS¹ : </span> Se você remove o registro <b class="font-bold"><?php echo $resultado['cidade_area_atuacao'] ?></b>, será removido todos os dados relacionados a este registro, por exemplo, unidades e tipos de conexões (Ap e Rede Metro). </p>
+                            <ul class="list-unstyled">
+                                <li><b>Código: </b> <?php echo $resultado['cod_area_atuacao'] ?>;</li>
+                                <li><b>Cidade:</b>  <?php echo $resultado['cidade_area_atuacao'] ?>.</li>
+                            </ul>
+                            
+                            <p class="text-justify text-danger"><span class="font-bold">OBS : </span> Se você remove o registro <b class="font-bold"><?php echo $resultado['cidade_area_atuacao'] ?></b>, será removido todos os dados relacionados a este registro, por exemplo, unidades e tipos de conexões (Ap e Rede Metro). </p>
                             <p class="text-ri"></p>
                         </article>
                         <footer class="modal-footer">
-                            <a class="btn btn-danger " href="<?php echo BASE_URL . '/excluir/cidade/' . $resultado['cod_area_atuacao'] ?>"> <i class="fa fa-trash"></i> Excluir</a> | 
-                            <button class="btn btn-default" type="button" data-dismiss="modal"><i class="fa fa-close"></i> Fechar</button>
+                            <a class="btn btn-danger pull-left" href="<?php echo BASE_URL . '/excluir/cidade/' . $resultado['cod_area_atuacao'] ?>"> <i class="fa fa-trash"></i> Excluir</a>
+                            <button class="btn btn-default " type="button" data-dismiss="modal"><i class="fa fa-close"></i> Fechar</button>
                         </footer>
                     </section>
                 </article>

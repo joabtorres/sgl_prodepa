@@ -147,6 +147,7 @@ class usuario extends model {
             //se ela é um array $_FILE
             if (is_array($data['img_usuario'])) {
                 $sql->bindValue(':img_usuario', $this->save_image($data['img_usuario']));
+                $this->delete_image($data['img_atual']);
                 //se não mudou de foto
             } else if (!isset($data['delete_img']) && !is_array($data['img_usuario'])) {
                 $sql->bindValue(':img_usuario', $data['img_usuario']);
@@ -177,7 +178,13 @@ class usuario extends model {
      * @author Joab Torres <joabtorres1508@gmail.com>
      */
     public function delete($data) {
-        
+        try {
+            $sql = $this->db->prepare("DELETE FROM sgl_usuario WHERE cod_usuario=:cod_usuario");
+            $sql->bindValue(':cod_usuario', $data['cod_usuario']);
+            $sql->execute();
+        } catch (PDOException $ex) {
+            
+        }
     }
 
     /**
@@ -260,22 +267,23 @@ class usuario extends model {
         if ($imagem['extensao'] == 'jpg' || $imagem['extensao'] == 'jpeg' || $imagem['extensao'] == 'png') {
 
             list($larguraOriginal, $alturaOriginal) = getimagesize($imagem['temp']);
-            $ratio = $larguraOriginal / $alturaOriginal;
-            if ($largura / $altura > $ratio) {
-                $largura = $altura * $ratio;
-            } else {
-                $altura = $largura / $ratio;
-            }
+
+
+            $ratio = max($largura / $larguraOriginal, $altura / $alturaOriginal);
+            $alturaOriginal = $altura / $ratio;
+            $x = ($larguraOriginal - $largura / $ratio) / 2;
+            $larguraOriginal = $largura / $ratio;
+
 
             $imagem_final = imagecreatetruecolor($largura, $altura);
 
             if ($imagem['extensao'] == 'jpg' || $imagem['extensao'] == 'jpeg') {
                 $imagem_original = imagecreatefromjpeg($imagem['temp']);
-                imagecopyresampled($imagem_final, $imagem_original, 0, 0, 0, 0, $largura, $altura, $larguraOriginal, $alturaOriginal);
+                imagecopyresampled($imagem_final, $imagem_original, 0, 0, $x, 0, $largura, $altura, $larguraOriginal, $alturaOriginal);
                 imagejpeg($imagem_final, $imagem['diretorio'] . "/" . $imagem['name'], 90);
             } else if ($imagem['extensao'] == 'png') {
                 $imagem_original = imagecreatefrompng($imagem['temp']);
-                imagecopyresampled($imagem_final, $imagem_original, 0, 0, 0, 0, $largura, $altura, $larguraOriginal, $alturaOriginal);
+                imagecopyresampled($imagem_final, $imagem_original, 0, 0, $x, 0, $largura, $altura, $larguraOriginal, $alturaOriginal);
                 imagepng($imagem_final, $imagem['diretorio'] . "/" . $imagem['name']);
             }
             return $imagem['diretorio'] . "/" . $imagem['name'];

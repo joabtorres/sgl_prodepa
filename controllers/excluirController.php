@@ -160,7 +160,7 @@ class excluirController extends controller {
             $unidadeModel = new unidade();
             $historicoModel = new historico();
 
-            $result_unidade = $unidadeModel->read("SELECT * FROM sgl_unidade WHERE cod_orgao=:cod_orgao AND cod_cidade=:cod_cidade", array('cod_orgao' => addslashes(trim($cod_orgao)), 'cod_cidade'=> addslashes(trim($cod_cidade))));
+            $result_unidade = $unidadeModel->read("SELECT * FROM sgl_unidade WHERE cod_orgao=:cod_orgao AND cod_cidade=:cod_cidade", array('cod_orgao' => addslashes(trim($cod_orgao)), 'cod_cidade' => addslashes(trim($cod_cidade))));
             if (isset($result_unidade) && is_array($result_unidade)) {
                 foreach ($result_unidade as $unidade) {
 
@@ -349,7 +349,7 @@ class excluirController extends controller {
             $unidadeModel = new unidade();
             $historicoModel = new historico();
 
-            $result_unidade = $unidadeModel->read("SELECT * FROM sgl_unidade WHERE cod_undiade", array('cod' => addslashes(trim($cod_unidade))));
+            $result_unidade = $unidadeModel->read("SELECT * FROM sgl_unidade WHERE cod_unidade=:cod", array('cod' => addslashes(trim($cod_unidade))));
             if (isset($result_unidade) && is_array($result_unidade)) {
                 foreach ($result_unidade as $unidade) {
 
@@ -389,9 +389,9 @@ class excluirController extends controller {
                     $unidadeModel->delete('DELETE FROM sgl_unidade WHERE cod_unidade=:cod', array('cod' => $unidade['cod_unidade']));
                 }
             }
-            header("Location: /relatorio/redemetro");
+            header("Location: /relatorio/unidades");
         } else {
-            header("Location: /relatorio/redemetro");
+            header("Location: /relatorio/unidades");
         }
     }
 
@@ -402,9 +402,24 @@ class excluirController extends controller {
      * @author Joab Torres <joabtorres1508@gmail.com>
      */
     public function usuario($cod_usuario) {
-         if ($this->checkUserPattern() && $this->checkUserAdministrator()) {
-             
-         }
+        if ($this->checkUserPattern() && $this->checkUserAdministrator()) {
+            $usuarioModel = new usuario();
+            $historicoModel = new historico();
+            $resultUsuario = $usuarioModel->read("SELECT * FROM sgl_usuario WHERE cod_usuario=:cod", array('cod' => addslashes(trim($cod_usuario))));
+            if ($usuarioModel->getNumRows() && is_array($resultUsuario)) {
+                foreach ($resultUsuario as $usuario) {
+                    $result_historico = $historicoModel->read("SELECT * FROM sgl_unidade_historico WHERE cod_usuario=:cod", array('cod' => $usuario['cod_usuario']));
+                    if (isset($result_historico) && is_array($result_historico)) {
+                        foreach ($result_historico as $historico) {
+                            //remove registro historico
+                            $historicoModel->delete("DELETE FROM sgl_unidade_historico WHERE cod_historico=:cod", array('cod' => $historico['cod_historico']));
+                        }
+                    }
+                }
+                $usuarioModel->delete(array('cod_usuario' => $usuario['cod_usuario']));
+            }
+            header("Location: /usuario/index");
+        }
     }
 
     /**
@@ -414,7 +429,7 @@ class excluirController extends controller {
      * @author Joab Torres <joabtorres1508@gmail.com>
      */
     public function historico($cod_historico) {
-         if ($this->checkUserPattern() && $this->checkUserAdministrator()) {
+        if ($this->checkUserPattern() && $this->checkUserAdministrator()) {
             $historicoModel = new historico();
             $result = $historicoModel->read("SELECT * FROM sgl_unidade_historico WHERE cod_historico=:cod", array('cod' => addslashes(trim($cod_historico))));
             $result = $result[0];

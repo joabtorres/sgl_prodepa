@@ -120,7 +120,7 @@ class cadastrarController extends controller {
             $dados['cidades'] = $cidadeModel->read("SELECT * FROM sgl_cidade_area_atuacao ORDER BY cidade_area_atuacao ASC;", array());
 
             if (isset($_POST['nSalvar']) && !empty($_POST['nSalvar'])) {
-                if (!empty($_POST['ncadNome']) || !empty($_POST['ncadBanda']) || !empty($_POST['ncadCCode']) || !empty($_POST['ncadIP'])) {
+                if (!empty($_POST['ncadNome']) && !empty($_POST['ncadBanda']) && !empty($_POST['ncadCCode']) && !empty($_POST['ncadIP'])) {
                     //array que armazena os dados do formulário
                     $ap = array("cidade" => addslashes($_POST['ncadCidade']), "nome" => addslashes(strtoupper($_POST['ncadNome'])), "banda" => addslashes($_POST['ncadBanda']), "color_code" => addslashes($_POST['ncadCCode']), "ip" => addslashes($_POST['ncadIP']));
                     //Verifica se já está cadastrado
@@ -158,7 +158,7 @@ class cadastrarController extends controller {
             $dados['cidades'] = $cidadeModel->read("SELECT * FROM sgl_cidade_area_atuacao ORDER BY cidade_area_atuacao ASC;", array());
 
             if (isset($_POST['nSalvar']) && !empty($_POST['nSalvar'])) {
-                if (!empty($_POST['ncadNome']) || !empty($_POST['ncadEstensao'])) {
+                if (!empty($_POST['ncadNome'])) {
                     //array que armazena os dados do formulário
                     $redemetro = array("nome" => addslashes(strtoupper($_POST['ncadNome'])), "estensao" => addslashes($_POST['ncadEstensao']), "cidade" => addslashes($_POST['ncadCidade']));
                     //Verifica se já está cadastrado

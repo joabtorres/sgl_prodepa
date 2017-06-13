@@ -544,6 +544,9 @@ class relatorioController extends controller {
                         ++$qtd_cidade;
                     }
                 }
+                $dados['msg_result'] = true;
+            }else{
+                 $dados['msg_result'] = false;
             }
 
             $this->loadTemplate($view, $dados);
@@ -563,6 +566,7 @@ class relatorioController extends controller {
             if (isset($_POST['nSerachCampo']) && !empty($_POST['nSerachCampo'])) {
                 $_SESSION['sgl']['buscarapida'] = array('finalidade' => addslashes($_POST['nSearchFinalidade']), 'campo' => addslashes($_POST['nSerachCampo']));
             }
+            
             if ($_SESSION['sgl']['buscarapida']) {
                 if ($_SESSION['sgl']['buscarapida']['finalidade'] == 'Unidade') {
                     $view = "unidade_relatorio";

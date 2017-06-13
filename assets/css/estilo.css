@@ -1,4 +1,5 @@
 @charset "UTF-8";
+
 @font-face {
     font-family: "ubuntu-regular";
     src: url(../fonts/ubuntu-regular.ttf);
@@ -9,6 +10,7 @@
 .h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6, p, a, form, label, input[type='text'], input[type='email'], input[type='number'], textarea, body {
     /*font-family: "ubuntu-regular", sans-serif;*/
 }
+
 form label{
     font-weight: normal!important;
 }
@@ -51,9 +53,6 @@ form label{
     background-color: rgb(50, 179, 51);
     color: white;
 }
-.jumbotron{background-color: #337AB7; color: white; padding-top:10px; padding-bottom: 10px;}
-.jumbotron>ul>li{font-size: 17px;}
-
 .title_sublinha{
     border-bottom: 1px solid #cecece;
 }
@@ -267,10 +266,10 @@ form label{
     margin-bottom: 20px;
 }
 .side-nav>figure>img{
-    border: 8px solid #fff;
+    border: 5px solid #fff;
 }
 .side-nav>figure>figcaption{padding-top:10px;}
-.side-nav>figure>figcaption>p{line-height: 10px;text-transform: uppercase;}
+.side-nav>figure>figcaption>p{line-height: 10px;text-transform: uppercase; font-size: 12px;}
 
 .navbar-inverse .navbar-nav > .active > a, .navbar-inverse .navbar-nav > .active > a:focus, .navbar-inverse .navbar-nav > .active > a:hover{
     outline: none;

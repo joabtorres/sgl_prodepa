@@ -190,16 +190,19 @@ if (isset($_SESSION['user_sgl']['nivel']) && !empty($_SESSION['user_sgl']['nivel
                                     <section class="modal-content">
                                         <header class="modal-header bg-primary">
                                             <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                            <p class="panel-title">Deseja remover este registro?</p>
+                                            <h4 >Deseja remover este registro?</h4>
                                         </header>
                                         <article class="modal-body">
-                                            <p ><?php echo '<b>Unidade: </b>' . $unidades['nome_unidade'] . ' - <b>Código: </b>' . $unidades['cod_unidade']; ?>;</p>
+                                            <ul class="list-unstyled">
+                                                <li><b>Código: </b> <?php echo $unidades['cod_unidade'] ?>;</li>
+                                                <li><b>Unidade: </b> <?php echo $unidades['nome_unidade'] ?>.</li>
+                                            </ul>
                                             <p class=" text-danger"><span class="font-bold">OBS¹ : </span> Se você remove a unidade:  <b class="font-bold"><?php echo $unidades['nome_unidade'] ?></b>, será removido todos os respectivos dados como, por exemplo, endereço, contato e históricos.</p>
                                             <p class="text-ri"></p>
                                         </article>
                                         <footer class="modal-footer">
-                                            <a class="btn btn-danger " href="<?php echo BASE_URL . '/excluir/unidade/' . $unidades['cod_unidade'] ?>"> <i class="fa fa-trash"></i> Excluir</a> | 
-                                            <button class="btn btn-default" type="button" data-dismiss="modal"><i class="fa fa-close"></i> Fechar</button>
+                                            <a class="btn btn-danger pull-left" href="<?php echo BASE_URL . '/excluir/unidade/' . $unidades['cod_unidade'] ?>"> <i class="fa fa-trash"></i> Excluir</a>
+                                            <button class="btn btn-default " type="button" data-dismiss="modal"><i class="fa fa-close"></i> Fechar</button>
                                         </footer>
                                     </section>
                                 </article>
@@ -221,15 +224,19 @@ if (isset($_SESSION['user_sgl']['nivel']) && !empty($_SESSION['user_sgl']['nivel
                                 <section class="modal-content">
                                     <header class="modal-header bg-primary">
                                         <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                        <p class="panel-title">Deseja remover este registro?</p>
+                                        <h4 >Deseja remover este registro?</h4>
                                     </header>
                                     <article class="modal-body">
-                                        <p class="text-justify"><?php echo '<b>AP: </b>' . $redemetros['nome_redemetro'] . ' - <b>Código: </b>' . $redemetros['cod_redemetro'] . ' - <b> Unidade(s): </b> ' . count($redemetros['unidades']) ?>;</p>
-                                        <p class="text-justify text-danger"><span class="font-bold">OBS¹ : </span> Se você remove a Rede Metro:  <b class="font-bold"><?php echo $redemetros['nome_redemetro'] ?></b>, será removido todas as unidades cadastradas e seus respectivos históricos.</p>
-                                        <p class="text-ri"></p>
+                                        <ul class="list-unstyled">
+                                            <li><b>Código: </b> <?php echo $redemetros['cod_redemetro'] ?>;</li>
+                                            <li><b>Rede: </b> <?php echo $redemetros['nome_redemetro'] ?>;</li>
+                                            <li><b>Unidade(s): </b> <?php echo count($redemetros['unidades']) ?>.</li>
+                                        </ul>
+                                        <p class="text-justify text-danger"><span class="font-bold">OBS : </span> Se você remove a Rede Metro:  <b class="font-bold"><?php echo $redemetros['nome_redemetro'] ?></b>, será removido todas as unidades cadastradas e seus respectivos históricos.</p>
+                                        
                                     </article>
                                     <footer class="modal-footer">
-                                        <a class="btn btn-danger " href="<?php echo BASE_URL . '/excluir/redemetro/' . $redemetros['cod_redemetro'] ?>"> <i class="fa fa-trash"></i> Excluir</a> | 
+                                        <a class="btn btn-danger pull-left" href="<?php echo BASE_URL . '/excluir/redemetro/' . $redemetros['cod_redemetro'] ?>"> <i class="fa fa-trash"></i> Excluir</a> 
                                         <button class="btn btn-default" type="button" data-dismiss="modal"><i class="fa fa-close"></i> Fechar</button>
                                     </footer>
                                 </section>

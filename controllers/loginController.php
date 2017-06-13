@@ -60,17 +60,20 @@ class loginController extends controller {
             } else {
                 $dados['erro']['msg'] = '<i class="fa fa-info-circle" aria-hidden="true"></i> O Campo Usuário ou Senha não está preenchido!';
             }
-
         }
+
+        $this->loadView($view, $dados);
+
         //criando nova senha
         if (isset($_POST['nEnviar'])) {
             $email = addslashes(trim($_POST['nEmail']));
-            if ($this->validar_email($email)) {
-                $this->recuperar($email);
-                $_POST = null;
+            $_POST = null;
+            if ($this->validar_email($email) && $this->recuperar($email)) {
+                echo '<script>$("#modal_confirmacao_email").modal();</script>';
+            } else {
+                echo '<script>$("#modal_invalido_email").modal();</script>';
             }
         }
-        $this->loadView($view, $dados);
     }
 
     /**
@@ -122,7 +125,6 @@ class loginController extends controller {
      * @access private
      * @author Joab Torres <joabtorres1508@gmail.com>
      */
-    
     private function validar_email($email) {
         if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
             list($usuario, $dominio) = explode("@", $email);

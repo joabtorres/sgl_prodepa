@@ -43,7 +43,7 @@
             </div>
             <!--thumbnal usuario-->
             <?php
-            if (isset($usuarios)) {
+            if (isset($usuarios) && is_array($usuarios)) {
                 foreach ($usuarios as $usuario):
                     ?>
                     <div class="col-sm-6 col-md-4 col-lg-4">                            
@@ -81,7 +81,7 @@
 <!-- /#conteudo_sistema -->
 <?php
 if (isset($_SESSION['user_sgl']['nivel']) && !empty($_SESSION['user_sgl']['nivel'])):
-    if (isset($usuarios)) :
+    if (isset($usuarios) && is_array($usuarios)) :
         foreach ($usuarios as $usuario):
             ?>
             <!--MODAL - ESTRUTURA BÁSICA-->
@@ -90,7 +90,7 @@ if (isset($_SESSION['user_sgl']['nivel']) && !empty($_SESSION['user_sgl']['nivel
                     <section class="modal-content">
                         <header class="modal-header bg-primary">
                             <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                            <h3>Esqueceu a senha?</h3>
+                            <h4>Esqueceu a senha?</h4>
                         </header>
                         <article class="modal-body">
                             <ul class="list-unstyled">
@@ -103,7 +103,7 @@ if (isset($_SESSION['user_sgl']['nivel']) && !empty($_SESSION['user_sgl']['nivel
                             </ul>
                             <form method="POST">
                                 <input type="hidden" name="nEmail" value="<?php echo $usuario['email_usuario'] ?>"/>
-                                <button type="submit" value="Enviar" name="nEnviar" class=" btn btn-success"><i class="fa fa-check-circle" aria-hidden="true"></i> Enviar email de verificação</button>
+                                <button type="submit" value="Enviar" name="nEnviar" class=" btn btn-success"><i class="fa fa-check-circle" aria-hidden="true"></i> Enviar nova senha</button>
                             </form>
                         </article>
                         <footer class="modal-footer">
@@ -118,7 +118,7 @@ if (isset($_SESSION['user_sgl']['nivel']) && !empty($_SESSION['user_sgl']['nivel
                     <section class="modal-content">
                         <header class="modal-header bg-primary">
                             <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                            <h3>Deseja remover este registro?</h3>
+                            <h4>Deseja remover este registro?</h4>
                         </header>
                         <article class="modal-body">
                             <ul class="list-unstyled">
@@ -129,11 +129,11 @@ if (isset($_SESSION['user_sgl']['nivel']) && !empty($_SESSION['user_sgl']['nivel
                                     <li><b class="font-bold">Cargo: </b> <?php echo $usuario['cargo_usuario'] ?>.</li>
                                 <?php endif; ?>
                             </ul>
-                            <p class="text-justify text-danger"><span class="font-bold">OBS¹ : </span> Se você remove este usuário, será removido não só o usuário, como também todos históricos registrados por este usuário.</p>
+                            <p class="text-justify text-danger"><span class="font-bold">OBS : </span> Se você remove este usuário, será removido não só o usuário, como também todos históricos registrados por este usuário.</p>
 
                         </article>
                         <footer class="modal-footer">
-                            <a class="btn btn-danger " href="<?php echo BASE_URL . '/excluir/usuario/' . $usuario['cod_usuario'] ?>"> <i class="fa fa-trash"></i> Excluir</a> | 
+                            <a class="btn btn-danger pull-left" href="<?php echo BASE_URL . '/excluir/usuario/' . $usuario['cod_usuario'] ?>"> <i class="fa fa-trash"></i> Excluir</a> 
                             <button class="btn btn-default" type="button" data-dismiss="modal"><i class="fa fa-close"></i> Fechar</button>
                         </footer>
                     </section>
@@ -144,3 +144,39 @@ if (isset($_SESSION['user_sgl']['nivel']) && !empty($_SESSION['user_sgl']['nivel
     endif;
 endif;
 ?>
+
+<!--div model-->
+<div class="modal fade" id="modal_confirmacao_email" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-primary">
+                <h4>Confirmação de e-mail</h4>
+            </div>
+            <div class="modal-body">
+                <p>Será enviado um e-mail com uma nova senha.</p>
+            </div>
+            <div class="modal-footer">
+                <button data-dismiss="modal" class="btn btn-default pull-right"><i class="fa fa-close"></i> Fechar</button>
+            </div>
+        </div>
+    </div>
+</div>       
+<!--/div model-->
+
+<!--div model-->
+<div class="modal fade" id="modal_invalido_email" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-primary">
+                <h4>E-mail Inválido</h4>
+            </div>
+            <div class="modal-body">
+                <p>Você informou um e-mail inválido.</p>
+            </div>
+            <div class="modal-footer">
+                <button data-dismiss="modal" class="btn btn-default pull-right"><i class="fa fa-close"></i> Fechar</button>
+            </div>
+        </div>
+    </div>
+</div>       
+<!--/div model-->

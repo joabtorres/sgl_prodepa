@@ -95,16 +95,18 @@
                                 <div class="col-md-4"><p><span class="text-primary">Nome da Rede Metro: </span> <?php echo isset($resultado_unidade['nome_redemetro']) ? $resultado_unidade['nome_redemetro'] : ""; ?></p></div >
                             <?php } ?>
                         </div>
-                        <div class="row">
-                            <div class="clear col-md-12">
-                                <hr class="no-margin">
-                                <p class="font-stronge text-primary">Acesso Rápido</p>
-                                <p>Gráfico no Zabbix: <a href="<?php echo isset($resultado_unidade['url_zabbix_unidade']) ? $resultado_unidade['url_zabbix_unidade'] : ""; ?>" target="_blank">Clique aqui!</a></p>
-                                <?php if (isset($resultado_unidade['cod_ap']) && !empty($resultado_unidade['cod_ap'])) : ?>
-                                    <p>Rádio: <a href="http://<?php echo isset($resultado_unidade['ip_unidade']) ? $resultado_unidade['ip_unidade'] : ""; ?>" target="_blank">Clique aqui!</a></p>
-                                <?php endif; ?>
+                        <?php if (!empty($resultado_unidade['url_zabbix_unidade']) || !empty($resultado_unidade['cod_ap'])): ?>
+                            <div class="row">
+                                <div class="clear col-md-12">
+                                    <hr class="no-margin">
+                                    <p class="font-stronge text-primary">Acesso Rápido</p>
+                                    <?php if (!empty($resultado_unidade['url_zabbix_unidade'])): ?><p>Gráfico no Zabbix: <a href="<?php echo isset($resultado_unidade['url_zabbix_unidade']) ? $resultado_unidade['url_zabbix_unidade'] : ""; ?>" target="_blank">Clique aqui!</a></p> <?php endif; ?>
+                                    <?php if (isset($resultado_unidade['cod_ap']) && !empty($resultado_unidade['cod_ap'])) : ?>
+                                        <p>Rádio: <a href="http://<?php echo isset($resultado_unidade['ip_unidade']) ? $resultado_unidade['ip_unidade'] : ""; ?>" target="_blank">Clique aqui!</a></p>
+                                    <?php endif; ?>
+                                </div>
                             </div>
-                        </div>
+                        <?php endif; ?>
                     </article>
                 </div> <!--panel conexao-->
             </div><!-- fim da col-xs-12 -->
@@ -117,7 +119,7 @@
                         <article class="panel-body">
                             <div class="row">
                                 <div class="col-md-8"><span class="text-primary">Endereco: </span><br> <?php echo $resultado_unidade['endereco']['logradouro_endereco'] . ', ' . $resultado_unidade['endereco']['numero_endereco'] . ', ' . $resultado_unidade['endereco']['bairro_endereco'] . ', ' . $resultado_unidade['endereco']['complemento_endereco'] . ' - ' . $resultado_unidade['cidade_area_atuacao'] ?> - PA </div>
-                                <div class="col-md-4"><span class="text-primary">GPS: </span><br> <?php echo isset($resultado_unidade['endereco']['gps_endereco']) ? $resultado_unidade['endereco']['gps_endereco'] : ""; ?> </div>
+                                <?php if (isset($resultado_unidade['endereco']['gps_endereco']) && !empty($resultado_unidade['endereco']['gps_endereco'])) : ?><div class="col-md-4"><span class="text-primary">GPS: </span><br> <?php echo isset($resultado_unidade['endereco']['gps_endereco']) ? $resultado_unidade['endereco']['gps_endereco'] : ""; ?> </div><?php endif; ?>
                                 <div class=" clear col-xs-12">
                                     <div id="view-mapa-unidade"></div>
                                     <!-- CHAMANDO GOOGLE MAPS API -->
@@ -241,17 +243,17 @@ if (!empty($_SESSION['user_sgl']['nivel']) && $_SESSION['user_sgl']['nivel']) :
                         </header>
                         <article class="modal-body">
                             <ul class="list-unstyled">
-                                <li><b>Código do Histórico: </b><?php echo $historicos['cod_historico'] ?>;</li>
-                                <li><b>Data do Histórico: </b><?php echo $historicos['data_historico'] ?>;</li>
-                                <li><b>Descrição do Histórico: </b> <?php echo $historicos['descricao_historico'] ?>;</li>
-                                <li><b>Usuário do Histórico: </b><?php echo $historicos['usuario'] ?>.</li>
+                                <li><b>Código: </b><?php echo $historicos['cod_historico'] ?>;</li>
+                                <li><b>Data: </b><?php echo $historicos['data_historico'] ?>;</li>
+                                <li><b>Usuário: </b><?php echo $historicos['usuario'] ?>.</li>
+                                <li><b> TDESK / Descrição: </b> <br><?php echo $historicos['descricao_historico'] ?>;</li>
                             </ul>
 
-                            <p class="text-justify text-danger"><span class="font-bold">OBS¹ : </span> Se remove este registro, o mesmo deixará de existe no sistema.</p>
+                            <p class="text-justify text-danger"><span class="font-bold">OBS : </span> Se remove este registro, o mesmo deixará de existe no sistema.</p>
                             <p class="text-ri"></p>
                         </article>
                         <footer class="modal-footer">
-                            <a class="btn btn-danger " href="<?php echo BASE_URL . '/excluir/historico/' . $historicos['cod_historico'] ?>" title="Excluir"> <i class="fa fa-trash"></i> Excluir</a> | 
+                            <a class="btn btn-danger pull-left" href="<?php echo BASE_URL . '/excluir/historico/' . $historicos['cod_historico'] ?>" title="Excluir"> <i class="fa fa-trash"></i> Excluir</a> 
                             <button class="btn btn-default" type="button" data-dismiss="modal"><i class="fa fa-close"></i> Fechar</button>
                         </footer>
                     </section>

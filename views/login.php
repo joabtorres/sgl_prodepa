@@ -33,15 +33,15 @@
                                     <div class="form-group">
                                         <label for="iSerachUsuario">Usuário:</label>
                                         <div class="input-group">
-                                            <span class="input-group-addon"><i class="fa fa-envelope-o fa-fw"></i></span>
-                                            <input type="text" id="iSerachUsuario" name="nSerachUsuario" class="form-control" autofocus placeholder="E-mail / Usuário">
+                                            <span class="input-group-addon"><i class="fa fa-user fa-fw"></i></span>
+                                            <input type="text" id="iSerachUsuario" name="nSerachUsuario" class="form-control" autofocus placeholder="Username / E-mail">
                                         </div>                                    
                                     </div>
                                     <div class="form-group">
                                         <label for="iSearchSenha">Senha:</label>
                                         <div class="input-group">
                                             <span class="input-group-addon"><i class="fa fa-key fa-fw"></i></span>
-                                            <input type="password" id="iSearchSenha" name="nSearchSenha" class="form-control">
+                                            <input type="password" id="iSearchSenha" name="nSearchSenha" class="form-control" placeholder="Password">
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -61,11 +61,11 @@
                 </div>
             </div>
             <!--  MODEL -->
-            <div class="modal fade modal-search-email" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+            <div class="modal fade modal-search-email" tabindex="-1" role="dialog" >
                 <section class="modal-dialog modal-lg" role="document">
                     <article class="modal-content">
                         <header class="modal-header bg-primary">
-                            <h3><b>Esqueceu a senha?</b></h3>
+                            <h4>Esqueceu a senha?</h4>
                         </header>
                         <section class="modal-body">
 
@@ -80,23 +80,60 @@
                                             <div class="form-group">
                                                 <div class="input-group">
                                                     <span class="input-group-addon"> <i class="fa fa-envelope-o fa-fw"></i></span>
-                                                    <input type="email" name="nEmail" class="form-control" id="searchEmail" placeholder="Endereço de email">
+                                                    <input type="email" name="nEmail" class="form-control" id="searchEmail" placeholder="Endereço de e-mail">
                                                 </div>
                                             </div>
-                                            <div class="form-group"><button type="submit" value="Enviar" name="nEnviar" class="btn btn-success"><i class="fa fa-check-circle" aria-hidden="true"></i> Enviar email de verificação</button</div>
+                                            <div class="form-group"><button type="submit" value="Enviar" name="nEnviar" class="btn btn-success"><i class="fa fa-check-circle" aria-hidden="true"></i> Enviar nova senha</button</div>
                                         </form>
                                     </div>
                                 </div>
                             </div>
                         </section>
                         <footer class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i> Fechar</button>
+                            <button type="button" class="btn btn-default pull-right" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i> Fechar</button>
                         </footer>
                     </article>
                 </section>
             </div>
         </div>
         <!-- FIM MODEL -->
+        
+        <!--div model-->
+        <div class="modal fade" id="modal_confirmacao_email" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header bg-primary">
+                        <h4>Confirmação de e-mail</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Você receberá um e-mail com uma nova senha. Confira sua caixa de entrada.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button data-dismiss="modal" class="btn btn-default pull-right"><i class="fa fa-close"></i> Fechar</button>
+                    </div>
+                </div>
+            </div>
+        </div>       
+        <!--/div model-->
+        
+        <!--div model-->
+        <div class="modal fade" id="modal_invalido_email" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header bg-primary">
+                        <h4>E-mail Inválido</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Você informou um e-mail inválido.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button data-dismiss="modal" class="btn btn-default pull-right"><i class="fa fa-close"></i> Fechar</button>
+                    </div>
+                </div>
+            </div>
+        </div>       
+        <!--/div model-->
+        
         <!-- jQuery (obrigatório para plugins JavaScript do Bootstrap) -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
         <!-- Inclui todos os plugins compilados (abaixo), ou inclua arquivos separadados se necessário -->

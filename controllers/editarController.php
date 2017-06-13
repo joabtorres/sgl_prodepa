@@ -541,6 +541,7 @@ class editarController extends controller {
                     //imagem
                     if (isset($_FILES['tImagem-1']) && $_FILES['tImagem-1']['error'] == 0) {
                         $usuario['img_usuario'] = $_FILES['tImagem-1'];
+                        $usuario['img_atual'] = $result_usuario['img_usuario'];
                     } else if (!empty($_POST['nImagem-user'])) {
                         $usuario['img_usuario'] = addslashes($_POST['nImagem-user']);
                     } else {

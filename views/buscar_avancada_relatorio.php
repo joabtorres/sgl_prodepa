@@ -16,7 +16,8 @@
                     <div class="panel-heading">
                         <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne" title="Exibir/Ocultar">
                             <span class="pull-right"><i class="fa fa-plus-square"></i></span>
-                            <p class="panel-title"><i class="fa fa-list"></i> Relatório Avançado </p></a>
+                            <p class="panel-title"><i class="fa fa-list"></i> Relatório Avançado </p>
+                        </a>
                     </div>
                     <div id="collapseOne" class="panel-collapse in collapse" role="tabpanel" aria-labelledby="headingOne">
                         <div class="panel-body">
@@ -83,16 +84,10 @@
                                         </select>
                                     </div>
 
-                                    <div class="col-sm-6 col-md-6 col-lg-6 form-group">
-                                        <label>Modo de Exibição:</label><br/>
-                                        <label><input type="radio" name="nModoExibicao" value="Resumido" checked/> Resumido</label>
-                                        <!--<label><input type="radio" name="nModoExibicao" value="Completo"/> Completo</label>-->
-                                    </div>
-
-                                    <div class="col-sm-6 col-md-6 col-lg-6 form-group">
+                                    <div class="col-sm-12 form-group">
                                         <label>Gera PDF:</label><br/>
-                                        <label><input type="radio" name="nPDF" value="Sim" checked/> Sim</label>
-                                        <label><input type="radio" name="nPDF" value="Não"/> Não</label>
+                                        <label><input type="radio" name="nPDF" value="Não" checked/> Não</label>
+                                        <label><input type="radio" name="nPDF" value="Sim" disabled="true"/> Sim</label>
                                     </div>
                                     <div class="col-sm-12 col-md-12 col-lg-12 form-group">
                                         <button type="submit" class="btn btn-primary" name="nBuscar" value="Buscar"><span class="glyphicon glyphicon-search"></span> Buscar</button>
@@ -168,10 +163,12 @@
                 <!--fim COL-SM-12 COL-MD-12 COL-LG-12-->
                 <?php
             } else {
-                echo '<div class="col-xs-12"><div class="alert alert-danger alert-dismissible fade in" role="alert">
+
+
+                echo (isset($msg_result) && $msg_result == true) ? '<div class="col-xs-12"><div class="alert alert-danger alert-dismissible fade in" role="alert">
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
                     Desculpe, não foi possível localizar nenhum registro !
-            </div></div>';
+                    </div></div>' : '';
             }
             ?>
         </div>

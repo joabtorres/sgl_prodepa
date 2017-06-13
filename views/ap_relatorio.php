@@ -190,15 +190,18 @@ if (isset($resultadoView)) {
                                 <section class="modal-content">
                                     <header class="modal-header bg-primary">
                                         <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                        <p class="panel-title">Deseja remover este registro?</p>
+                                        <h4 >Deseja remover este registro?</h4>
                                     </header>
                                     <article class="modal-body">
-                                        <p ><?php echo '<b>Unidade: </b>' . $unidades['nome_unidade'] . ' - <b>Código: </b>' . $unidades['cod_unidade']; ?>;</p>
-                                        <p class="text-danger"><span class="font-bold">OBS¹ : </span> Se você remove a unidade, será removido todos os respectivos dados como, por exemplo, endereço, contrato, contato e históricos.</p>
+                                        <ul class="list-unstyled">
+                                            <li><b>Código: </b> <?php echo $unidades['cod_unidade'] ?>;</li>
+                                            <li><b>Unidade: </b> <?php echo $unidades['nome_unidade'] ?>.</li>
+                                        </ul>
+                                        <p class="text-danger"><span class="font-bold">OBS : </span> Se você remove a unidade, será removido todos os respectivos dados como, por exemplo, endereço, contrato, contato e históricos.</p>
                                     </article>
                                     <footer class="modal-footer">
-                                        <a class="btn btn-danger " href="<?php echo BASE_URL . '/excluir/unidade/' . $unidades['cod_unidade'] ?>"> <i class="fa fa-trash"></i> Excluir</a> | 
-                                        <button class="btn btn-default" type="button" data-dismiss="modal"><i class="fa fa-close"></i> Fechar</button>
+                                        <a class="btn btn-danger pull-left" href="<?php echo BASE_URL . '/excluir/unidade/' . $unidades['cod_unidade'] ?>"> <i class="fa fa-trash"></i> Excluir</a>
+                                        <button class="btn btn-default " type="button" data-dismiss="modal"><i class="fa fa-close"></i> Fechar</button>
                                     </footer>
                                 </section>
                             </article>
@@ -220,15 +223,19 @@ if (isset($resultadoView)) {
                             <section class="modal-content">
                                 <header class="modal-header bg-primary">
                                     <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                    <p class="panel-title">Deseja remover este registro?</p>
+                                    <h4>Deseja remover este registro?</h4>
                                 </header>
                                 <article class="modal-body">
-                                    <p ><?php echo '<b>AP: </b>' . $aps['nome_ap'] . ' - <b>Código: </b>' . $aps['cod_ap'] . ' - <b> Unidade(s): </b> ' . count($aps['unidades']) ?>;</p>
-                                    <p class="text-danger"><span class="font-bold">OBS¹ : </span> Se você remove o AP, será removido todas as unidades cadastradas e seus respectivos históricos.</p>
+                                    <ul class="list-unstyled">
+                                        <li><b>Código: </b> <?php echo $aps['cod_ap'] ?>;</li>
+                                        <li><b>AP: </b> <?php echo $aps['nome_ap'] ?>;</li>
+                                        <li><b> Unidade(s): </b> <?php echo count($aps['unidades']) ?>.</li>
+                                    </ul>
+                                    <p class="text-danger"><span class="font-bold">OBS : </span> Se você remove o AP, será removido todas as unidades cadastradas e seus respectivos históricos.</p>
                                 </article>
                                 <footer class="modal-footer">
-                                    <a class="btn btn-danger " href="<?php echo BASE_URL . '/excluir/ap/' . $aps['cod_ap'] ?>"> <i class="fa fa-trash"></i> Excluir</a> | 
-                                    <button class="btn btn-default" type="button" data-dismiss="modal"><i class="fa fa-close"></i> Fechar</button>
+                                    <a class="btn btn-danger pull-left" href="<?php echo BASE_URL . '/excluir/ap/' . $aps['cod_ap'] ?>"> <i class="fa fa-trash"></i> Excluir</a> 
+                                    <button class="btn btn-default " type="button" data-dismiss="modal"><i class="fa fa-close"></i> Fechar</button>
                                 </footer>
                             </section>
                         </article>

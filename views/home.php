@@ -16,7 +16,6 @@
                     Olá <strong><?php echo trim($_SESSION['user_sgl']['nome']); ?></strong>, bem-vindo ao Sistema de Gerenciamento de Link’s.
                 </div>
             </div>
-            
             <div class="col-sm-6 col-md-4 col-lg-3">
                 <div class="panel panel-primary">
                     <div class="panel-heading">
