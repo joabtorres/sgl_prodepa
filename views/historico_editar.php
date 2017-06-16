@@ -2,11 +2,11 @@
     <div class="container-fluid">
         <div class="row" >
             <div class="col-sm-12 col-md-12 col-lg-12" id="pagina-header">
-                <h2>Cadastrar Histórico</h2>
+                <h2>Editar Histórico</h2>
                 <ol class="breadcrumb">
                     <li><a  href="<?php echo BASE_URL ?>/home"><i class="fa fa-tachometer"></i> Inicial</a></li>
                     <li><a  href="<?php echo BASE_URL ?>/unidade/index/<?php echo isset($unidade) ? $unidade['cod_unidade'] : ''; ?>"><i class="fa fa-list"></i> <?php echo isset($unidade) ? $unidade['nome_unidade'] : ''; ?></a></li>
-                    <li class="active"><i class="fa fa-plus-square"></i> Cadastrar Histórico</li>
+                    <li class="active"><i class="fa fa-pencil"></i> Editar Histórico</li>
                 </ol>
             </div>
         </div>

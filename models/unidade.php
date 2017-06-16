@@ -31,7 +31,7 @@ class unidade extends model {
 
     /**
      * Está função é responsável para cadastrar novos registros;
-     * @param Array $data - Dados salvo em array para seres setados por um foreach;
+     * @param Array $data - Dados salvo em array ;
      * @access public
      * @return boolean 
      * @author Joab Torres <joabtorres1508@gmail.com>

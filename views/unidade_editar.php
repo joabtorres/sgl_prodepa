@@ -14,7 +14,7 @@
             <div class="col-sm-12 col-md-12 col-lg-12">
                 <div class="alert <?php echo (isset($erro['class'])) ? $erro['class'] : 'alert-warning'; ?> " role="alert" id="alert-msg">
                     <button class="close" data-hide="alert">&times;</button>
-                    <div id="resposta"><?php echo (isset($erro['msg'])) ? $erro['msg'] : '<i class="fa fa-info-circle" aria-hidden="true"></i> Não é possível cadastrar uma unidade já cadastrada.'; ?></div>
+                    <div id="resposta"><?php echo (isset($erro['msg'])) ? $erro['msg'] : '<i class="fa fa-info-circle" aria-hidden="true"></i> Não é possível alterar a unidade se todos os campos obrigatórios não estiverem preenchidos (*).'; ?></div>
                 </div>
             </div>
             <div class="col-sm-12 col-md-12 col-lg-12">

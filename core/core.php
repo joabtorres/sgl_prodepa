@@ -46,7 +46,7 @@ class core {
      * @author Joab Torres <joabtorres1508@gmail.com>
      */
     public function run() {
-      
+
         $this->url = (isset($_GET['url']) && !empty($_GET['url'])) ? $_GET['url'] : "";
         $this->params = array();
         if (!empty($this->url) && $this->url != '/') {
@@ -79,18 +79,17 @@ class core {
         //requisitando classe controller
         require_once('core/controller.php');
 
-        $c = new $this->controller();
-        call_user_func_array(array($c, $this->action), $this->params);
-        
-        /*
-          if (class_exists($this->controller) && method_exists($this->controller, $this->action)) {
-          $c = new $this->controller();
-          call_user_func_array(array($c, $this->action), $this->params);
-          } else {
-          $co = new Controller();
-          $viewName = array('view' => '404.php');
-          $co->loadView($viewName);
-          } */
+        /*$c = new $this->controller();
+        call_user_func_array(array($c, $this->action), $this->params);*/
+
+
+        if (class_exists($this->controller) && method_exists($this->controller, $this->action)) {
+            $c = new $this->controller();
+            call_user_func_array(array($c, $this->action), $this->params);
+        } else {
+            $co = new Controller();
+            $co->loadView('404');
+        }
     }
 
 }

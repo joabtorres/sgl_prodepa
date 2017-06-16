@@ -44,10 +44,10 @@ class controller {
      * Está função é responsável para carrega uma view;
      * @param String viewName - nome da view;
      * @param array $viewData - Dados para serem carregados na view
-     * @access protected
+     * @access public
      * @author Joab Torres <joabtorres1508@gmail.com>
      */
-    protected function loadView($viewName, $viewData = array()) {
+    public function loadView($viewName, $viewData = array()) {
         extract($viewData);
         include 'views/' . $viewName . ".php";
     }
@@ -56,10 +56,10 @@ class controller {
      * Está função é responsável para carrega um template estático, a onde ela chama chama uma função lo;
      * @param String viewName - nome da view;
      * @param array $viewData - Dados para serem carregados na view
-     * @access protected
+     * @access public
      * @author Joab Torres <joabtorres1508@gmail.com>
      */
-    protected function loadTemplate($viewName, $viewData = array()) {
+    public function loadTemplate($viewName, $viewData = array()) {
         include 'views/template.php';
     }
 
@@ -67,10 +67,10 @@ class controller {
      * Está função é responsável para carrega uma view dinamica dentro de um template estático
      * @param String viewName - nome da view;
      * @param array $viewData - Dados para serem carregados na view
-     * @access protected
+     * @access public
      * @author Joab Torres <joabtorres1508@gmail.com>
      */
-    protected function loadViewInTemplate($viewName, $viewData = array()) {
+    public function loadViewInTemplate($viewName, $viewData = array()) {
         extract($viewData);
         include 'views/' . $viewName . ".php";
     }
