@@ -13,7 +13,7 @@ if (ENVIRONMENT == 'development') {
     define("BASE_URL", "http://sgl.prodepa.pc");
     //Nome do banco
     $config['dbname'] = 'prodepa_sgl';
-    //$config['dbname'] = 'sgl_prodepa_2';
+    //$config['dbname'] = 'prodepa_sgl';
     //host
     $config['host'] = 'localhost';
     //usuario

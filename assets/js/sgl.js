@@ -22,7 +22,9 @@ function mostrarConteudo() {
     }
 
 
-
+    if(document.getElementById("viewMapa")){
+        initialize();
+    }
     if (document.getElementById("view-mapa-unidade")) {
         setMapaUnidade(latitude, longitude);
     }
