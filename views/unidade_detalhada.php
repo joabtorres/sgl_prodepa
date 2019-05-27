@@ -24,7 +24,7 @@
             <div class="col-xs-12">
                 <div class="panel panel-primary">
                     <header class="panel-heading">
-                        <p class="panel-title"><i class="fa fa-list-ul"></i> Administrativos</p>
+                        <p class="panel-title"><i class="fa fa-list-ul"></i> Administrativo</p>
                     </header>
                     <article class="panel-body">
                         <ul class="list-unstyled">
@@ -38,11 +38,14 @@
                         </ul>
                         <?php if (isset($resultado_unidade['contratos']) && !empty($resultado_unidade['contratos'])): ?>
                             <!--panel do contrato-->
-                            <div class="panel panel-primary">
+                            <div class="panel panel-primary" >
                                 <header class="panel-heading">
+                                  <a data-toggle="collapse" href="#tableContratoView" aria-expanded="false" aria-controls="tableContratoView">
+                                    <span class="pull-right"><i class="fa fa-plus-square"></i></span>
                                     <p class="panel-title"><i class="fa fa-table" aria-hidden="true"></i> Contrato</p>
+                                  </a>
                                 </header>
-                                <article class="table-responsive">
+                                <article class="table-responsive collapse" id="tableContratoView">
                                     <table class="table table-bordered table-striped">
                                         <tr>
                                             <th>#</th>
@@ -78,7 +81,7 @@
                 <!--panel conexao-->
                 <div class="panel panel-primary">
                     <header class="panel-heading">
-                        <p class="panel-title"><i class="fa fa-list-ul"></i> Conexao</p>
+                        <p class="panel-title"><i class="fa fa-list-ul"></i> Conexão</p>
                     </header>
                     <article class="panel-body">
                         <div class="row">
@@ -120,17 +123,13 @@
                             <div class="row">
                                 <div class="col-md-8"><span class="text-primary">Endereco: </span><br> <?php echo $resultado_unidade['endereco']['logradouro_endereco'] . ', ' . $resultado_unidade['endereco']['numero_endereco'] . ', ' . $resultado_unidade['endereco']['bairro_endereco'] . ', ' . $resultado_unidade['endereco']['complemento_endereco'] . ' - ' . $resultado_unidade['cidade_area_atuacao'] ?> - PA </div>
                                 <?php if (isset($resultado_unidade['endereco']['gps_endereco']) && !empty($resultado_unidade['endereco']['gps_endereco'])) : ?><div class="col-md-4"><span class="text-primary">GPS: </span><br> <?php echo isset($resultado_unidade['endereco']['gps_endereco']) ? $resultado_unidade['endereco']['gps_endereco'] : ""; ?> </div><?php endif; ?>
-                                <div class=" clear col-xs-12">
-                                    <div id="view-mapa-unidade"></div>
-                                    <!-- CHAMANDO GOOGLE MAPS API -->
-                                    <script src="http://maps.google.com/maps/api/js?key=AIzaSyCg1ogHawJGuDbw7nd6qBz9yYxYPoGTWQo"></script>
-                                    <?php echo '<script type="text/javascript"> var latitude = ' . $resultado_unidade['endereco']['latitude_endereco'] . '; var longitude =' . $resultado_unidade['endereco']['longitude_endereco'] . '</script>' ?>
-                                    <script type="text/javascript">
-                                        var latitude = <?php echo isset($resultado_unidade['endereco']) ? $resultado_unidade['endereco']['latitude_endereco'] : ""; ?>;
-                                        var longitude = <?php echo isset($resultado_unidade['endereco']) ? $resultado_unidade['endereco']['longitude_endereco'] : ""; ?>;
-                                    </script>
-                                </div>
                             </div> <!-- fim row-->
+                            <div class="row">
+                              <div class="col-md-12">
+                                <hr class="margin-5">
+                                <span>Google Maps: <a data-toggle="modal" data-target="#modal_localizacao" class="cursor-pointer"> Clique aqui!</a></span>
+                              </div> <!-- fim row-->
+                            </div>
                         </article>
                     </section>
                 </div><!-- fim da col-xs-12 -->
@@ -142,9 +141,12 @@
                 <div class="clear col-xs-12">
                     <section class="panel panel-primary">
                         <header class="panel-heading">
-                            <p class="panel-title"><i class="fa fa-users"></i> Contato</p>
+                            <a data-toggle="collapse" href="#tableContatoView" aria-expanded="false" aria-controls="tableContatoView">
+                              <span class="pull-right"><i class="fa fa-plus-square"></i></span>
+                              <p class="panel-title"><i class="fa fa-users"></i> Contato</p>
+                            </a>
                         </header>
-                        <article class="table-responsive">
+                        <article class="table-responsive collapse" id="tableContatoView">
                             <table class="table table-bordered table-striped">
                                 <tr>
                                     <th>#</th>
@@ -167,7 +169,7 @@
                                     <?php
                                     ++$qtdContato;
                                 endforeach;
-                                ?>                                  
+                                ?>
                             </table>
                         </article>
                     </section>
@@ -178,9 +180,16 @@
             <div class="clear col-xs-12">
                 <section class="panel panel-primary">
                     <header class="panel-heading">
-                        <p class="panel-title"><i class="fa fa-table"></i> Histórico <span class="pull-right"><a href="<?php echo BASE_URL . '/cadastrar/historico/' . $resultado_unidade['cod_unidade'] ?>" class="btn btn-sm btn-success" title="Adicionar Histórico"><i class="fa fa-plus-circle"></i> Adicionar</a></span></p>
+                      <a data-toggle="collapse" href="#tableHistoricoView" aria-expanded="false" aria-controls="tableHistoricoView">
+                        <span class="pull-right"><i class="fa fa-plus-square"></i></span>
+                        <p class="panel-title"><i class="fa fa-table"></i> Histórico</p>
+                        <!-- <p class="panel-title"><i class="fa fa-table"></i> Histórico <span class="pull-right"><a href="<?php echo BASE_URL . '/cadastrar/historico/' . $resultado_unidade['cod_unidade'] ?>" class="btn btn-sm btn-success" title="Adicionar Histórico"><i class="fa fa-plus-circle"></i> Adicionar</a></span></p> -->
+                      </a>
                     </header>
-                    <article class="table-responsive">
+                    <article class="table-responsive collapse" id="tableHistoricoView" >
+                      <div class="panel-body">
+                        <span class="pull-right"><a href="<?php echo BASE_URL . '/cadastrar/historico/' . $resultado_unidade['cod_unidade'] ?>" class="btn btn-sm btn-success" title="Adicionar Histórico"><i class="fa fa-plus-circle"></i> Adicionar</a></span>
+                      </div>
                         <table class="table table-bordered table-striped">
                             <tr>
                                 <th>#</th>
@@ -228,6 +237,32 @@
 </div>
 <!-- /#conteudo_sistema -->
 
+<!--MODAL - Localização-->
+<section class="modal fade" id="modal_localizacao" tabindex="-1" role="dialog">
+    <article class="modal-dialog modal-lg" role="document">
+        <section class="modal-content">
+            <header class="modal-header bg-primary">
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <p class="panel-title">Coordenadas Geográficas</p>
+            </header>
+            <article class="modal-body">
+              <div id="view-mapa-unidade"></div>
+              <!-- CHAMANDO GOOGLE MAPS API -->
+              <script src="http://maps.google.com/maps/api/js?key=AIzaSyCg1ogHawJGuDbw7nd6qBz9yYxYPoGTWQo"></script>
+              <?php echo '<script type="text/javascript"> var latitude = ' . $resultado_unidade['endereco']['latitude_endereco'] . '; var longitude =' . $resultado_unidade['endereco']['longitude_endereco'] . '</script>' ?>
+              <script type="text/javascript">
+                  var latitude = <?php echo isset($resultado_unidade['endereco']) ? $resultado_unidade['endereco']['latitude_endereco'] : ""; ?>;
+                  var longitude = <?php echo isset($resultado_unidade['endereco']) ? $resultado_unidade['endereco']['longitude_endereco'] : ""; ?>;
+              </script>
+            </article>
+            <footer class="modal-footer">
+                <button class="btn btn-default" type="button" data-dismiss="modal"><i class="fa fa-close"></i> Fechar</button>
+            </footer>
+        </section>
+    </article>
+</section>
+<!--MODAL - Localização-->
+
 <?php
 if (!empty($_SESSION['user_sgl']['nivel']) && $_SESSION['user_sgl']['nivel']) :
     if (isset($resultado_unidade['historicos'])) :
@@ -253,7 +288,7 @@ if (!empty($_SESSION['user_sgl']['nivel']) && $_SESSION['user_sgl']['nivel']) :
                             <p class="text-ri"></p>
                         </article>
                         <footer class="modal-footer">
-                            <a class="btn btn-danger pull-left" href="<?php echo BASE_URL . '/excluir/historico/' . $historicos['cod_historico'] ?>" title="Excluir"> <i class="fa fa-trash"></i> Excluir</a> 
+                            <a class="btn btn-danger pull-left" href="<?php echo BASE_URL . '/excluir/historico/' . $historicos['cod_historico'] ?>" title="Excluir"> <i class="fa fa-trash"></i> Excluir</a>
                             <button class="btn btn-default" type="button" data-dismiss="modal"><i class="fa fa-close"></i> Fechar</button>
                         </footer>
                     </section>

@@ -1,6 +1,6 @@
 var BASE_URL = 'http://sgl.prodepa.pc';
 /**
- * 
+ *
  * @author Joab Torres Alencar
  * @description Só carrega o conteudo da página após seu total carregamento
  */
@@ -23,15 +23,26 @@ function mostrarConteudo() {
 
 
     if(document.getElementById("viewMapa")){
-        initialize();
+        initializeviewMapa();
     }
     if (document.getElementById("view-mapa-unidade")) {
         setMapaUnidade(latitude, longitude);
     }
 }
-
 /**
- * 
+ *
+ * @author Joab Torres Alencar
+ * @description Carrega o ponto geografico no mapa após clica no modal
+  */
+$(document).ready(function(){
+  if($('#modal_localizacao')){
+    $("#modal_localizacao").on('shown.bs.modal', function(e){
+      setMapaUnidade(latitude, longitude);
+    });
+  }
+});
+/**
+ *
  * @author Joab Torres Alencar
  * @description Executa ações após o carreamento da página
  */
@@ -51,7 +62,7 @@ $(document).ready(function () {
     select2();
 });
 
-/*
+/**
  * @author Joab Torres Alencar
  * @description Está função submite o forumlário de buscar rápida que está no menu principal
  */
@@ -65,9 +76,9 @@ function submit_form_navbar() {
 $("[data-hide]").on("click", function () {
     $("#alert-msg").toggle().addClass('oculta');
 });
-/*
+/**
  * @author Joab Torres Alencar
- *  Alterando filtro no cadastro da cidade (núcleo ou área de atuação);
+ * @description Alterando filtro no cadastro da cidade (núcleo ou área de atuação);
  */
 if (document.getElementById("form-cidade")) {
     function oculta_nucleo(element) {
@@ -96,7 +107,7 @@ function setMapaUnidade(latitude, longitude) {
             var latlng = new google.maps.LatLng(-4.2639141, -55.998396);
         }
         var options = {
-            zoom: 12,
+            zoom: 14,
             center: latlng,
             mapTypeId: google.maps.MapTypeId.ROADMAP
         };
@@ -112,15 +123,54 @@ function setMapaUnidade(latitude, longitude) {
         });
     }
     carregaPonto(latitude, longitude);
-
 }
 
 /**
  * @author Joab Torres <joabtorres1508@gmail.com>
  * @description Este trecho de código abaixa e relacionado ao cadastro e edição  no formulario da unidade
  */
+ //Mapa de marcação geografica
+ var map;
+ var marker;
+ function initializeviewMapa() {
+   if (getLatitude != null && getLongitude != null) {
+     var latlng = new google.maps.LatLng(getLatitude, getLongitude);
+   } else {
+     var latlng = new google.maps.LatLng(-4.2639141, -55.998396);
+   }
+   var options = {
+     zoom: 13,
+     center: latlng,
+     mapTypeId: google.maps.MapTypeId.ROADMAP
+   };
+   map = new google.maps.Map(document.getElementById("viewMapa"), options);
+   geocoder = new google.maps.Geocoder();
+   marker = new google.maps.Marker({
+     map: map,
+     draggable: true
+   });
+   marker.setPosition(latlng);
+ }
+ function carregarNoMapa(endereco) {
+   geocoder.geocode({'address': endereco + ', Brasil', 'region': 'BR'}, function (results, status) {
+     if (status == google.maps.GeocoderStatus.OK) {
+       if (results[0]) {
+         var latitude = results[0].geometry.location.lat();
+         var longitude = results[0].geometry.location.lng();
+         $('#iLatitude').val(latitude);
+         $('#iLongitude').val(longitude);
+         var location = new google.maps.LatLng(latitude, longitude);
+         marker.setPosition(location);
+         map.setCenter(location);
+         map.setZoom(13);
+       }
+     }
+   });
+ }
+
+
 if (document.getElementById('form-unidade')) {
-    /*
+    /**
      * @author Joab Torres <joabtorres1508@gmail.com>
      * @public selectCidade()
      * @description Está função executa quando é selecionado uma cidade via select e consulta o json 'ap.json' 'redemetro.json';
@@ -186,47 +236,8 @@ if (document.getElementById('form-unidade')) {
         });
         //seleciona ap da cidade
         selectCidade();
-        //Mapa de marcação geografica
         if (document.getElementById("viewMapa")) {
-            var map;
-            var marker;
-            function initialize() {
-                if (getLatitude != null && getLongitude != null) {
-                    var latlng = new google.maps.LatLng(getLatitude, getLongitude);
-                } else {
-                    var latlng = new google.maps.LatLng(-4.2639141, -55.998396);
-                }
-                var options = {
-                    zoom: 13,
-                    center: latlng,
-                    mapTypeId: google.maps.MapTypeId.ROADMAP
-                };
-                map = new google.maps.Map(document.getElementById("viewMapa"), options);
-                geocoder = new google.maps.Geocoder();
-                marker = new google.maps.Marker({
-                    map: map,
-                    draggable: true
-                });
-                marker.setPosition(latlng);
-            }
-
-            initialize();
-            function carregarNoMapa(endereco) {
-                geocoder.geocode({'address': endereco + ', Brasil', 'region': 'BR'}, function (results, status) {
-                    if (status == google.maps.GeocoderStatus.OK) {
-                        if (results[0]) {
-                            var latitude = results[0].geometry.location.lat();
-                            var longitude = results[0].geometry.location.lng();
-                            $('#iLatitude').val(latitude);
-                            $('#iLongitude').val(longitude);
-                            var location = new google.maps.LatLng(latitude, longitude);
-                            marker.setPosition(location);
-                            map.setCenter(location);
-                            map.setZoom(13);
-                        }
-                    }
-                });
-            }
+            initializeviewMapa();
             if ($('#iLatitude').val() == "" && $('#iLongitude').val() == "") {
                 carregarNoMapa($("#iCidade option:selected").text());
             }
@@ -235,14 +246,14 @@ if (document.getElementById('form-unidade')) {
                 carregarNoMapa($("#iCidade option:selected").text());
             });
             google.maps.event.addListener(marker, 'drag', function () {
-                geocoder.geocode({'latLng': marker.getPosition()}, function (results, status) {
-                    if (status == google.maps.GeocoderStatus.OK) {
-                        if (results[0]) {
-                            $('#iLatitude').val(marker.getPosition().lat());
-                            $('#iLongitude').val(marker.getPosition().lng());
-                        }
-                    }
-                });
+              geocoder.geocode({'latLng': marker.getPosition()}, function (results, status) {
+                if (status == google.maps.GeocoderStatus.OK) {
+                  if (results[0]) {
+                    $('#iLatitude').val(marker.getPosition().lat());
+                    $('#iLongitude').val(marker.getPosition().lng());
+                  }
+                }
+              });
             });
         }
     });
@@ -542,5 +553,3 @@ if (document.getElementById('relatorio-detalhado')) {
         })
     });
 }
-
-

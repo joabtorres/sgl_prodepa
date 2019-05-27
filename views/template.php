@@ -75,14 +75,13 @@
                 <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
                 <div class="collapse navbar-collapse navbar-ex1-collapse">
                     <nav class="side-nav">
-                        <figure>
+                        <!-- <figure>
                             <img src="<?php echo BASE_URL . '/' . $_SESSION['user_sgl']['imagem']; ?>" class="img-center img-circle">
                             <figcaption>
                                 <p class="text-center text-uppercase"><?php echo $_SESSION['user_sgl']['nome'] . ' ' . $_SESSION['user_sgl']['sobrenome'] ?></p>
-                                <p class="text-center"><?php echo $_SESSION['user_sgl']['cargo'] ?></p>
-                            </figcaption>
-                        </figure>
 
+                            </figcaption>
+                        </figure> -->
                         <ul class="nav navbar-nav">
 
                             <li >

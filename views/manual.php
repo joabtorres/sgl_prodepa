@@ -31,18 +31,6 @@
                                             <source src="<?php echo BASE_URL ?>/assets/media/manual/video_temp.mp4" type="video/mp4"/>
                                         </video>
                                         <p class="text-center">Lorem Ipsum Dolor</p>
-                                        <hr/>
-                                        <h4 class="text-center">1.2 Tela de Login</h4>
-                                        <video controls class="video-480p">
-                                            <source src="<?php echo BASE_URL ?>/assets/media/manual/video_temp.mp4" type="video/mp4"/>
-                                        </video>
-                                        <p class="text-center">Lorem Ipsum Dolor</p>
-                                        <hr/>
-                                        <h4 class="text-center">1.3 Níveis de Acesso</h4>
-                                        <video controls class="video-480p">
-                                            <source src="<?php echo BASE_URL ?>/assets/media/manual/video_temp.mp4" type="video/mp4"/>
-                                        </video>
-                                        <p class="text-center">Lorem Ipsum Dolor</p>
                                     </div>
                                 </div>
                             </div>
@@ -60,9 +48,13 @@
                             <div class="panel-body">
                                 <div class="row">
                                     <div class="col-xs-12">
-
+                                      <h4 class="text-center">1.1 Introdução</h4>
+                                      <video controls class="video-480p">
+                                          <source src="<?php echo BASE_URL ?>/assets/media/manual/video_temp.mp4" type="video/mp4"/>
+                                      </video>
+                                      <p class="text-center">Lorem Ipsum Dolor</p>
                                     </div>
-                                </div>    
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -78,9 +70,13 @@
                             <div class="panel-body">
                                 <div class="row">
                                     <div class="col-xs-12">
-
+                                      <h4 class="text-center">1.1 Introdução</h4>
+                                      <video controls class="video-480p">
+                                          <source src="<?php echo BASE_URL ?>/assets/media/manual/video_temp.mp4" type="video/mp4"/>
+                                      </video>
+                                      <p class="text-center">Lorem Ipsum Dolor</p>
                                     </div>
-                                </div>      
+                                </div>
                             </div>
                         </div>
                     </div>
