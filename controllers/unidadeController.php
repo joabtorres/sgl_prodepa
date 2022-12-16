@@ -110,7 +110,7 @@ class unidadeController extends controller
     public function orgao($cod_unidade)
     {
         if ($this->checkUserPattern()) {
-            $view = "unidade_detalhada";
+            $view = "unidade/detalhada";
             $dados = array();
             //model
             $unidadeModel = new unidade();
@@ -198,7 +198,7 @@ class unidadeController extends controller
     public function ap($cod_unidade)
     {
         if ($this->checkUserPattern()) {
-            $view = "unidade_detalhada";
+            $view = "unidade/detalhada";
             $dados = array();
             //model
             $unidadeModel = new unidade();
@@ -286,7 +286,7 @@ class unidadeController extends controller
     public function redemetro($cod_unidade)
     {
         if ($this->checkUserPattern()) {
-            $view = "unidade_detalhada";
+            $view = "unidade/detalhada";
             $dados = array();
             //model
             $unidadeModel = new unidade();

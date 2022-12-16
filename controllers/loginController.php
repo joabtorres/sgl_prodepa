@@ -9,7 +9,7 @@
  * @access public
  * @package controllers
  * @example classe loginController
- */?
+ */
 class loginController extends controller
 {
 

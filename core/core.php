@@ -5,12 +5,19 @@
  * 
  * @author Joab Torres <joabtorres1508@gmail.com>
  * @version 1.0
- * @copyright  (c) 2017, Joab Torres Alencar - Analista de Sistemas 
+ * @copyright  (c) 2018, Joab Torres Alencar - Analista de Sistemas 
  * @access public
  * @package core
  * @example classe core
  */
 class core {
+
+    /**
+     * String $url - referente aos caminhos acessados na url do navegador
+     * @access private
+     * @author Joab Torres <joabtorres1508@gmail.com>
+     */
+    private $url;
 
     /**
      * String $controller - referente a classe controller
@@ -34,24 +41,16 @@ class core {
     private $params;
 
     /**
-     * String $url - referente aos caminhos acessados na url do navegador
-     * @access private
-     * @author Joab Torres <joabtorres1508@gmail.com>
-     */
-    private $url;
-
-    /**
-     * Está função tem como objetivo: captura um $_GET['url] e armazena na váriavel $this->url para que possa fazer o controle de requisção digitado na url, sendo acessa um controller, action e params.
+     * Está função tem como objetivo: captura um $_GET['url] e armazena na váriavel $url para que possa fazer o controle de requisção digitado na url, sendo acessa um controller, action e params.
      * @access public
      * @author Joab Torres <joabtorres1508@gmail.com>
      */
     public function run() {
-
+        $this->goHTTPS();
         $this->url = (isset($_GET['url']) && !empty($_GET['url'])) ? $_GET['url'] : "";
         $this->params = array();
         if (!empty($this->url) && $this->url != '/') {
             $this->url = explode('/', $this->url);
-
             //Definindo o controller
             if (isset($this->url[0]) && !empty($this->url[0])) {
                 $this->controller = $this->url[0] . 'Controller';
@@ -79,16 +78,30 @@ class core {
         //requisitando classe controller
         require_once('core/controller.php');
 
-        /*$c = new $this->controller();
-        call_user_func_array(array($c, $this->action), $this->params);*/
+        /* $c = new $this->controller();
+          call_user_func_array(array($c, $this->action), $this->params); */
 
 
         if (class_exists($this->controller) && method_exists($this->controller, $this->action)) {
             $c = new $this->controller();
             call_user_func_array(array($c, $this->action), $this->params);
         } else {
-            $co = new Controller();
+            $co = new controller();
             $co->loadView('404');
+        }
+    }
+
+    /**
+     * Está função tem como objetivo:  redirecionar automaticamente o endereço HTTP para o HTTPS.
+     * @access private
+     * @author Joab Torres <joabtorres1508@gmail.com>
+     */
+    private function goHTTPS() {
+
+        if (!isset($_SERVER['HTTPS']) && ENVIRONMENT == "prodution") {
+            if ($_SERVER['HTTPS'] != "on") {
+                header('Location: https://' . $_SERVER["HTTP_HOST"] . $_SERVER['REQUEST_URI']);
+            }
         }
     }
 

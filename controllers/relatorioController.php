@@ -289,7 +289,6 @@ class relatorioController extends controller
                 $cidadeModel->read("SELECT DISTINCT(sgl_cidade_area_atuacao.cidade_area_atuacao), sgl_cidade_area_atuacao.cod_area_atuacao FROM sgl_unidade, sgl_cidade_area_atuacao, sgl_cidade_nucleo WHERE sgl_unidade.cod_cidade=sgl_cidade_area_atuacao.cod_area_atuacao AND sgl_cidade_area_atuacao.cod_nucleo=sgl_cidade_nucleo.cod_nucleo AND sgl_cidade_nucleo.cod_nucleo=:cod_nucleo ORDER BY sgl_cidade_area_atuacao.cidade_area_atuacao ASC;", $data);
                 $total_registro = $cidadeModel->getNumRows();
             } else {
-
                 $data['cod_cidade'] = addslashes($cod_cidade);
                 //-- COMANDO PARA LISTA AS  CIDADES DESTACADAS QUE CONTEM UNIDADE REGISTRADA -- cidade especifíca
                 $resultado_cidade = $cidadeModel->read("SELECT DISTINCT(sgl_cidade_area_atuacao.cidade_area_atuacao), sgl_cidade_area_atuacao.cod_area_atuacao FROM sgl_unidade, sgl_cidade_area_atuacao, sgl_cidade_nucleo WHERE sgl_unidade.cod_cidade=sgl_cidade_area_atuacao.cod_area_atuacao AND sgl_cidade_area_atuacao.cod_nucleo=sgl_cidade_nucleo.cod_nucleo AND sgl_cidade_nucleo.cod_nucleo=:cod_nucleo AND sgl_cidade_area_atuacao.cod_area_atuacao=:cod_cidade ORDER BY sgl_cidade_area_atuacao.cidade_area_atuacao ASC;", $data);
@@ -578,7 +577,7 @@ class relatorioController extends controller
 
             if ($_SESSION['sgl']['buscarapida']) {
                 if ($_SESSION['sgl']['buscarapida']['finalidade'] == 'Unidade') {
-                    $view = "unidade_relatorio";
+                    $view = "unidade/relatorio";
                     $dados = array();
                     //models
                     $unidadeModel = new unidade();

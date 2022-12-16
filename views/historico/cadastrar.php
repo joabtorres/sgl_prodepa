@@ -42,7 +42,7 @@
                             <div class="row">
                                 <div class="form-group col-sm-12">
                                     <label for="icadDescricao">Descrição: </label>
-                                    <textarea name="ncadDescricao" id="icadDescricao" class="form-control" >Exemplo: Descrição do histórico...</textarea>
+                                    <textarea name="ncadDescricao" id="icadDescricao" class="form-control" placeholder="Exemplo: Descrição do histórico..."></textarea>
                                 </div>
                             </div>
                         </div>
