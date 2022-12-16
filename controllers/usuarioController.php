@@ -10,7 +10,8 @@
  * @package controllers
  * @example classe usuarioController
  */
-class usuarioController extends controller {
+class usuarioController extends controller
+{
 
     /**
      * Está função pertence a uma action do controle MVC, ela é responsável para mostra todos os usuários registrados, com opção de buscar, usuário especifico.
@@ -21,9 +22,10 @@ class usuarioController extends controller {
      * @access public
      * @author Joab Torres <joabtorres1508@gmail.com>
      */
-    public function index($page = 1) {
+    public function index($page = 1)
+    {
         if ($this->checkUserPattern() && $this->checkUserAdministrator()) {
-            $view = "usuario_listar";
+            $view = "usuario/listar";
             $dados = array();
             $usuarioModel = new usuario();
             //consulta todos os usuários pertencente ao respecito núcleo
@@ -63,7 +65,8 @@ class usuarioController extends controller {
      * @access private
      * @author Joab Torres <joabtorres1508@gmail.com> 
      */
-    private function recuperar($email) {
+    private function recuperar($email)
+    {
         if ($this->checkUserPattern() && $this->checkUserAdministrator()) {
             $usuarioModel = new usuario();
             $senha = $usuarioModel->newpassword($email);
@@ -95,7 +98,7 @@ class usuarioController extends controller {
                 $headers .= 'X-Mailer: PHP/' . phpversion();
                 mail($destinatario, $assunto, $mensagem, $headers);
                 return true;
-            }else{
+            } else {
                 return false;
             }
         }
@@ -108,7 +111,8 @@ class usuarioController extends controller {
      * @access private
      * @author Joab Torres <joabtorres1508@gmail.com>
      */
-    private function validar_email($email) {
+    private function validar_email($email)
+    {
         if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
             list($usuario, $dominio) = explode("@", $email);
             if (checkdnsrr($dominio, 'MX')) {
@@ -127,9 +131,10 @@ class usuarioController extends controller {
      * @access public
      * @author Joab Torres <joabtorres1508@gmail.com>
      */
-    public function sair() {
+    public function sair()
+    {
         $_SESSION['user_sgl'] = array();
-        header("Location: /login");
+        $url = BASE_URL . '/login';
+        header("Location:  $url");
     }
-
 }

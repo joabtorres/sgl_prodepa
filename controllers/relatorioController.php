@@ -10,14 +10,16 @@
  * @package controllers
  * @example classe relatorioController
  */
-class relatorioController extends controller {
+class relatorioController extends controller
+{
 
     /**
      * Está função pertence a uma action do controle MVC, ela chama a  função cidade();
      * @access public
      * @author Joab Torres <joabtorres1508@gmail.com>
      */
-    public function index() {
+    public function index()
+    {
         $this->cidades(1);
     }
 
@@ -27,9 +29,10 @@ class relatorioController extends controller {
      * @access public
      * @author Joab Torres <joabtorres1508@gmail.com>
      */
-    public function cidades($page = 1, $cod_cidade = 0) {
+    public function cidades($page = 1, $cod_cidade = 0)
+    {
         if ($this->checkUserPattern()) {
-            $view = "cidade_relatorio";
+            $view = "cidade/relatorio";
             $dados = array();
             $cidadeModel = new cidade();
             $data = array("cod" => $_SESSION['user_sgl']['nucleo']);
@@ -63,10 +66,11 @@ class relatorioController extends controller {
      * @access public
      * @author Joab Torres <joabtorres1508@gmail.com>
      */
-    public function orgaos($page = 1, $cod_cidade = 0, $cod_orgao = 0) {
+    public function orgaos($page = 1, $cod_cidade = 0, $cod_orgao = 0)
+    {
         if ($this->checkUserPattern()) {
 
-            $view = "orgao_relatorio";
+            $view = "orgao/relatorio";
             $dados = array();
             //models
             $orgaoModel = new orgao();
@@ -157,9 +161,10 @@ class relatorioController extends controller {
      * @access public
      * @author Joab Torres <joabtorres1508@gmail.com>
      */
-    public function aps($page = 1, $cod_cidade = 0, $cod_ap = 0) {
+    public function aps($page = 1, $cod_cidade = 0, $cod_ap = 0)
+    {
         if ($this->checkUserPattern()) {
-            $view = "ap_relatorio";
+            $view = "ap/relatorio";
             $dados = array();
             //models
             $apModel = new ap();
@@ -252,9 +257,10 @@ class relatorioController extends controller {
      * @access public
      * @author Joab Torres <joabtorres1508@gmail.com>
      */
-    public function redemetro($page = 1, $cod_cidade = 0, $cod_redemetro = 0) {
+    public function redemetro($page = 1, $cod_cidade = 0, $cod_redemetro = 0)
+    {
         if ($this->checkUserPattern()) {
-            $view = "redemetro_relatorio";
+            $view = "redemetro/relatorio";
             $dados = array();
             //models
             $redeModel = new redemetro();
@@ -351,9 +357,10 @@ class relatorioController extends controller {
      * @access public
      * @author Joab Torres <joabtorres1508@gmail.com>
      */
-    public function unidades($page = 1, $cod_cidade = 0) {
+    public function unidades($page = 1, $cod_cidade = 0)
+    {
         if ($this->checkUserPattern()) {
-            $view = "unidade_relatorio";
+            $view = "unidade/relatorio";
             $dados = array();
             //models
             $unidadeModel = new unidade();
@@ -424,7 +431,8 @@ class relatorioController extends controller {
      * @access public
      * @author Joab Torres <joabtorres1508@gmail.com>
      */
-    public function filtro($page = array()) {
+    public function filtro($page = array())
+    {
         if ($this->checkUserPattern()) {
             $view = "buscar_avancada_relatorio";
             $dados = array();
@@ -506,7 +514,7 @@ class relatorioController extends controller {
                                         $result_unidade = $result_unidade_redemetro;
                                     }
                                     break;
-                                default :
+                                default:
                                     $result_unidade_ap = $unidadeModel->read("SELECT cidade.cidade_area_atuacao, orgao.categoria_orgao, orgao.nome_orgao, ap.ip_ap, ap.nome_ap, unidade.* FROM sgl_cidade_area_atuacao AS cidade, sgl_orgao AS orgao, sgl_ap AS ap, sgl_unidade AS unidade WHERE cidade.cod_area_atuacao=unidade.cod_cidade AND orgao.cod_orgao=unidade.cod_orgao AND ap.cod_ap=unidade.cod_ap AND unidade.cod_cidade=:cod_cidade AND unidade.cod_orgao=:cod_orgao ORDER BY cidade.cidade_area_atuacao ASC, orgao.categoria_orgao ASC, orgao.nome_orgao ASC, ap.ip_ap ASC, unidade.nome_unidade ASC", array('cod_cidade' => $cidade['cod_area_atuacao'], 'cod_orgao' => $orgao['cod_orgao']));
                                     $result_unidade_redemetro = $unidadeModel->read("SELECT cidade.cidade_area_atuacao, orgao.categoria_orgao, orgao.nome_orgao, rede.nome_redemetro, unidade.* FROM sgl_cidade_area_atuacao AS cidade, sgl_orgao AS orgao, sgl_redemetro AS rede, sgl_unidade AS unidade WHERE cidade.cod_area_atuacao=unidade.cod_cidade AND orgao.cod_orgao=unidade.cod_orgao AND rede.cod_redemetro=unidade.cod_redemetro AND unidade.cod_cidade=:cod_cidade AND unidade.cod_orgao=:cod_orgao ORDER BY cidade.cidade_area_atuacao ASC, orgao.categoria_orgao ASC, orgao.nome_orgao ASC, rede.nome_redemetro ASC, unidade.nome_unidade ASC", array('cod_cidade' => $cidade['cod_area_atuacao'], 'cod_orgao' => $orgao['cod_orgao']));
 
@@ -545,8 +553,8 @@ class relatorioController extends controller {
                     }
                 }
                 $dados['msg_result'] = true;
-            }else{
-                 $dados['msg_result'] = false;
+            } else {
+                $dados['msg_result'] = false;
             }
 
             $this->loadTemplate($view, $dados);
@@ -560,13 +568,14 @@ class relatorioController extends controller {
      * @access public
      * @author Joab Torres <joabtorres1508@gmail.com>
      */
-    public function buscarapida($page) {
+    public function buscarapida($page)
+    {
         if ($this->checkUserPattern()) {
 
             if (isset($_POST['nSerachCampo']) && !empty($_POST['nSerachCampo'])) {
                 $_SESSION['sgl']['buscarapida'] = array('finalidade' => addslashes($_POST['nSearchFinalidade']), 'campo' => addslashes($_POST['nSerachCampo']));
             }
-            
+
             if ($_SESSION['sgl']['buscarapida']) {
                 if ($_SESSION['sgl']['buscarapida']['finalidade'] == 'Unidade') {
                     $view = "unidade_relatorio";
@@ -621,7 +630,7 @@ class relatorioController extends controller {
                     $this->loadTemplate($view, $dados);
                 } else {
 
-                    $view = "orgao_relatorio";
+                    $view = "orgao/relatorio";
                     $dados = array();
                     //models
                     $orgaoModel = new orgao();
@@ -675,12 +684,14 @@ class relatorioController extends controller {
                     $this->loadTemplate($view, $dados);
                 }
             } else {
-                header("location: /home");
+                $url = BASE_URL . '/home';
+                header("location: $url");
             }
         }
     }
 
-    public function avancado() {
+    public function avancado()
+    {
         $cidadeModel = new cidade();
         $orgaoModel = new orgao();
         $unidadeModel = new unidade();
@@ -753,7 +764,7 @@ class relatorioController extends controller {
                                     $result_unidade = $result_unidade_redemetro;
                                 }
                                 break;
-                            default :
+                            default:
                                 $result_unidade_ap = $unidadeModel->read("SELECT cidade.cidade_area_atuacao, orgao.categoria_orgao, orgao.nome_orgao, ap.ip_ap, ap.nome_ap, unidade.* FROM sgl_cidade_area_atuacao AS cidade, sgl_orgao AS orgao, sgl_ap AS ap, sgl_unidade AS unidade WHERE cidade.cod_area_atuacao=unidade.cod_cidade AND orgao.cod_orgao=unidade.cod_orgao AND ap.cod_ap=unidade.cod_ap AND unidade.cod_cidade=:cod_cidade AND unidade.cod_orgao=:cod_orgao ORDER BY cidade.cidade_area_atuacao ASC, orgao.categoria_orgao ASC, orgao.nome_orgao ASC, ap.ip_ap ASC, unidade.nome_unidade ASC", array('cod_cidade' => $cidade['cod_area_atuacao'], 'cod_orgao' => $orgao['cod_orgao']));
                                 $result_unidade_redemetro = $unidadeModel->read("SELECT cidade.cidade_area_atuacao, orgao.categoria_orgao, orgao.nome_orgao, rede.nome_redemetro, unidade.* FROM sgl_cidade_area_atuacao AS cidade, sgl_orgao AS orgao, sgl_redemetro AS rede, sgl_unidade AS unidade WHERE cidade.cod_area_atuacao=unidade.cod_cidade AND orgao.cod_orgao=unidade.cod_orgao AND rede.cod_redemetro=unidade.cod_redemetro AND unidade.cod_cidade=:cod_cidade AND unidade.cod_orgao=:cod_orgao ORDER BY cidade.cidade_area_atuacao ASC, orgao.categoria_orgao ASC, orgao.nome_orgao ASC, rede.nome_redemetro ASC, unidade.nome_unidade ASC", array('cod_cidade' => $cidade['cod_area_atuacao'], 'cod_orgao' => $orgao['cod_orgao']));
 
@@ -789,5 +800,4 @@ class relatorioController extends controller {
             }
         }
     }
-
 }

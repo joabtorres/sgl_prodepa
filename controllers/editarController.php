@@ -10,7 +10,8 @@
  * @package controllers
  * @example classe editarController
  */
-class editarController extends controller {
+class editarController extends controller
+{
 
     /**
      * Está função pertence a uma action do controle MVC, ela é responśavel  para chama a função cidade($cod_cidade);
@@ -18,7 +19,8 @@ class editarController extends controller {
      * @access public
      * @author Joab Torres <joabtorres1508@gmail.com>
      */
-    public function index($cod) {
+    public function index($cod)
+    {
         $this->cidade($cod);
     }
 
@@ -28,12 +30,13 @@ class editarController extends controller {
      * @access public
      * @author Joab Torres <joabtorres1508@gmail.com>
      */
-    public function cidade($cod_cidade) {
+    public function cidade($cod_cidade)
+    {
         if ($this->checkUserPattern() && $this->checkUserAdministrator()) {
             //dados da view
             $dados = array();
             //view a ser carregada
-            $viewName = 'cidade_editar';
+            $viewName = 'cidade/editar';
             //model cidade
             $cidadeModel = new cidade();
             $dados['nucleos'] = $cidadeModel->read('SELECT * FROM sgl_cidade_nucleo', array());
@@ -81,10 +84,11 @@ class editarController extends controller {
      * @access public
      * @author Joab Torres <joabtorres1508@gmail.com>
      */
-    public function orgao($cod_orgao) {
+    public function orgao($cod_orgao)
+    {
         if ($this->checkUserPattern() && $this->checkUserAdministrator()) {
             $dados = array();
-            $view = "orgao_editar";
+            $view = "orgao/editar";
             $orgaoModel = new orgao();
 
             $result = $orgaoModel->read('SELECT * FROM sgl_orgao WHERE cod_orgao=:cod', array('cod' => addslashes(trim($cod_orgao))));
@@ -126,10 +130,11 @@ class editarController extends controller {
      * @access public
      * @author Joab Torres <joabtorres1508@gmail.com>
      */
-    public function ap($cod_ap) {
+    public function ap($cod_ap)
+    {
         if ($this->checkUserPattern() && $this->checkUserAdministrator()) {
             $dados = array();
-            $view = "ap_editar";
+            $view = "ap/editar";
             $apModel = new ap();
             $resultado = $apModel->read("SELECT ap.*, c.cidade_area_atuacao FROM  sgl_ap AS ap INNER JOIN sgl_cidade_area_atuacao AS c ON ap.cod_area_atuacao=c.cod_area_atuacao WHERE ap.cod_ap = :cod", array('cod' => addslashes(trim($cod_ap))));
             if ($resultado) {
@@ -170,10 +175,11 @@ class editarController extends controller {
      * @access public
      * @author Joab Torres <joabtorres1508@gmail.com>
      */
-    public function redemetro($cod_redemetro) {
+    public function redemetro($cod_redemetro)
+    {
         if ($this->checkUserPattern() && $this->checkUserAdministrator()) {
             $dados = array();
-            $view = "redemetro_editar";
+            $view = "redemetro/editar";
             $redeModel = new redemetro();
 
             $result = $redeModel->read("SELECT r.*, c.cidade_area_atuacao FROM sgl_redemetro AS r INNER JOIN sgl_cidade_area_atuacao AS c ON r.cod_area_atuacao=c.cod_area_atuacao WHERE r.cod_redemetro=:cod", array('cod' => addslashes(trim($cod_redemetro))));
@@ -215,10 +221,11 @@ class editarController extends controller {
      * @access public
      * @author Joab Torres <joabtorres1508@gmail.com>
      */
-    public function unidade($cod_unidade) {
+    public function unidade($cod_unidade)
+    {
         if ($this->checkUserPattern() && $this->checkUserAdministrator()) {
             $dados = array();
-            $view = "unidade_editar";
+            $view = "unidade/editar";
             $orgaoModel = new orgao();
             $cidadeModel = new cidade();
             $unidadeModel = new unidade();
@@ -454,10 +461,11 @@ class editarController extends controller {
      * @access public
      * @author Joab Torres <joabtorres1508@gmail.com>
      */
-    public function usuario($cod_usuario = array()) {
+    public function usuario($cod_usuario = array())
+    {
 
         if (($this->checkUserPattern() && $cod_usuario == $_SESSION['user_sgl']['cod']) || ($this->checkUserPattern() && $this->checkUserAdministrator())) {
-            $view = "usuario_editar";
+            $view = "usuario/editar";
             $dados = array();
             $cidadeModel = new cidade();
             $usuarioModel = new usuario();
@@ -581,7 +589,8 @@ class editarController extends controller {
                 }
                 $this->loadTemplate($view, $dados);
             } else {
-                header('Location: /home');
+                $url = BASE_URL . '/home';
+                header("Location: $url");
             }
         }
     }
@@ -592,10 +601,11 @@ class editarController extends controller {
      * @access public
      * @author Joab Torres <joabtorres1508@gmail.com>
      */
-    public function historico($cod_historico) {
+    public function historico($cod_historico)
+    {
         if ($this->checkUserPattern() && $this->checkUserAdministrator()) {
             $dados = array();
-            $view = 'historico_editar';
+            $view = 'historico/editar';
             $historicoModel = new historico();
             $result_historico = $historicoModel->read("SELECT * FROM sgl_unidade_historico WHERE cod_historico = :cod", array('cod' => addslashes($cod_historico)));
             $result_historico = $result_historico[0];
@@ -617,10 +627,10 @@ class editarController extends controller {
                     }
                 }
             } else {
-                header("Location: /home");
+                $url = BASE_URL . '/home';
+                header("Location: $url");
             }
             $this->loadTemplate($view, $dados);
         }
     }
-
 }

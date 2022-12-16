@@ -10,19 +10,20 @@
  * @package controllers
  * @example classe homeController
  */
-class manualController extends controller {
+class manualController extends controller
+{
 
     /**
      * Está função pertence a uma action do controle MVC, ela é responśavel por carrega a view  presente no diretorio views/home.php, desde que o usuário esteja logado no sistema
      * @access public
      * @author Joab Torres <joabtorres1508@gmail.com>
      */
-    public function index() {
+    public function index()
+    {
         if ($this->checkUserPattern()) {
             $view = "manual";
             $dados = array();
             $this->loadTemplate($view, $dados);
         }
     }
-
 }

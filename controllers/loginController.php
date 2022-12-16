@@ -9,15 +9,17 @@
  * @access public
  * @package controllers
  * @example classe loginController
- */
-class loginController extends controller {
+ */?
+class loginController extends controller
+{
 
     /**
      * Está função pertence a uma action do controle MVC, ela é responśavel por carrega a view  presente no diretorio views/login.php, além disso, ela faz validações de usuário, tenha digitado corretamento todos os campos do login e o usuário esteja registrado no banco será criado um array $_SESSION['usuario'] com os seguintes dados, nome, url da foto, nível de acesso e usuário ativo e chama a função recupera,caso usuário deseja recupera a senha.
      * @access public
      * @author Joab Torres <joabtorres1508@gmail.com
      */
-    public function index() {
+    public function index()
+    {
         $view = "login";
         $dados = array();
         if (isset($_POST['nEntrar']) && !empty($_POST['nEntrar'])) {
@@ -55,7 +57,8 @@ class loginController extends controller {
                     $_SESSION['user_sgl']['nivel'] = $resultado['statu_admin_usuario'];
                     //statu
                     $_SESSION['user_sgl']['statu'] = $resultado['statu_usuario'];
-                    header("location: /home");
+                    $url = BASE_URL . '/home';
+                    header("location: $url");
                 }
             } else {
                 $dados['erro']['msg'] = '<i class="fa fa-info-circle" aria-hidden="true"></i> O Campo Usuário ou Senha não está preenchido!';
@@ -82,7 +85,8 @@ class loginController extends controller {
      * @access private
      * @author Joab Torres <joabtorres1508@gmail.com>
      */
-    private function recuperar($email) {
+    private function recuperar($email)
+    {
         $usuarioModel = new usuario();
         $senha = $usuarioModel->newpassword($email);
         if ($senha) {
@@ -125,7 +129,8 @@ class loginController extends controller {
      * @access private
      * @author Joab Torres <joabtorres1508@gmail.com>
      */
-    private function validar_email($email) {
+    private function validar_email($email)
+    {
         if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
             list($usuario, $dominio) = explode("@", $email);
             if (checkdnsrr($dominio, 'MX')) {
@@ -137,5 +142,4 @@ class loginController extends controller {
             return false;
         }
     }
-
 }

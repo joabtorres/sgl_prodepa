@@ -10,7 +10,8 @@
  * @package controllers
  * @example classe unidadeController
  */
-class unidadeController extends controller {
+class unidadeController extends controller
+{
 
     /**
      * Está função pertence a uma action do controle MVC, ela é responśavel por carrega a view  presente no diretorio views/unidade_detalhe.php com seus respectivos dados;
@@ -18,9 +19,10 @@ class unidadeController extends controller {
      * @access public
      * @author Joab Torres <joabtorres1508@gmail.com>
      */
-    public function index($cod_unidade) {
+    public function index($cod_unidade)
+    {
         if ($this->checkUserPattern()) {
-            $view = "unidade_detalhada";
+            $view = "unidade/detalhada";
             $dados = array();
             //model
             $unidadeModel = new unidade();
@@ -105,7 +107,8 @@ class unidadeController extends controller {
      * @access public
      * @author Joab Torres <joabtorres1508@gmail.com>
      */
-    public function orgao($cod_unidade) {
+    public function orgao($cod_unidade)
+    {
         if ($this->checkUserPattern()) {
             $view = "unidade_detalhada";
             $dados = array();
@@ -192,7 +195,8 @@ class unidadeController extends controller {
      * @access public
      * @author Joab Torres <joabtorres1508@gmail.com>
      */
-    public function ap($cod_unidade) {
+    public function ap($cod_unidade)
+    {
         if ($this->checkUserPattern()) {
             $view = "unidade_detalhada";
             $dados = array();
@@ -279,7 +283,8 @@ class unidadeController extends controller {
      * @access public
      * @author Joab Torres <joabtorres1508@gmail.com>
      */
-    public function redemetro($cod_unidade) {
+    public function redemetro($cod_unidade)
+    {
         if ($this->checkUserPattern()) {
             $view = "unidade_detalhada";
             $dados = array();
@@ -360,5 +365,4 @@ class unidadeController extends controller {
             }
         }
     }
-
 }

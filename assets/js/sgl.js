@@ -1,4 +1,3 @@
-var BASE_URL = 'http://sgl.prodepa.pc';
 /**
  *
  * @author Joab Torres Alencar

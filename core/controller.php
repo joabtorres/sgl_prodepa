@@ -22,7 +22,8 @@ class controller {
         if (isset($_SESSION['user_sgl']['statu']) && $_SESSION['user_sgl']['statu']) {
             return true;
         } else {
-            header("Location: /login");
+            $url = BASE_URL . '/login';
+            header("Location: $url");
         }
     }
 
@@ -36,7 +37,8 @@ class controller {
         if (isset($_SESSION['user_sgl']['statu']) && $_SESSION['user_sgl']['statu'] && $_SESSION['user_sgl']['nivel']) {
             return true;
         } else {
-            header("Location: /home");
+            $url = BASE_URL . '/home';
+            header("Location: $url");
         }
     }
 

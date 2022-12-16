@@ -141,9 +141,11 @@ class excluirController extends controller {
                     //removendo registro cidade area de atuacao;
                     $cidadeModel->delete("DELETE FROM sgl_cidade_area_atuacao WHERE cod_area_atuacao=:cod", array('cod' => $cidade['cod_area_atuacao']));
                 }
-                header("Location: /relatorio/cidades");
+                $url = BASE_URL . '/relatorio/cidades';
+                header("Location: $url");
             } else {
-                header("Location: /relatorio/cidades");
+                $url = BASE_URL . '/relatorio/cidades';
+                header("Location: $url");
             }
         }
     }
@@ -200,9 +202,11 @@ class excluirController extends controller {
                     $unidadeModel->delete('DELETE FROM sgl_unidade WHERE cod_unidade=:cod', array('cod' => $unidade['cod_unidade']));
                 }
             }
-            header("Location: /relatorio/orgaos");
+            $url = BASE_URL . '/relatorio/orgaos';
+            header("Location: $url");
         } else {
-            header("Location: /relatorio/orgaos");
+            $url = BASE_URL . '/relatorio/orgaos';
+            header("Location: $url");
         }
     }
 
@@ -264,9 +268,11 @@ class excluirController extends controller {
                     //removendo registro ap
                     $apModel->delete('DELETE FROM sgl_ap WHERE cod_ap=:cod', array('cod' => $ap['cod_ap']));
                 }
-                header("Location: /relatorio/aps");
+                $url = BASE_URL . '/relatorio/aps';
+                header("Location: $url");
             } else {
-                header("Location: /relatorio/aps");
+                $url = BASE_URL . '/relatorio/aps';
+                header("Location: $url");
             }
         }
     }
@@ -330,9 +336,11 @@ class excluirController extends controller {
                     //removendo registro rede metro
                     $redeModel->delete('DELETE FROM sgl_redemetro WHERE cod_redemetro=:cod', array('cod' => $redemetro['cod_redemetro']));
                 }
-                header("Location: /relatorio/redemetro");
+                $url = BASE_URL . '/relatorio/redemetro';
+                header("Location: $url");
             } else {
-                header("Location: /relatorio/redemetro");
+                $url = BASE_URL . '/relatorio/redemetro';
+                header("Location: $url");
             }
         }
     }
@@ -389,9 +397,11 @@ class excluirController extends controller {
                     $unidadeModel->delete('DELETE FROM sgl_unidade WHERE cod_unidade=:cod', array('cod' => $unidade['cod_unidade']));
                 }
             }
-            header("Location: /relatorio/unidades");
+            $url = BASE_URL . '/relatorio/unidades';
+                header("Location: $url");
         } else {
-            header("Location: /relatorio/unidades");
+            $url = BASE_URL . '/relatorio/unidades';
+                header("Location: $url");
         }
     }
 
@@ -418,7 +428,8 @@ class excluirController extends controller {
                 }
                 $usuarioModel->delete(array('cod_usuario' => $usuario['cod_usuario']));
             }
-            header("Location: /usuario/index");
+            $url = BASE_URL . '/usuario/index';
+            header("Location: $url");
         }
     }
 
@@ -436,8 +447,8 @@ class excluirController extends controller {
             if ($result) {
                 $historicoModel->delete("DELETE FROM sgl_unidade_historico WHERE cod_historico=:cod", array('cod' => $result['cod_historico']));
             }
-            $url = "Location: /unidade/index/" . $result['cod_unidade'];
-            header($url);
+            $url = BASE_URL."/unidade/index/" . $result['cod_unidade'];
+            header("Location: $url");
         }
     }
 

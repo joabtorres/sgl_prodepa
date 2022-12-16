@@ -268,12 +268,10 @@ class usuario extends model {
 
             list($larguraOriginal, $alturaOriginal) = getimagesize($imagem['temp']);
 
-
             $ratio = max($largura / $larguraOriginal, $altura / $alturaOriginal);
             $alturaOriginal = $altura / $ratio;
             $x = ($larguraOriginal - $largura / $ratio) / 2;
             $larguraOriginal = $largura / $ratio;
-
 
             $imagem_final = imagecreatetruecolor($largura, $altura);
 

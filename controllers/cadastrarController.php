@@ -28,7 +28,7 @@ class cadastrarController extends controller {
      */
     public function cidade() {
         if ($this->checkUserPattern() && $this->checkUserAdministrator()) {
-            $view = "cidade_cadastrar";
+            $view = "cidade/cadastrar";
             $dados = array();
             $cidadeModel = new cidade();
             $dados['nucleos'] = $cidadeModel->read('SELECT * FROM sgl_cidade_nucleo', array());
@@ -79,7 +79,7 @@ class cadastrarController extends controller {
      */
     public function orgao() {
         if ($this->checkUserPattern() && $this->checkUserAdministrator()) {
-            $view = "orgao_cadastrar";
+            $view = "orgao/cadastrar";
             $dados = array();
             if (isset($_POST['nSalvar']) && !empty($_POST['nSalvar'])) {
                 if (isset($_POST['ncadOrgao']) && !empty($_POST['ncadOrgao'])) {
@@ -114,11 +114,10 @@ class cadastrarController extends controller {
      */
     public function ap() {
         if ($this->checkUserPattern() && $this->checkUserAdministrator()) {
-            $view = "ap_cadastrar";
+            $view = "ap/cadastrar";
             $dados = array();
             $cidadeModel = new cidade();
             $dados['cidades'] = $cidadeModel->read("SELECT * FROM sgl_cidade_area_atuacao ORDER BY cidade_area_atuacao ASC;", array());
-
             if (isset($_POST['nSalvar']) && !empty($_POST['nSalvar'])) {
                 if (!empty($_POST['ncadNome']) && !empty($_POST['ncadBanda']) && !empty($_POST['ncadCCode']) && !empty($_POST['ncadIP'])) {
                     //array que armazena os dados do formulário
@@ -137,7 +136,7 @@ class cadastrarController extends controller {
                     }
                 } else {
                     $dados['erro']['msg'] = '<i class="fa fa-info-circle" aria-hidden="true"></i> Preencha todos os campos.';
-                    $dados['erro']['class'] = 'alert-warning';
+                    $dados['erro']['class'] = 'alert-danger';
                 }
             }
 
@@ -152,7 +151,7 @@ class cadastrarController extends controller {
      */
     public function redemetro() {
         if ($this->checkUserPattern() && $this->checkUserAdministrator()) {
-            $view = "redemetro_cadastrar";
+            $view = "redemetro/cadastrar";
             $dados = array();
             $cidadeModel = new cidade();
             $dados['cidades'] = $cidadeModel->read("SELECT * FROM sgl_cidade_area_atuacao ORDER BY cidade_area_atuacao ASC;", array());
@@ -190,7 +189,7 @@ class cadastrarController extends controller {
      */
     public function unidade() {
         if ($this->checkUserPattern() && $this->checkUserAdministrator()) {
-            $view = "unidade_cadastrar";
+            $view = "unidade/cadastrar";
             $dados = array();
             $orgaoModel = new orgao();
             $cidadeModel = new cidade();
@@ -377,7 +376,7 @@ class cadastrarController extends controller {
      */
     public function usuario() {
         if ($this->checkUserPattern() && $this->checkUserAdministrator()) {
-            $view = "usuario_cadastrar";
+            $view = "usuario/cadastrar";
             $dados = array();
             $cidadeModel = new cidade();
             $usuarioModel = new usuario();
@@ -484,7 +483,7 @@ class cadastrarController extends controller {
     public function historico($cod_unidade) {
         if ($this->checkUserPattern()) {
             $dados = array();
-            $view = 'historico_cadastrar';
+            $view = 'historico/cadastrar';
             $historicoModel = new historico();
             $result_unidade = $historicoModel->read("SELECT * FROM sgl_unidade WHERE cod_unidade = :cod", array('cod' => addslashes($cod_unidade)));
             $result_usuario = $historicoModel->read("SELECT cod_usuario, usuario_usuario FROM sgl_usuario WHERE cod_usuario = :cod ", array('cod' => $_SESSION['user_sgl']['cod']));
@@ -504,7 +503,8 @@ class cadastrarController extends controller {
                     }
                 }
             } else {
-                header("Location: /home");
+                $url = BASE_URL . '/home';
+                header("Location: $url");
             }
             $this->loadTemplate($view, $dados);
         }

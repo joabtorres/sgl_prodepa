@@ -10,10 +10,9 @@ global $config;
 $config = array();
 if (ENVIRONMENT == 'development') {
     //Raiz
-    define("BASE_URL", "http://sgl.prodepa.pc");
+    define("BASE_URL", "http://localhost/sgl_prodepa");
     //Nome do banco
     $config['dbname'] = 'prodepa_sgl';
-    //$config['dbname'] = 'prodepa_sgl';
     //host
     $config['host'] = 'localhost';
     //usuario
@@ -22,14 +21,14 @@ if (ENVIRONMENT == 'development') {
     $config['dbpass'] = '';
 } else {
 //Raiz
-    define("BASE_URL", "http://sgl.endogenese.com.br");
+    define("BASE_URL", "");
     //Nome do banco
-    $config['dbname'] = 'endog103_joab';
+    $config['dbname'] = '';
     //host
     $config['host'] = 'localhost';
     //usuario
-    $config['dbuser'] = 'endog103_joab';
+    $config['dbuser'] = '';
     //senha
-    $config['dbpass'] = '[}4+ZK62L^om';
+    $config['dbpass'] = '';
 }
 ?>
